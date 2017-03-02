@@ -11,6 +11,20 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
-    return view('welcome');
+    if(Auth::check()) {
+        return view('welcome', ['user' => Auth::user()]);
+    } else {
+        return view('guest');
+    }
 });
+
+Route::get('/logout', function() {
+    Auth::logout();
+    return redirect('/');
+});
+
+Route::get('/login-via-facebook', 'SocialAuthController@redirect');
+Route::get('/facebook-callback', 'SocialAuthController@callback');

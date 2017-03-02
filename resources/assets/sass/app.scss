@@ -1,9 +1,41 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import "normalize";
+@import "skeleton";
 
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+html {
+    font-family: 'Open Sans', sans-serif;
+    background: $body-bg;
+}
+
+.guest-welcome {
+    margin: 4em 0;
+    text-align: center;
+
+    h1 {
+        margin-bottom: 1em;
+    }
+}
+
+.logo {
+    font-variant: small-caps;
+}
+
+.header {
+    padding: 10px 0;
+
+    .logo {
+        font-variant: small-caps;
+    }
+
+    .user {
+        display: inline-block;
+        margin-right: 5px;
+        padding-right: 5px;
+        border-right: 1px solid $navbar-default-border;
+    }
+}
