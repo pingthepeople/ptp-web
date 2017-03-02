@@ -5,10 +5,16 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * Class User
+ * @package App
+ */
 class User extends Authenticatable
 {
     use Notifiable;
-
+    /**
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
@@ -28,4 +34,12 @@ class User extends Authenticatable
     protected $hidden = [
         'remember_token'
     ];
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function bills() {
+        return $this->belongsToMany(Bill::class);
+    }
 }
