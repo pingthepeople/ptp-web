@@ -21,8 +21,7 @@ class SocialAuthController extends Controller
 
         if(User::where('Email', $email)->exists()) {
             $user = User::where('Email', $email)->first();
-            //Auth::login($user);
-            Auth::loginUsingId(1);
+            Auth::login($user);
             return redirect('/')->with('status', 'Login successful');
         } else {
             $newUser = User::create([
