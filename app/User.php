@@ -40,6 +40,6 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function bills() {
-        return $this->belongsToMany(Bill::class);
+        return $this->belongsToMany(Bill::class, 'UserBill', 'UserId', 'BillId');
     }
 }

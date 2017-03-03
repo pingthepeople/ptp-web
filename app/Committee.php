@@ -30,7 +30,7 @@ class Committee extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function bills() {
-        return $this->belongsToMany(Bill::class);
+        return $this->belongsToMany(Bill::class, 'BillCommittee', 'CommitteeId', 'BillId');
     }
 
     /**

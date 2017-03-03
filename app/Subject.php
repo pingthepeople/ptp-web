@@ -30,6 +30,6 @@ class Subject extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function session() {
-        return $this->belongsTo(Session::class);
+        return $this->belongsTo(Session::class, 'SessionId');
     }
 }

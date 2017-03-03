@@ -30,21 +30,21 @@ class Bill extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users() {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'UserBill', 'BillId', 'UserId');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function committees() {
-        return $this->belongsToMany(Committee::class);
+        return $this->belongsToMany(Committee::class, 'BillCommittee', 'BillId', 'CommitteeId');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function subjects() {
-        return $this->belongsToMany(Subject::class);
+        return $this->belongsToMany(Subject::class, 'BillSubject', 'BillId', 'SubjectId');
     }
 
     /**
