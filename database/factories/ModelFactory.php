@@ -12,6 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+use App\Bill;
 use App\Session;
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
@@ -25,49 +26,54 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Action::class, function(Faker\Generator $faker) {
+    $bill = Bill::withoutGlobalScope(\App\Scopes\CurrentSessionScope::class)->inRandomOrder()->first();
     return [
-        'Link' => $faker->url,
+        'Link' => '/bill-actions/s_list_bill.'.$faker->numberBetween(1500000,2700000),
         'Description' => $faker->sentences(2, true),
-        'Date' => $faker->date('Y-m-d'),
+        'Date' => $faker->date('Y-m-d h:m:s.000'),
         'Chamber' => $faker->numberBetween(1,2),
         'ActionType' => $faker->numberBetween(0, 4),
+        'BillId' => $bill->Id
     ];
 });
 
 $factory->define(App\Bill::class, function(Faker\Generator $faker) {
+    $session = Session::inRandomOrder()->first();
+    $name = 'XB'.$faker->numberBetween(1000,9999);
     return [
-        'Name' => 'XB-'.$faker->numberBetween(100,999),
-        'Link' => $faker->url,
-        'Title' => $faker->sentence,
-        'Description' => $faker->sentences(3, true),
-        'Authors' => $faker->name,
+        'Name' => $name,
+        'Link' => "/".$session->Name."/bills/".$name,
+        'Title' => $faker->words($faker->numberBetween(2,4), true),
+        'Description' => $faker->sentences($faker->numberBetween(2,40), true),
+        'Authors' => strtolower($faker->lastName),
         'Chamber' => $faker->numberBetween(1,2),
-        'SessionId' => $faker->randomElement(Session::all()->map(function($s){
-            return $s->Id;
-        })->toArray()),
+        'SessionId' => $session->Id,
     ];
 });
 
 $factory->define(App\Committee::class, function(Faker\Generator $faker) {
+    $session = Session::inRandomOrder()->first();
     return [
-        'Name' => $faker->sentence,
+        'Name' => 'Committee for '.$faker->words(5, true),
         'Link' => $faker->url,
         'Chamber' => $faker->numberBetween(1,2),
-        'SessionId' => $faker->randomElements(Session::all()->lists('Id')),
+        'SessionId' => $session->Id,
     ];
 });
 
 $factory->define(App\Session::class, function(Faker\Generator $faker) {
+    $year = $faker->year;
     return [
-        'Name' => 'Session '.$faker->sentence,
-        'Link' => $faker->url,
+        'Name' => "$year",
+        'Link' => "/$year",
     ];
 });
 
 $factory->define(App\Subject::class, function(Faker\Generator $faker) {
+    $session = Session::inRandomOrder()->first();
     return [
-        'Name' => $faker->words(2),
+        'Name' => strtoupper($faker->words(2,true)),
         'Link' => $faker->url,
-        'SessionId' => $faker->randomElements(Session::all()->lists('Id')),
+        'SessionId' => $session->Id,
     ];
 });
