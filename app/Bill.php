@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\CurrentSessionScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,16 @@ class Bill extends Model
     protected $fillable = [
         'Name','Link','Title', 'Description','Authors', 'Chamber', 'ActionType'
     ];
+
+    /**
+     *
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new CurrentSessionScope);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -55,6 +66,9 @@ class Bill extends Model
         return $this->belongsTo(Session::class);
     }
 
+    /**
+     * @return bool
+     */
     public function getIsTrackedByCurrentUserAttribute() {
         $user = Auth::user();
         if(!$user) {

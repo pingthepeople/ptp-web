@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -23,27 +25,36 @@ class Session extends Model
      * @var array
      */
     protected $fillable = [
-        'Name','Link',
+        'Name', 'Link',
     ];
+
+    public function scopeCurrent($builder)
+    {
+        $now = Carbon::now();
+        return $builder->where('Name', $now->year)->first();
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function bills() {
+    public function bills()
+    {
         return $this->hasMany(Bill::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function committees() {
+    public function committees()
+    {
         return $this->hasMany(Committee::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function subjects() {
+    public function subjects()
+    {
         return $this->hasMany(Subject::class);
     }
 }
