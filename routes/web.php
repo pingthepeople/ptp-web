@@ -13,18 +13,12 @@
 
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    if(Auth::check()) {
-        return view('welcome', ['user' => Auth::user()]);
-    } else {
-        return view('guest');
-    }
-});
+Route::get('/', 'DashboardController@main');
+Route::get('/all-bills', 'DashboardController@allBills');
+    Route::post('/track-bill/{Id}', 'DashboardController@trackBill');
 
-Route::get('/logout', function() {
-    Auth::logout();
-    return redirect('/');
-});
+Route::get('/logout', 'DashboardController@logout');
+Route::get('/login', 'GuestController@guest');
 
 Route::get('/login-via-facebook', 'SocialAuthController@redirect');
 Route::get('/facebook-callback', 'SocialAuthController@callback');
