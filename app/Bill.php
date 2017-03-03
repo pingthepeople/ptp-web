@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Bill
@@ -52,5 +53,13 @@ class Bill extends Model
      */
     public function session() {
         return $this->belongsTo(Session::class);
+    }
+
+    public function getIsTrackedByCurrentUserAttribute() {
+        $user = Auth::user();
+        if(!$user) {
+            return false;
+        }
+        return $user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id);
     }
 }
