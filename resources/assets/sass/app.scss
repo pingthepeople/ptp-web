@@ -11,6 +11,9 @@ html {
     font-family: 'Open Sans', sans-serif;
     background: $body-bg;
 }
+form {
+    margin: 0;
+}
 
 .guest-welcome {
     margin: 4em 0;
@@ -37,5 +40,31 @@ html {
         margin-right: 5px;
         padding-right: 5px;
         border-right: 1px solid $navbar-default-border;
+    }
+}
+
+.main {
+    width: 70%;
+}
+
+.bill {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid $border-color;
+
+    .bill__header {
+        margin-bottom: 10px;
+        display: flex;
+
+        .bill__name,
+        .bill__title{
+            margin: 0 20px;
+            font-size: 1.75rem;
+            line-height: 1.4em;
+        }
+        .bill__name {
+            margin: 0;
+            font-weight: bold;
+        }
     }
 }

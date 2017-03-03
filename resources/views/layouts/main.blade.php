@@ -13,9 +13,11 @@
 <div class="container">
     @include('shared.header')
 
-    <div class="row">
-        <div class="twelve columns">
-            @yield('content')
+    <div class="main">
+        <div class="row">
+            <div class="twelve columns">
+                @yield('content')
+            </div>
         </div>
     </div>
 </div>
