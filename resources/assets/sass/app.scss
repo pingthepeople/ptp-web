@@ -53,10 +53,6 @@ form {
             font-size: 3rem;
         }
 
-        a {
-            color: #ecf0f1;
-        }
-
         > ul {
             display: inline-block;
             list-style: none;
@@ -70,9 +66,11 @@ form {
                 font-weight: bold;
             }
         }
-        a {
-            text-decoration: none;
-        }
+    }
+
+    a {
+        text-decoration: none;
+        color: #ecf0f1;
     }
 
     .user {
