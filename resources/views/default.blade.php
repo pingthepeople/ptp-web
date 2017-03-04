@@ -5,7 +5,6 @@
 @section('content')
     <div class="bill-list bill-list--tracked-by-user">
         <h1>Your bills</h1>
-        <a href="{{url('/all-bills')}}">All bills</a>
 
         @if($user->bills->count())
             @foreach($user->bills as $bill)

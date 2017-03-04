@@ -1,6 +1,6 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Lily+Script+One|Open+Sans);
 @import "normalize";
 @import "skeleton";
 
@@ -25,14 +25,54 @@ form {
 }
 
 .logo {
-    font-variant: small-caps;
+    font-family: 'Lily Script One', sans-serif;
 }
 
 .header {
-    padding: 10px 0;
+    margin-bottom: 1em;
+    background: #2c3e50;
+    border-bottom: 1px solid darken(#2c3e50, 50%);
+    color: #ecf0f1;
+}
 
-    .logo {
-        font-variant: small-caps;
+.header__inner {
+    padding: 5px 0;
+    display: flex;
+
+    .header__primary {
+
+    }
+    .header__secondary {
+        margin-left: auto;
+        margin-top: 1em;
+    }
+
+    .main-nav {
+        .logo {
+            display: inline-block;
+            font-size: 3rem;
+        }
+
+        a {
+            color: #ecf0f1;
+        }
+
+        > ul {
+            display: inline-block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            > li {
+                display: inline-block;
+                font-size: 2rem;
+                margin-left: 1.5em;
+                font-weight: bold;
+            }
+        }
+        a {
+            text-decoration: none;
+        }
     }
 
     .user {
