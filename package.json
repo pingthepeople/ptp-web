@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "laravel-elixir": "^5.0.0",
-    "laravel-mix": "^0.8.8"
+    "laravel-mix": "^0.8.8",
+    "vue": "^2.2.1",
+    "vue-resource": "^1.2.1"
   }
 }

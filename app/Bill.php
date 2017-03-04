@@ -28,6 +28,10 @@ class Bill extends Model
         'Name','Link','Title', 'Description','Authors', 'Chamber', 'ActionType'
     ];
 
+    protected $appends = [
+        'IsTrackedByCurrentUser'
+    ];
+
     /**
      *
      */

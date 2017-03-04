@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/bills', 'BillApiController@all');
+Route::post('/track', 'TrackingApiController@track');
+Route::post('/stop-tracking', 'TrackingApiController@stopTracking');
+
+/*
+ * /bills
+ * /bills/{id}
+ * /track
+ * /stop-tracking
+ * /subjects
+ */

@@ -13,7 +13,8 @@
 
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', 'DashboardController@main');
+Route::get('/start', 'DashboardController@start');
+Route::get('/', 'DashboardController@myBills');
 Route::get('/all-bills', 'DashboardController@allBills');
     Route::post('/track-bill/{Id}', 'DashboardController@trackBill');
 

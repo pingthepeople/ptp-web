@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 /**
  * Class User
@@ -11,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
     /**
      * @var bool
      */
@@ -41,5 +42,35 @@ class User extends Authenticatable
      */
     public function bills() {
         return $this->belongsToMany(Bill::class, 'UserBill', 'UserId', 'BillId');
+    }
+
+    public function track($param, $startTracking=true) {
+        // handle tracking single or multiple bills
+        // TODO make this mess less ugly and handle multiple bills better
+        if(is_numeric($param)) {
+            $id = $param;
+
+            if($startTracking) {
+                if(!$this->bills()->pluck('Bill.Id')->contains($id)) {
+                    $this->bills()->attach($id);
+                }
+            } else {
+                $this->bills()->detach($id);
+            }
+
+            return Bill::find($id);
+        } elseif(is_array($param)) {
+            foreach($param as $bill) {
+                $this->track($bill);
+            }
+        } elseif(is_string($param)) {
+            if(strpos($param, ',') !== false) {
+                $bills = explode(',', $param);
+                $this->track($bills);
+            } else {
+                $bill = Bill::where('Name',$param)->first();
+                $this->track($bill->Id);
+            }
+        }
     }
 }

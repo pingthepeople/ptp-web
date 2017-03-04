@@ -20,16 +20,25 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
+    public function start() {
+        $user = Auth::user();
+        $bills = Bill::all();
+
+        return view('start', compact('user', 'bills'));
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
-    public function main() {
+    public function myBills() {
         $user = Auth::user();
-
-        // TODO only pull bills for the current Session
         $bills = Bill::all();
 
-        return view('default', compact('user', 'bills'));
+        if($user->bills->count() < 1) {
+            return redirect('/start');
+        } else {
+            return view('default', compact('user', 'bills'));
+        }
     }
 
     /**
@@ -45,10 +54,12 @@ class DashboardController extends Controller
         $bill = Bill::findOrFail($id);
         $user = Auth::user();
 
-        if(!$user->bills->contains($bill->Id)) {
+        if(!$user->bills->pluck('Id')->contains($bill->Id)) {
             $user->bills()->attach($bill->Id);
-            $user->save();
+        } else {
+            $user->bills()->detach($bill->Id);
         }
+        $user->save();
 
         return back();
     }
