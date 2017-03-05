@@ -28,81 +28,13 @@ form {
     font-family: 'Lily Script One', sans-serif;
 }
 
-.header {
-    margin-bottom: 1em;
-    background: #2c3e50;
-    border-bottom: 1px solid darken(#2c3e50, 50%);
-    color: #ecf0f1;
-}
 
-.header__inner {
-    padding: 5px 0;
-    display: flex;
-
-    .header__primary {
-
-    }
-    .header__secondary {
-        margin-left: auto;
-        margin-top: 1em;
-    }
-
-    .main-nav {
-        .logo {
-            display: inline-block;
-            font-size: 3rem;
-        }
-
-        > ul {
-            display: inline-block;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-
-            > li {
-                display: inline-block;
-                font-size: 2rem;
-                margin-left: 1.5em;
-                font-weight: bold;
-            }
-        }
-    }
-
-    a {
-        text-decoration: none;
-        color: #ecf0f1;
-    }
-
-    .user {
-        display: inline-block;
-        margin-right: 5px;
-        padding-right: 5px;
-        border-right: 1px solid $navbar-default-border;
-    }
-}
 
 .main {
     width: 70%;
 }
 
-.bill {
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid $border-color;
 
-    .bill__header {
-        margin-bottom: 10px;
-        display: flex;
-
-        .bill__name,
-        .bill__title{
-            margin: 0 20px;
-            font-size: 1.75rem;
-            line-height: 1.4em;
-        }
-        .bill__name {
-            margin: 0;
-            font-weight: bold;
-        }
-    }
-}
+/* site components */
+@import "shared/bill-lists";
+@import "shared/header";
