@@ -37,6 +37,10 @@ class Bill extends Model
         'IsSubscribedToSms',
     ];
 
+    protected $with = [
+        'subjects'
+    ];
+
     /**
      *
      */
