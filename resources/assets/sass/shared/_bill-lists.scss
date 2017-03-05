@@ -18,4 +18,23 @@
             font-weight: bold;
         }
     }
+
+    .bill__notification-controls {
+        .bill__notification-options {
+            label {
+                margin-right: 25px;
+                font-weight: normal;
+
+                input[type=checkbox] {
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
+}
+
+.bill--tracked {
+    .bill__header {
+        color: #27ae60;
+    }
 }

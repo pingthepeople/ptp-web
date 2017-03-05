@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,5 +44,17 @@ class TrackingApiController extends Controller
         }
 
         return $user->track($bills, false);
+    }
+
+    public function toggleEmailSubscription(Request $request, $id) {
+        $user = Auth::user();
+        $isSubscribed = $user->bills()->find($id)->pivot->ReceiveAlertEmail;
+        $user->bills()->updateExistingPivot($id, ['ReceiveAlertEmail'=>!$isSubscribed]);
+    }
+
+    public function toggleSmsSubscription(Request $request, $id) {
+        $user = Auth::user();
+        $isSubscribed = $user->bills()->find($id)->pivot->ReceiveAlertSms;
+        $user->bills()->updateExistingPivot($id, ['ReceiveAlertSms'=>!$isSubscribed]);
     }
 }

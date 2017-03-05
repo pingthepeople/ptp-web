@@ -32,7 +32,9 @@ class Bill extends Model
      * @var array
      */
     protected $appends = [
-        'IsTrackedByCurrentUser'
+        'IsTrackedByCurrentUser',
+        'IsSubscribedToEmail',
+        'IsSubscribedToSms',
     ];
 
     /**
@@ -49,7 +51,7 @@ class Bill extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users() {
-        return $this->belongsToMany(User::class, 'UserBill', 'BillId', 'UserId');
+        return $this->belongsToMany(User::class, 'UserBill', 'BillId', 'UserId')->withPivot('ReceiveAlertEmail', 'ReceiveAlertSms');
     }
 
     /**
@@ -96,5 +98,21 @@ class Bill extends Model
             return false;
         }
         return $user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id);
+    }
+
+    public function getIsSubscribedToEmailAttribute() {
+        $user = Auth::user();
+        if($user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id)) {
+            $bill = $user->bills()->find($this->Id);
+            return $bill->pivot->ReceiveAlertEmail;
+        }
+    }
+
+    public function getIsSubscribedToSmsAttribute() {
+        $user = Auth::user();
+        if($user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id)) {
+            $bill = $user->bills()->find($this->Id);
+            return $bill->pivot->ReceiveAlertSms;
+        }
     }
 }
