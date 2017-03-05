@@ -22,9 +22,7 @@ class DashboardController extends Controller
 
     public function start() {
         $user = Auth::user();
-        $bills = Bill::all();
-
-        return view('start', compact('user', 'bills'));
+        return view('start', compact('user'));
     }
 
     /**
@@ -32,12 +30,10 @@ class DashboardController extends Controller
      */
     public function myBills() {
         $user = Auth::user();
-        $bills = Bill::all();
-
         if($user->bills->count() < 1) {
             return redirect('/start');
         } else {
-            return view('default', compact('user', 'bills'));
+            return view('default', compact('user'));
         }
     }
 
@@ -46,8 +42,7 @@ class DashboardController extends Controller
      */
     public function allBills() {
         $user = Auth::user();
-        $bills = Bill::all();
-        return view('all-bills', compact('user','bills'));
+        return view('all-bills', compact('user'));
     }
 
     public function trackBill(Request $request, $id) {
