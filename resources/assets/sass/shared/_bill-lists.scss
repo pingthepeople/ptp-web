@@ -31,10 +31,15 @@
             }
         }
     }
+
+    .bill__description-toggle {
+        margin-top: 1em;
+        color: #000;
+    }
 }
 
 .bill--tracked {
     .bill__header {
-        color: #27ae60;
+        color: #3498db;
     }
 }

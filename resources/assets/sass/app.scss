@@ -14,6 +14,9 @@ html {
 form {
     margin: 0;
 }
+input, textarea, select, fieldset {
+    margin-bottom: 0;
+}
 
 .guest-welcome {
     margin: 4em 0;
@@ -46,3 +49,6 @@ form {
 /* site components */
 @import "shared/bill-lists";
 @import "shared/header";
+
+
+@import 'shame';

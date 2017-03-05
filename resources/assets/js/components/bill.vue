@@ -26,16 +26,49 @@
             </div>
         </div>
         <div class="bill__description">
-            {{ this.b.Description }}
+            <transition name="description-swap">
+                <div v-if="isShowingFullDescription">
+                    <div>{{ this.b.Description }}</div>
+                    <button @click.prevent="isShowingFullDescription=false" class="bill__description-toggle button--plain">Hide description</button>
+                </div>
+                <div v-else-if="b.IsTrackedByCurrentUser">
+                    <button @click.prevent="isShowingFullDescription=true" class="bill__description-toggle button--plain">Show description</button>
+                </div>
+                <div v-else>
+                    <div>{{ this.b.Description | truncate }}</div>
+                    <button @click.prevent="isShowingFullDescription=true" class="bill__description-toggle button--plain">Show full description</button>
+                </div>
+            </transition>
         </div>
     </div>
 </template>
 
+<style>
+    .bill__description > div {
+        transition: opacity .5s
+    }
+    .description-swap-enter-active, .description-swap-leave-active {
+        opacity: 1;
+    }
+    .description-swap-enter, .description-swap-leave-to /* .fade-leave-active in <2.1.8 */ {
+        opacity: 0
+    }
+</style>
+
 <script>
     module.exports = {
+        filters: {
+            truncate(theStringToTruncate) {
+                let n = 144;    // anything longer than a tweet is boring
+                if (theStringToTruncate.length <= n) { return theStringToTruncate; }
+                var subString = theStringToTruncate.substr(0, n-1);
+                return subString.substr(0, subString.lastIndexOf(' ')) + "...";
+            }
+        },
         data() {
             return {
-                b: this.bill
+                b: this.bill,
+                isShowingFullDescription: false
             }
         },
         methods: {
@@ -59,9 +92,6 @@
             toggleSmsHandler() {
                 this.$http.post('/api/bills/'+this.bill.Id+'/toggle-sms-subscription')
             }
-        },
-        mounted() {
-            this.b.trimmedDescription = this.b.description
         },
         props: ['bill']
     }

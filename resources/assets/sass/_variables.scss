@@ -2,6 +2,9 @@
 // Body
 $body-bg: #f5f8fa;
 
+$primary-color: #3498db;
+$link-color: $primary-color;
+
 // Borders
 $laravel-border-color: darken($body-bg, 10%);
 $list-group-border: $laravel-border-color;

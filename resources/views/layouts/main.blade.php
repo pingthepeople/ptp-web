@@ -8,6 +8,8 @@
 
     <link href="{{mix('css/app.css')}}" rel="stylesheet" type="text/css">
 
+
+
     <title>@yield('title')</title>
 </head>
 <body>
