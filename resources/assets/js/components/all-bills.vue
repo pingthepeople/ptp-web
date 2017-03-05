@@ -1,8 +1,16 @@
 <template>
-    <bill-list :bills="bills"></bill-list>
+    <div>
+        <h1 class="section-title">All bills</h1>
+        <div v-if="bills.length">
+            <p>Here are all {{bills.length}} bills for the <strong>{{currentSession}}</strong> session</p>
+            <bill-list :bills="bills"></bill-list>
+        </div>
+    </div>
 </template>
 
 <script>
+    const moment = require('moment');
+
     module.exports = {
         components: {
             billList: require('./bill-list.vue'),
@@ -17,7 +25,8 @@
         },
         data() {
             return {
-                bills: []
+                bills: [],
+                currentSession: moment().year()
             }
         }
     }
