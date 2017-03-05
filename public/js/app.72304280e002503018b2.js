@@ -202,6 +202,7 @@ Vue.use(VueResource);
 Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('value');
 
 Vue.component('all-bills', __webpack_require__(11));
+Vue.component('my-bills', __webpack_require__(26));
 Vue.component('bill-list', __webpack_require__(1));
 Vue.component('bill', __webpack_require__(2));
 
@@ -219,7 +220,6 @@ var app = new Vue({
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-//
 //
 //
 //
@@ -11904,6 +11904,91 @@ module.exports = g;
 __webpack_require__(3);
 module.exports = __webpack_require__(4);
 
+
+/***/ }),
+/* 23 */,
+/* 24 */,
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+//
+//
+//
+//
+
+module.exports = {
+    components: {
+        billList: __webpack_require__(1)
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        // load all bills
+        this.$http.get('/api/my-bills').then(function (res) {
+            _this.bills = res.body;
+        }, function (res) {
+            console.log(res);
+        });
+    },
+    data: function data() {
+        return {
+            bills: []
+        };
+    }
+};
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(25),
+  /* template */
+  __webpack_require__(27),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/vagrant/projects/iga-tracker-web/resources/assets/js/components/my-bills.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] my-bills.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7f6fa5e8", Component.options)
+  } else {
+    hotAPI.reload("data-v-7f6fa5e8", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('bill-list', {
+    attrs: {
+      "bills": _vm.bills
+    }
+  })
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7f6fa5e8", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

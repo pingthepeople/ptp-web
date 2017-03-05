@@ -9,7 +9,7 @@
         },
         mounted() {
             // load all bills
-            this.$http.get('/api/bills').then(res => {
+            this.$http.get('/api/my-bills').then(res => {
                 this.bills = res.body;
             }, res => {
                 console.log(res)
