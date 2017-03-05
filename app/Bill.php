@@ -104,15 +104,17 @@ class Bill extends Model
         $user = Auth::user();
         if($user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id)) {
             $bill = $user->bills()->find($this->Id);
-            return $bill->pivot->ReceiveAlertEmail;
+            return intval($bill->pivot->ReceiveAlertEmail)==1;
         }
+        return false;
     }
 
     public function getIsSubscribedToSmsAttribute() {
         $user = Auth::user();
         if($user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id)) {
             $bill = $user->bills()->find($this->Id);
-            return $bill->pivot->ReceiveAlertSms;
+            return intval($bill->pivot->ReceiveAlertSms)==1;
         }
+        return false;
     }
 }
