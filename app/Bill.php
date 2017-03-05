@@ -28,6 +28,9 @@ class Bill extends Model
         'Name','Link','Title', 'Description','Authors', 'Chamber', 'ActionType'
     ];
 
+    /**
+     * @var array
+     */
     protected $appends = [
         'IsTrackedByCurrentUser'
     ];
@@ -68,6 +71,20 @@ class Bill extends Model
      */
     public function session() {
         return $this->belongsTo(Session::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function actions() {
+        return $this->hasMany(Action::class, 'BillId');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function scheduledActions() {
+        return $this->hasMany(ScheduledAction::class, 'BillId');
     }
 
     /**
