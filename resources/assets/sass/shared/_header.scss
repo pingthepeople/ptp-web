@@ -33,7 +33,20 @@ $headerBg: #2c3e50;
 
                 > li {
                     display: inline-block;
+                    margin: 0;
                     margin-left: 1.5em;
+
+                    > a {
+                        display: inline-block;
+                        padding-bottom: 5px;
+                        margin-bottom: 5px;
+                        border-bottom: 2px solid transparent;
+                    }
+
+
+                }
+                > .is-active > a {
+                    border-bottom-color: #fff;
                 }
             }
         }

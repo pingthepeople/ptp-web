@@ -17,6 +17,10 @@
             margin: 0;
             font-weight: bold;
         }
+
+        .bill__actions {
+            margin-left: auto;
+        }
     }
 
     .bill__notification-controls {
@@ -41,5 +45,20 @@
 .bill--tracked {
     .bill__header {
         color: #3498db;
+    }
+}
+
+
+.bill-table {
+    width: 100%;
+
+    .bill-table__alert-controls {
+        label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        label:last-child {
+            margin-right: 0;
+        }
     }
 }

@@ -8,10 +8,10 @@
                             <a href="{{url('/')}}">INaction</a>
                         </div>
                         <ul>
-                            <li>
+                            <li {{ (Request::is('/') ? 'class=is-active' : '') }}>
                                 <a href="{{url('/')}}">My bills</a>
                             </li>
-                            <li>
+                            <li {{ (Request::is('all-bills') ? 'class=is-active' : '') }}>
                                 <a href="{{url('/all-bills')}}">All bills</a>
                             </li>
                         </ul>

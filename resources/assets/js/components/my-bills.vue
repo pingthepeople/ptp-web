@@ -3,7 +3,7 @@
         <h1 class="section-title">My bills</h1>
         <div v-if="bills.length">
             <p>Here are the {{bills.length}} bills you're tracking for the <strong>{{currentSession}}</strong> session</p>
-            <bill-list :bills="bills"></bill-list>
+            <bill-table :bills="bills"></bill-table>
         </div>
     </div>
 </template>
@@ -13,7 +13,7 @@
 
     module.exports = {
         components: {
-            billList: require('./bill-list.vue'),
+            billTable: require('./bill-table.vue'),
         },
         mounted() {
             // load all bills
