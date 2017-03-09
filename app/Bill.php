@@ -123,4 +123,8 @@ class Bill extends Model
         }
         return false;
     }
+
+    public function getIdAttribute() {
+        return $this->attributes['Id'];
+    }
 }
