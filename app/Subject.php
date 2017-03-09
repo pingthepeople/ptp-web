@@ -15,6 +15,7 @@ class Subject extends Model
      * @var string
      */
     protected $table = "Subject";
+    protected $primaryKey = "Id";
     /**
      * @var bool
      */
@@ -34,7 +35,7 @@ class Subject extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new CurrentSessionScope);
+        //static::addGlobalScope(new CurrentSessionScope);
     }
 
     /**
@@ -42,5 +43,9 @@ class Subject extends Model
      */
     public function session() {
         return $this->belongsTo(Session::class, 'SessionId');
+    }
+
+    public function bills() {
+        return $this->belongsToMany('App\Bill', 'BillSubject', 'SubjectId', 'BillId');
     }
 }

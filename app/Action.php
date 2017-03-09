@@ -14,6 +14,7 @@ class Action extends Model
      * @var string
      */
     protected $table = "Action";
+    protected $primaryKey = "Id";
     /**
      * @var bool
      */

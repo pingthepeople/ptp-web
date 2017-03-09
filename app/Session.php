@@ -16,6 +16,8 @@ class Session extends Model
      * @var string
      */
     protected $table = "Session";
+    protected $primaryKey = "Id";
+    
     /**
      * @var bool
      */

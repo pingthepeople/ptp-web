@@ -14,6 +14,8 @@ class ScheduledAction extends Model
      * @var string
      */
     protected $table = "ScheduledAction";
+    protected $primaryKey = "Id";
+
     /**
      * @var bool
      */

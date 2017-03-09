@@ -38,7 +38,7 @@ $factory->define(App\Action::class, function(Faker\Generator $faker) {
 });
 
 $factory->define(App\Bill::class, function(Faker\Generator $faker) {
-    $session = Session::inRandomOrder()->first();
+    $session = Session::first();
     $name = 'XB'.$faker->numberBetween(1000,9999);
     return [
         'Name' => $name,
@@ -52,7 +52,7 @@ $factory->define(App\Bill::class, function(Faker\Generator $faker) {
 });
 
 $factory->define(App\Committee::class, function(Faker\Generator $faker) {
-    $session = Session::inRandomOrder()->first();
+    $session = Session::first();
     return [
         'Name' => 'Committee for '.$faker->words(5, true),
         'Link' => $faker->url,
@@ -70,7 +70,7 @@ $factory->define(App\Session::class, function(Faker\Generator $faker) {
 });
 
 $factory->define(App\Subject::class, function(Faker\Generator $faker) {
-    $session = Session::inRandomOrder()->first();
+    $session = Session::first();
     return [
         'Name' => strtoupper($faker->words(2,true)),
         'Link' => $faker->url,

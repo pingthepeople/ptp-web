@@ -15,6 +15,8 @@ class Committee extends Model
      * @var string
      */
     protected $table = "Committee";
+    protected $primaryKey = "Id";
+
     /**
      * @var bool
      */
@@ -34,7 +36,7 @@ class Committee extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new CurrentSessionScope);
+        //static::addGlobalScope(new CurrentSessionScope);
     }
 
     /**

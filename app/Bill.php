@@ -16,6 +16,8 @@ class Bill extends Model
      * @var string
      */
     protected $table = "Bill";
+    protected $primaryKey = 'Id';
+
     /**
      * @var bool
      */
@@ -38,7 +40,7 @@ class Bill extends Model
     ];
 
     protected $with = [
-        'subjects'
+        "subjects"
     ];
 
     /**
@@ -48,7 +50,7 @@ class Bill extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new CurrentSessionScope);
+        //static::addGlobalScope(new CurrentSessionScope);
     }
 
     /**
@@ -89,8 +91,8 @@ class Bill extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function scheduledActions() {
-        return $this->hasMany(ScheduledAction::class, 'BillId');
+    public function scheduledAction() {
+        return $this->hasMany(ScheduledAction::class, 'BillId')->first();
     }
 
     /**
