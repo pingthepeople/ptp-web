@@ -37,6 +37,7 @@ class Bill extends Model
         'IsTrackedByCurrentUser',
         'IsSubscribedToEmail',
         'IsSubscribedToSms',
+        'id'
     ];
 
     protected $with = [
