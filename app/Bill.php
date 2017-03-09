@@ -49,7 +49,7 @@ class Bill extends Model
     protected $with = [
         "subjects",
         "actions",
-        "scheduledAction"
+        "scheduledActions"
     ];
 
     /**
@@ -100,8 +100,8 @@ class Bill extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function scheduledAction() {
-        return $this->hasMany(ScheduledAction::class, 'BillId')->first();
+    public function scheduledActions() {
+        return $this->hasMany(ScheduledAction::class, 'BillId');
     }
 
     /**
