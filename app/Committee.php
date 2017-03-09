@@ -15,6 +15,9 @@ class Committee extends Model
      * @var string
      */
     protected $table = "Committee";
+    /**
+     * @var string
+     */
     protected $primaryKey = "Id";
 
     /**
@@ -28,6 +31,11 @@ class Committee extends Model
     protected $fillable = [
         'Name','Link', 'Chamber'
     ];
+
+    /**
+     * @var array
+     */
+    protected $appends = ['id'];
 
     /**
      *
@@ -51,5 +59,12 @@ class Committee extends Model
      */
     public function session() {
         return $this->belongsTo(Session::class);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdAttribute() {
+        return $this->attributes['Id'];
     }
 }

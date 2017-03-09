@@ -15,6 +15,9 @@ class Subject extends Model
      * @var string
      */
     protected $table = "Subject";
+    /**
+     * @var string
+     */
     protected $primaryKey = "Id";
     /**
      * @var bool
@@ -27,6 +30,11 @@ class Subject extends Model
     protected $fillable = [
         'Name','Link',
     ];
+
+    /**
+     * @var array
+     */
+    protected $appends = ['id'];
 
     /**
      *
@@ -45,7 +53,17 @@ class Subject extends Model
         return $this->belongsTo(Session::class, 'SessionId');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function bills() {
         return $this->belongsToMany('App\Bill', 'BillSubject', 'SubjectId', 'BillId');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdAttribute() {
+        return $this->attributes['Id'];
     }
 }

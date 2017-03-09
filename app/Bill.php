@@ -16,6 +16,9 @@ class Bill extends Model
      * @var string
      */
     protected $table = "Bill";
+    /**
+     * @var string
+     */
     protected $primaryKey = 'Id';
 
     /**
@@ -40,8 +43,13 @@ class Bill extends Model
         'id'
     ];
 
+    /**
+     * @var array
+     */
     protected $with = [
-        "subjects"
+        "subjects",
+        "actions",
+        "scheduledAction"
     ];
 
     /**
@@ -107,6 +115,9 @@ class Bill extends Model
         return $user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id);
     }
 
+    /**
+     * @return bool
+     */
     public function getIsSubscribedToEmailAttribute() {
         $user = Auth::user();
         if($user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id)) {
@@ -116,6 +127,9 @@ class Bill extends Model
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsSubscribedToSmsAttribute() {
         $user = Auth::user();
         if($user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id)) {
@@ -125,6 +139,9 @@ class Bill extends Model
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function getIdAttribute() {
         return $this->attributes['Id'];
     }

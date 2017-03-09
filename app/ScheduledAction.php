@@ -14,6 +14,9 @@ class ScheduledAction extends Model
      * @var string
      */
     protected $table = "ScheduledAction";
+    /**
+     * @var string
+     */
     protected $primaryKey = "Id";
 
     /**
@@ -29,9 +32,21 @@ class ScheduledAction extends Model
     ];
 
     /**
+     * @var array
+     */
+    protected $appends = ['id'];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function bill() {
         return $this->belongsTo(Bill::class);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdAttribute() {
+        return $this->attributes['Id'];
     }
 }

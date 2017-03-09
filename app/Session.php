@@ -16,6 +16,9 @@ class Session extends Model
      * @var string
      */
     protected $table = "Session";
+    /**
+     * @var string
+     */
     protected $primaryKey = "Id";
     
     /**
@@ -30,6 +33,15 @@ class Session extends Model
         'Name', 'Link',
     ];
 
+    /**
+     * @var array
+     */
+    protected $appends = ['id'];
+
+    /**
+     * @param $builder
+     * @return mixed
+     */
     public function scopeCurrent($builder)
     {
         $now = Carbon::now();
@@ -58,5 +70,12 @@ class Session extends Model
     public function subjects()
     {
         return $this->hasMany(Subject::class);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdAttribute() {
+        return $this->attributes['Id'];
     }
 }

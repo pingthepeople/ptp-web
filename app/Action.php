@@ -14,6 +14,9 @@ class Action extends Model
      * @var string
      */
     protected $table = "Action";
+    /**
+     * @var string
+     */
     protected $primaryKey = "Id";
     /**
      * @var bool
@@ -28,9 +31,21 @@ class Action extends Model
     ];
 
     /**
+     * @var array
+     */
+    protected $appends = ['id'];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function bill() {
         return $this->belongsTo(Bill::class);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdAttribute() {
+        return $this->attributes['Id'];
     }
 }
