@@ -4,8 +4,8 @@
             <tr>
                 <td>Bill</td>
                 <td>Title</td>
-                <td>Last action</td>
-                <td>Next scheduled action</td>
+                <td>Most Recent Event</td>
+                <td>Next Scheduled Event</td>
                 <td>
                     Alerts
                 </td>
