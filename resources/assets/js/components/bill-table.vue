@@ -19,7 +19,10 @@
                 <td>
                     <div v-if="bill.actions[0]">
                         <div class="bill-table__action-type">{{bill.actions[0].ActionType}}</div>
-                        <div class="bill-table__action-details">{{formatDate(bill.actions[0].Date)}}</div>
+                        <div class="bill-table__action-details">
+                            {{formatDate(bill.actions[0].Date)}}<br>
+                            {{formatDate(bill.actions[0].Description)}}
+                        </div>
                     </div>
                     <div v-else>None</div>
                 </td>
