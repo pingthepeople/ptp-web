@@ -26,11 +26,25 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Action::class, function(Faker\Generator $faker) {
-    $bill = Bill::withoutGlobalScope(\App\Scopes\CurrentSessionScope::class)->inRandomOrder()->first();
+    $bill = Bill::inRandomOrder()->first();
     return [
         'Link' => '/bill-actions/s_list_bill.'.$faker->numberBetween(1500000,2700000),
-        'Description' => $faker->sentences(2, true),
+        'Description' => $faker->words(rand(4,6), true),
         'Date' => $faker->date('Y-m-d h:m:s.000'),
+        'Chamber' => $faker->numberBetween(1,2),
+        'ActionType' => $faker->numberBetween(0, 4),
+        'BillId' => $bill->Id
+    ];
+});
+
+$factory->define(App\ScheduledAction::class, function(Faker\Generator $faker) {
+    $bill = Bill::inRandomOrder()->first();
+    return [
+        'Link' => '/bill-scheduled-action/s_list_bill.'.$faker->numberBetween(1500000,2700000),
+        'Date' => $faker->date('Y-m-d h:m:s.000'),
+        'Start' => $faker->time(),
+        'End' => $faker->time(),
+        'Location' => "Room ".rand(100,800),
         'Chamber' => $faker->numberBetween(1,2),
         'ActionType' => $faker->numberBetween(0, 4),
         'BillId' => $bill->Id
@@ -39,6 +53,11 @@ $factory->define(App\Action::class, function(Faker\Generator $faker) {
 
 $factory->define(App\Bill::class, function(Faker\Generator $faker) {
     $session = Session::first();
+    if(!$session) {
+        factory('App\Session')->create();
+        $session = Session::first();
+    }
+
     $name = 'XB'.$faker->numberBetween(1000,9999);
     return [
         'Name' => $name,
@@ -53,6 +72,11 @@ $factory->define(App\Bill::class, function(Faker\Generator $faker) {
 
 $factory->define(App\Committee::class, function(Faker\Generator $faker) {
     $session = Session::first();
+    if(!$session) {
+        factory('App\Session')->create();
+        $session = Session::first();
+    }
+
     return [
         'Name' => 'Committee for '.$faker->words(5, true),
         'Link' => $faker->url,
@@ -62,7 +86,14 @@ $factory->define(App\Committee::class, function(Faker\Generator $faker) {
 });
 
 $factory->define(App\Session::class, function(Faker\Generator $faker) {
-    $year = $faker->year;
+    $now = \Carbon\Carbon::now();
+    $currentSession = Session::where('Name', $now->year);
+    if(!$currentSession) {
+        $year = $now->year;
+    } else {
+        $year = $faker->year;
+    }
+
     return [
         'Name' => "$year",
         'Link' => "/$year",
@@ -71,6 +102,11 @@ $factory->define(App\Session::class, function(Faker\Generator $faker) {
 
 $factory->define(App\Subject::class, function(Faker\Generator $faker) {
     $session = Session::first();
+    if(!$session) {
+        factory('App\Session')->create();
+        $session = Session::first();
+    }
+
     return [
         'Name' => strtoupper($faker->words(2,true)),
         'Link' => $faker->url,
