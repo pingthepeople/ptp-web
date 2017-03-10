@@ -12,6 +12,11 @@
                 </div>
             </div>
         </header>
+        <div class="bill__tags">Subject:
+            <span class="bill__tag" v-for="(subject, index) in b.subjects">
+                                {{subject.Name}}<span v-if="index!=b.subjects.length-1">,&nbsp;</span>
+                            </span>
+        </div>
         <div class="bill__description">
             <transition name="description-swap">
                 <div v-if="isShowingFullDescription">
@@ -43,7 +48,7 @@
     module.exports = {
         filters: {
             truncate(theStringToTruncate) {
-                let n = 144;    // anything longer than a tweet is boring
+                let n = 250;
                 if (theStringToTruncate.length <= n) { return theStringToTruncate; }
                 var subString = theStringToTruncate.substr(0, n-1);
                 return subString.substr(0, subString.lastIndexOf(' ')) + "...";

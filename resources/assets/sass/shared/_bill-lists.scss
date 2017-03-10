@@ -48,9 +48,28 @@
     }
 }
 
+.bill__tags {
+    font-size: 1.25rem;
+    color: $secondary-text;
+}
+
 
 .bill-table {
     width: 100%;
+
+    td {
+        vertical-align: top;
+    }
+
+    .bill-table__cell-header,
+    .bill-table__action-type {
+        font-size: 1em;
+    }
+    .bill-table__cell-body,
+    .bill-table__action-details {
+        font-size: 1.25rem;
+        color: $secondary-text;
+    }
 
     .bill-table__alert-controls {
         label {
