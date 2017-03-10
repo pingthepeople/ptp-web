@@ -14,7 +14,7 @@
         <tbody>
             <tr v-for="bill in bills">
                 <td>{{bill.Name}}</td>
-                <td>{{bill.Title}}
+                <td class="bill-table__bill-title">{{bill.Title}}
                 </td>
                 <td>
                     <div v-if="bill.actions[0]">

@@ -70,7 +70,10 @@
         font-size: 1.25rem;
         color: $secondary-text;
     }
-
+    .bill-table__bill-title {
+        width:33%;
+        max-width: 33%;
+    }   
     .bill-table__alert-controls {
         label {
             display: inline-block;
