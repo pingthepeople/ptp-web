@@ -14,12 +14,7 @@
         <tbody>
             <tr v-for="bill in bills">
                 <td>{{bill.Name}}</td>
-                <td>{{bill.Title}}<br>
-                    <div class="bill__tags">Subject:
-                        <span class="bill__tag" v-for="(subject, index) in bill.subjects">
-                            {{subject.Name}}<span v-if="index!=bill.subjects.length-1">,&nbsp;</span>
-                        </span>
-                    </div>
+                <td>{{bill.Title}}
                 </td>
                 <td>
                     <div v-if="bill.actions[0]">
