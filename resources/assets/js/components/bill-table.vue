@@ -27,7 +27,9 @@
                     <div v-if="bill.scheduled_actions[0]">
                         <div class="bill-table__action-type">{{bill.scheduled_actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">{{formatDate(bill.scheduled_actions[0].Date)}}<br>
-                            {{formatTime(bill.scheduled_actions[0].Date+' '+bill.scheduled_actions[0].Start)}} - {{formatTime(bill.scheduled_actions[0].Date+' '+bill.scheduled_actions[0].End)}}<br>
+                            <div v-if="bill.scheduled_actions[0].Start">
+                                {{formatTime(bill.scheduled_actions[0].Start)}} - {{formatTime(bill.scheduled_actions[0].End)}}<br>
+                            </div>                            
                             {{bill.scheduled_actions[0].Location}}
                         </div>
                     </div>
@@ -81,7 +83,7 @@
                 return moment(dateToFormat).format('dddd, MMMM Do')
             },
             formatTime(timeToFormat) {
-                return moment(timeToFormat).format('h:mma')
+                return moment('01/01/0001 ' + timeToFormat).format('h:mma')
             }
         },
         mounted() {
