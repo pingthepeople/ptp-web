@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -33,7 +34,18 @@ class Action extends Model
     /**
      * @var array
      */
-    protected $appends = ['id'];
+    protected $appends = ['id', 'ActionType', 'Chamber'];
+
+    /**
+     *
+     */
+    public static function boot() {
+        parent::boot();
+
+        static::addGlobalScope('chronological', function(Builder $builder) {
+            $builder->orderBy('Date', 'desc');
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -47,5 +59,21 @@ class Action extends Model
      */
     public function getIdAttribute() {
         return $this->attributes['Id'];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActionTypeAttribute() {
+        $types = config('enums.ActionTypes');
+        return $types[$this->attributes['ActionType']];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChamberAttribute() {
+        $types = config('enums.Chamber');
+        return $types[$this->attributes['Chamber']];
     }
 }

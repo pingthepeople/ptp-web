@@ -34,7 +34,7 @@ class Subject extends Model
     /**
      * @var array
      */
-    protected $appends = ['id'];
+    protected $appends = ['id', 'Name'];
 
     /**
      *
@@ -65,5 +65,9 @@ class Subject extends Model
      */
     public function getIdAttribute() {
         return $this->attributes['Id'];
+    }
+
+    public function getNameAttribute() {
+        return ucwords(strtolower($this->attributes['Name']));
     }
 }

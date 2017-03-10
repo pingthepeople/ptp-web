@@ -35,7 +35,7 @@ class Committee extends Model
     /**
      * @var array
      */
-    protected $appends = ['id'];
+    protected $appends = ['id', 'Chamber'];
 
     /**
      *
@@ -66,5 +66,13 @@ class Committee extends Model
      */
     public function getIdAttribute() {
         return $this->attributes['Id'];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChamberAttribute() {
+        $types = config('enums.Chamber');
+        return $types[$this->attributes['Chamber']];
     }
 }

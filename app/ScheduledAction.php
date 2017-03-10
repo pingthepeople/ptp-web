@@ -36,13 +36,16 @@ class ScheduledAction extends Model
     /**
      * @var array
      */
-    protected $appends = ['id'];
+    protected $appends = ['id', 'ActionType', 'Chamber'];
 
+    /**
+     *
+     */
     public static function boot() {
         parent::boot();
 
         static::addGlobalScope('future', function(Builder $builder) {
-            $builder->where('Date', '>=', Carbon::now());
+            $builder->where('Date', '>=', Carbon::now())->orderBy('Date');
         });
     }
 
@@ -58,5 +61,21 @@ class ScheduledAction extends Model
      */
     public function getIdAttribute() {
         return $this->attributes['Id'];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActionTypeAttribute() {
+        $types = config('enums.ActionTypes');
+        return $types[$this->attributes['ActionType']];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChamberAttribute() {
+        $types = config('enums.Chamber');
+        return $types[$this->attributes['Chamber']];
     }
 }

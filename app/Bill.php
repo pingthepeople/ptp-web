@@ -40,7 +40,8 @@ class Bill extends Model
         'IsTrackedByCurrentUser',
         'IsSubscribedToEmail',
         'IsSubscribedToSms',
-        'id'
+        'id',
+        'Chamber'
     ];
 
     /**
@@ -144,5 +145,13 @@ class Bill extends Model
      */
     public function getIdAttribute() {
         return $this->attributes['Id'];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChamberAttribute() {
+        $types = config('enums.Chamber');
+        return $types[$this->attributes['Chamber']];
     }
 }
