@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -35,6 +37,14 @@ class ScheduledAction extends Model
      * @var array
      */
     protected $appends = ['id'];
+
+    public static function boot() {
+        parent::boot();
+
+        static::addGlobalScope('future', function(Builder $builder) {
+            $builder->where('Date', '>=', Carbon::now());
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
