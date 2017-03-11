@@ -14878,6 +14878,12 @@ var app = new Vue({
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 var moment = __webpack_require__(0);
 
@@ -14885,18 +14891,35 @@ module.exports = {
     components: {
         billList: __webpack_require__(111)
     },
+    computed: {
+        filteredBills: function filteredBills() {
+            var _this = this;
+
+            if (this.q.length > 0) {
+                return this.bills.filter(function (bill) {
+                    var subjects = bill.subjects.reduce(function (acc, subject) {
+                        return acc + ' ' + subject.Name;
+                    }, '');
+                    return bill.Title.toLowerCase().indexOf(_this.q) !== -1 || bill.Name.toLowerCase().indexOf(_this.q) !== -1 || bill.Description.toLowerCase().indexOf(_this.q) !== -1 || bill.subjects.length && subjects.toLowerCase().indexOf(_this.q) !== -1;
+                });
+            } else {
+                return this.bills;
+            }
+        }
+    },
     mounted: function mounted() {
-        var _this = this;
+        var _this2 = this;
 
         // load all bills
         this.$http.get('/api/bills').then(function (res) {
-            _this.bills = res.body;
+            _this2.bills = res.body;
         }, function (res) {
             console.log(res);
         });
     },
     data: function data() {
         return {
+            q: '',
             bills: [],
             currentSession: moment().year()
         };
@@ -15138,6 +15161,12 @@ module.exports = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 var moment = __webpack_require__(0);
 
@@ -15145,18 +15174,32 @@ module.exports = {
     components: {
         billTable: __webpack_require__(124)
     },
+    computed: {
+        filteredBills: function filteredBills() {
+            var _this = this;
+
+            if (this.q.length > 0) {
+                return this.bills.filter(function (bill) {
+                    return bill.Title.toLowerCase().indexOf(_this.q) !== -1 || bill.Name.toLowerCase().indexOf(_this.q) !== -1;
+                });
+            } else {
+                return this.bills;
+            }
+        }
+    },
     mounted: function mounted() {
-        var _this = this;
+        var _this2 = this;
 
         // load all bills
         this.$http.get('/api/my-bills').then(function (res) {
-            _this.bills = res.body;
+            _this2.bills = res.body;
         }, function (res) {
             console.log(res);
         });
     },
     data: function data() {
         return {
+            q: '',
             bills: [],
             currentSession: moment().year()
         };
@@ -15942,11 +15985,35 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('h1', {
     staticClass: "section-title"
-  }, [_vm._v("My bills")]), _vm._v(" "), (_vm.bills.length) ? _c('div', [_c('p', [_vm._v("Here are the " + _vm._s(_vm.bills.length) + " bills you're tracking for the "), _c('strong', [_vm._v(_vm._s(_vm.currentSession))]), _vm._v(" session")]), _vm._v(" "), _c('bill-table', {
+  }, [_vm._v("My bills")]), _vm._v(" "), _c('div', {
+    staticClass: "filters"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.q),
+      expression: "q"
+    }],
+    staticClass: "filters__search",
     attrs: {
-      "bills": _vm.bills
+      "type": "search",
+      "autocomplete": "off",
+      "placeholder": "Filter bills"
+    },
+    domProps: {
+      "value": (_vm.q)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.q = $event.target.value
+      }
     }
-  })], 1) : _vm._e()])
+  })]), _vm._v(" "), (_vm.filteredBills.length) ? _c('div', [_c('p', [_vm._v("Here are the " + _vm._s(_vm.filteredBills.length) + " bills you're tracking for the "), _c('strong', [_vm._v(_vm._s(_vm.currentSession))]), _vm._v(" session")]), _vm._v(" "), _c('bill-table', {
+    attrs: {
+      "bills": _vm.filteredBills
+    }
+  })], 1) : _vm._e(), _vm._v(" "), (this.q.length > 0 && _vm.filteredBills.length == 0) ? _c('div', [_vm._v("\n        Your search did not return any results.\n    ")]) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -15963,11 +16030,35 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('h1', {
     staticClass: "section-title"
-  }, [_vm._v("All bills")]), _vm._v(" "), (_vm.bills.length) ? _c('div', [_c('p', [_vm._v("Here are all " + _vm._s(_vm.bills.length) + " bills for the "), _c('strong', [_vm._v(_vm._s(_vm.currentSession))]), _vm._v(" session")]), _vm._v(" "), _c('bill-list', {
+  }, [_vm._v("All bills")]), _vm._v(" "), _c('div', [_c('div', {
+    staticClass: "filters"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.q),
+      expression: "q"
+    }],
+    staticClass: "filters__search",
     attrs: {
-      "bills": _vm.bills
+      "type": "search",
+      "autocomplete": "off",
+      "placeholder": "Filter bills"
+    },
+    domProps: {
+      "value": (_vm.q)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.q = $event.target.value
+      }
     }
-  })], 1) : _vm._e()])
+  })]), _vm._v(" "), (_vm.filteredBills.length) ? _c('bill-list', {
+    attrs: {
+      "bills": _vm.filteredBills
+    }
+  }) : _vm._e(), _vm._v(" "), (this.q.length > 0 && _vm.filteredBills.length == 0) ? _c('div', [_vm._v("\n            Your search did not return any results.\n        ")]) : _vm._e()], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
