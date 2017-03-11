@@ -20,8 +20,8 @@
                     <div v-if="bill.actions[0]">
                         <div class="bill-table__action-type">{{bill.actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">
-                            {{formatDate(bill.actions[0].Date)}}<br>
-                            {{formatDate(bill.actions[0].Description)}}
+                            {{bill.actions[0].Description}}<br>
+                            {{formatDate(bill.actions[0].Date)}}
                         </div>
                     </div>
                     <div v-else>None</div>
@@ -83,10 +83,10 @@
             },
 
             formatDate(dateToFormat) {
-                return moment(dateToFormat).format('dddd, MMMM Do')
+                return moment(dateToFormat, 'YYYY-MM-DD').format('dddd, MMMM Do')
             },
             formatTime(timeToFormat) {
-                return moment('01/01/0001 ' + timeToFormat).format('h:mma')
+                return moment('01/01/0001 ' + timeToFormat, 'MM/DD/YYYY HH:mm:ss').format('h:mma')
             }
         },
         mounted() {

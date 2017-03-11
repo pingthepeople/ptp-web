@@ -18,11 +18,7 @@
 
         <div class="container" >
             <div class="main">
-                <div class="row">
-                    <div class="twelve columns">
-                        @yield('content')
-                    </div>
-                </div>
+                @yield('content')
             </div>
         </div>
     </div>
