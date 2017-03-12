@@ -41,7 +41,8 @@ class Bill extends Model
         'IsSubscribedToEmail',
         'IsSubscribedToSms',
         'id',
-        'Chamber'
+        'Chamber',
+        'Name'
     ];
 
     /**
@@ -153,5 +154,17 @@ class Bill extends Model
     public function getChamberAttribute() {
         $types = config('enums.Chamber');
         return $types[$this->attributes['Chamber']];
+    }
+
+    public function getNameAttribute() {
+        // names are stored without a space after their SB/HB prefix, and with leading zeroes on bill numbers
+        // e.g. SB0025, HB0189
+
+        $name = $this->attributes['Name'];
+        // get the chamber prefix
+        $chamber = substr($name, 0, 2);
+        $number = intval(substr($name, 2)); // casting to an intval removes leading zeroes
+
+        return "$chamber $number";
     }
 }

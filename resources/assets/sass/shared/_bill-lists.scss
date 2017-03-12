@@ -70,11 +70,15 @@
         font-size: 1.25rem;
         color: $secondary-text;
     }
-    .bill-table__bill-title {
-        width:33%;
-        max-width: 33%;
-    }   
+    .bill-table__bill-name {
+        width: 60px;
+    }
+    .bill-table__bill-actions {
+        width: 180px;
+    }
     .bill-table__alert-controls {
+        width: 150px;
+
         label {
             display: inline-block;
             margin-right: 10px;

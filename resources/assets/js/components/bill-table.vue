@@ -13,10 +13,10 @@
         </thead>
         <tbody>
             <tr v-for="bill in bills">
-                <td>{{bill.Name}}</td>
+                <td class="bill-table__bill-name">{{bill.Name}}</td>
                 <td class="bill-table__bill-title">{{bill.Title}}
                 </td>
-                <td>
+                <td class="bill-table__bill-actions">
                     <div v-if="bill.actions[0]">
                         <div class="bill-table__action-type">{{bill.actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">
@@ -26,7 +26,7 @@
                     </div>
                     <div v-else>None</div>
                 </td>
-                <td>
+                <td class="bill-table__bill-actions">
                     <div v-if="bill.scheduled_actions[0]">
                         <div class="bill-table__action-type">{{bill.scheduled_actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">{{formatDate(bill.scheduled_actions[0].Date)}}<br>
