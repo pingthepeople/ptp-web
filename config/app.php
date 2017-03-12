@@ -180,6 +180,12 @@ return [
 
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+
+        /*
+        *  for debugging
+         * TODO remove for production
+        */
+        Clockwork\Support\Laravel\ClockworkServiceProvider::class
     ],
 
     /*
