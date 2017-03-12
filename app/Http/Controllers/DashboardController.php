@@ -30,11 +30,7 @@ class DashboardController extends Controller
      */
     public function myBills() {
         $user = Auth::user();
-        if($user->bills->count() < 1) {
-            return redirect('/start');
-        } else {
-            return view('default', compact('user'));
-        }
+        return view('default', compact('user'));
     }
 
     /**
