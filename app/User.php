@@ -37,6 +37,12 @@ class User extends Authenticatable
         'remember_token'
     ];
 
+    protected $with = [
+        'bills',
+        'bills.subjects',
+        'bills.actions',
+        'bills.scheduledActions'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
