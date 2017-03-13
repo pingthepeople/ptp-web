@@ -100,10 +100,14 @@ call :SelectNodeVersion
 :: 3. Install npm packages
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
+  echo Starting npm tasks
+  echo Executing 'npm install --production'
   call :ExecuteCmd !NPM_CMD! install --production
   IF !ERRORLEVEL! NEQ 0 goto error
+  echo Executing 'npm run production-azure'
   call :ExecuteCmd !NPM_CMD! run production
   IF !ERRORLEVEL! NEQ 0 goto error
+  echo Done with npm tasks
   popd
 )
 
