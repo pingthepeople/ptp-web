@@ -185,7 +185,7 @@ return [
         *  for debugging
          * TODO remove for production
         */
-        Clockwork\Support\Laravel\ClockworkServiceProvider::class
+        // Clockwork\Support\Laravel\ClockworkServiceProvider::class
     ],
 
     /*
