@@ -1,10 +1,10 @@
 <template>
-    <div :class="'bill '+(b.IsTrackedByCurrentUser ? 'bill--tracked' : '')">
+    <div :class="'bill '+(isTracked ? 'bill--tracked' : '')">
         <header class="bill__header">
             <h3 class="bill__name">{{ b.Name }}</h3>
             <p class="bill__title">{{ b.Title }}</p>
             <div class="bill__actions">
-                <div v-if="b.IsTrackedByCurrentUser">
+                <div v-if="isTracked">
                     <button @click.prevent="stopTrackingHandler" class="button button--small">Stop tracking {{this.b.Name}}</button>
                 </div>
                 <div v-else>
@@ -46,6 +46,14 @@
 
 <script>
     module.exports = {
+        computed: {
+            user() {
+                return this.$store.getters.user
+            },
+            isTracked() {
+                return this.user.tracked_bills.map(b=>b.BillId).includes(this.bill.Id);
+            }
+        },
         filters: {
             truncate(theStringToTruncate) {
                 let n = 250;
@@ -62,17 +70,22 @@
         },
         methods: {
             startTrackingHandler() {
+                // update the global store to reflect tracking the bill...
+                this.$store.dispatch('trackBill', this.bill.Id)
+
+                // ... then call the API to make the change on the backend
                 this.$http.post('/api/track', {id: this.bill.Id}).then(res => {
-                    this.b = res.data;
+                    // do nothing if we succeed, since we already update the store
                 }, res => {
-                    console.log(res);
+                    // if the API call fails, revert tracking on the bill in the store
+                    this.$store.dispatch('stopTrackingBill', this.bill.Id)
                 })
             },
             stopTrackingHandler() {
-                this.$http.post('/api/stop-tracking', {id: this.bill.Id}).then(res => {
-                    this.b = res.data;
-                }, res => {
-                    console.log(res);
+                // same as above
+                this.$store.dispatch('stopTrackingBill', this.bill.Id)
+                this.$http.post('/api/stop-tracking', {id: this.bill.Id}).then(res => {}, res => {
+                    this.$store.dispatch('trackBill', this.bill.Id)
                 })
             },
             toggleEmailHandler() {
@@ -82,6 +95,11 @@
                 this.$http.post('/api/bills/'+this.bill.Id+'/toggle-sms-subscription')
             }
         },
-        props: ['bill']
+        props: ['bill'],
+        watch: {
+            bill() {
+                this.b = this.bill;
+            }
+        }
     }
 </script>

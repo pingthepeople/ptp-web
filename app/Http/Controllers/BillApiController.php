@@ -18,7 +18,10 @@ class BillApiController extends Controller
      */
     public function all(Request $request)
     {
-        return Bill::all();
+        return response()->json([
+            'bills' => Bill::all(),
+            'user' => Auth::user()
+        ]);
     }
 
     /**
@@ -26,6 +29,14 @@ class BillApiController extends Controller
      */
     public function mine() {
         $user = Auth::user();
-        return $user->bills;
+        $user->load([
+            'bills',
+            'bills.subjects',
+            'bills.actions',
+            'bills.scheduledActions']);
+        return response()->json([
+            'bills' => $user->bills,
+            'user' => $user
+        ]);
     }
 }

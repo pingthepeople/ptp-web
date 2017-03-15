@@ -13,6 +13,7 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
+    protected $primaryKey = 'id';
 
     /**
      * @var bool
@@ -37,18 +38,17 @@ class User extends Authenticatable
         'remember_token'
     ];
 
-    protected $with = [
-        'bills',
-        'bills.subjects',
-        'bills.actions',
-        'bills.scheduledActions'
-    ];
+    protected $with = ['trackedBills'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function bills() {
         return $this->belongsToMany(Bill::class, 'UserBill', 'UserId', 'BillId')->withPivot('ReceiveAlertEmail', 'ReceiveAlertSms');
+    }
+
+    public function trackedBills() {
+        return $this->hasMany(UserBill::class, 'UserId', 'id');
     }
 
     public function track($param, $startTracking=true) {
@@ -65,19 +65,14 @@ class User extends Authenticatable
                 $this->bills()->detach($id);
             }
 
-            return Bill::find($id);
-        } elseif(is_array($param)) {
-            foreach($param as $bill) {
-                $this->track($bill);
-            }
+            return [
+                'BillId' => $id,
+                'UserId' => $this->id,
+                'isTracking' => $startTracking
+            ];
         } elseif(is_string($param)) {
-            if(strpos($param, ',') !== false) {
-                $bills = explode(',', $param);
-                $this->track($bills);
-            } else {
-                $bill = Bill::where('Name',$param)->first();
-                $this->track($bill->Id);
-            }
+            $bill = Bill::where('Name',$param)->first();
+            return $this->track($bill->Id);
         }
     }
 }

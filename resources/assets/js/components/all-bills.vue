@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            <bill-list v-if="filteredBills.length" :bills="filteredBills"></bill-list>
+            <bill-list v-on:track="trackHandler" v-on:stopTracking="stopTrackingHandler" v-if="filteredBills.length" :bills="filteredBills"></bill-list>
 
             <div class="filters__no-result" v-if="isFilterApplied && !filteredBills.length">
                 Your search did not return any results.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
@@ -64,12 +64,19 @@
                 this.q = "";
                 this.filteredBills = this.bills;
                 this.isFilterApplied = false;
+            },
+            trackHandler(id) {
+                console.log(id)
+            },
+            stopTrackingHandler(id) {
+                console.log(id)
             }
         },
         mounted() {
             // load all bills
             this.$http.get('/api/bills').then(res => {
-                this.bills = res.body;
+                this.bills = res.body.bills;
+                this.$store.dispatch('storeUser', res.body.user);
                 this.filteredBills = this.getFilteredBills();
             }, res => {
                 console.log(res)

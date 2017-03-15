@@ -37,9 +37,6 @@ class Bill extends Model
      * @var array
      */
     protected $appends = [
-        'IsTrackedByCurrentUser',
-        'IsSubscribedToEmail',
-        'IsSubscribedToSms',
         'id',
         'Chamber',
         'Name'
@@ -104,41 +101,6 @@ class Bill extends Model
      */
     public function scheduledActions() {
         return $this->hasMany(ScheduledAction::class, 'BillId');
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsTrackedByCurrentUserAttribute() {
-        $user = Auth::user();
-        if(!$user) {
-            return false;
-        }
-        return $user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id);
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsSubscribedToEmailAttribute() {
-        $user = Auth::user();
-        if($user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id)) {
-            $bill = $user->bills()->find($this->Id);
-            return intval($bill->pivot->ReceiveAlertEmail)==1;
-        }
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsSubscribedToSmsAttribute() {
-        $user = Auth::user();
-        if($user->bills->map(function($bill) {return $bill->Id;})->contains($this->Id)) {
-            $bill = $user->bills()->find($this->Id);
-            return intval($bill->pivot->ReceiveAlertSms)==1;
-        }
-        return false;
     }
 
     /**

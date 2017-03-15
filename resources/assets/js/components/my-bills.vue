@@ -24,7 +24,7 @@
     </div>
 </template>
 
-<script type="text/babel">
+<script>
     const moment = require('moment');
 
     module.exports = {
@@ -68,7 +68,8 @@
         mounted() {
             // load all bills
             this.$http.get('/api/my-bills').then(res => {
-                this.bills = res.body;
+                this.bills = res.body.bills;
+                this.$store.dispatch('storeUser', res.body.user);
                 this.filteredBills = this.getFilteredBills();
             }, res => {
                 console.log(res)
