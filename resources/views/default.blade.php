@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'INaction')
+@section('title', 'Ping the People')
 
 @section('content')
     <div class="bill-list bill-list--tracked-by-user">
