@@ -44,7 +44,7 @@ class BillApiController extends Controller
             $bills = json_decode(Cache::get('bills--remaining'));
         } else {
             $bills = Bill::skip(10)->take(5000)->get();
-            Cache::put('billsRemaining', $bills->toJson(), 600);
+            Cache::put('bills--remaining', $bills->toJson(), 600);
         }
 
         return response()->json([
