@@ -55,6 +55,16 @@ class DashboardController extends Controller
         return back();
     }
 
+    public function account(Request $request) {
+        if(!Auth::check()) {
+            return redirect('/login');
+        }
+
+        $user = Auth::user();
+
+        return view('account', compact('user'));
+    }
+
     /**
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */

@@ -20,6 +20,7 @@ Route::get('/all-bills', 'DashboardController@allBills');
 
 Route::get('/logout', 'DashboardController@logout');
 Route::get('/login', 'GuestController@guest');
+Route::get('/account', 'DashboardController@account');
 
 Route::get('/login-via-facebook', 'SocialAuthController@redirect');
 Route::get('/facebook-callback', 'SocialAuthController@callback');
