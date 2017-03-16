@@ -27,10 +27,10 @@ class BillApiController extends Controller
 
     public function initialChunk() {
         if(Cache::has('bills--initial')) {
-            $bills = Cache::get('bills--initial');
+            $bills = json_decode(Cache::get('bills--initial'));
         } else {
             $bills = Bill::take(10)->get();
-            Cache::put('bills--initial', $bills);
+            Cache::put('bills--initial', $bills->toJson(), 600);
         }
 
         return response()->json([
@@ -40,11 +40,11 @@ class BillApiController extends Controller
     }
 
     public function remainingChunk() {
-        if(Cache::has('billsRemaining')) {
-            $bills = Cache::get('billsRemaining');
+        if(Cache::has('bills--remaining')) {
+            $bills = json_decode(Cache::get('bills--remaining'));
         } else {
             $bills = Bill::skip(10)->take(5000)->get();
-            Cache::put('billsRemaining', $bills, 600);
+            Cache::put('billsRemaining', $bills->toJson(), 600);
         }
 
         return response()->json([
