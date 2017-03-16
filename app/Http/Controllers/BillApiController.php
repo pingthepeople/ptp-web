@@ -24,16 +24,24 @@ class BillApiController extends Controller
         ]);
     }
 
+    public function initialChunk() {
+        return response()->json([
+            'bills' => Bill::take(10)->get(),
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function remainingChunk() {
+        return response()->json([
+            'bills' => Bill::skip(10)->take(5000)->get(),
+        ]);
+    }
+
     /**
      * @return mixed
      */
     public function mine() {
         $user = Auth::user();
-        $user->load([
-            'bills',
-            'bills.subjects',
-            'bills.actions',
-            'bills.scheduledActions']);
         return response()->json([
             'bills' => $user->bills,
             'user' => $user

@@ -17,7 +17,9 @@
                     </div>
                 </div>
             </div>
-            <bill-list v-on:track="trackHandler" v-on:stopTracking="stopTrackingHandler" v-if="filteredBills.length" :bills="filteredBills"></bill-list>
+            <bill-list v-if="filteredBills.length" :bills="filteredBills"></bill-list>
+
+            <div v-if="isLoading" class="bill-list__loading">Loading all bills...</div>
 
             <div class="filters__no-result" v-if="isFilterApplied && !filteredBills.length">
                 Your search did not return any results.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
@@ -67,19 +69,19 @@
                 this.filteredBills = this.bills;
                 this.isFilterApplied = false;
             },
-            trackHandler(id) {
-                console.log(id)
-            },
-            stopTrackingHandler(id) {
-                console.log(id)
-            }
         },
         mounted() {
             // load all bills
-            this.$http.get('/api/bills').then(res => {
+            this.$http.get('/api/bills/initial-chunk').then(res => {
                 this.bills = res.body.bills;
                 this.$store.dispatch('storeUser', res.body.user);
                 this.filteredBills = this.getFilteredBills();
+
+                this.$http.get('/api/bills/remaining-chunk').then(res => {
+                    this.bills = this.bills.concat(res.data.bills);
+                    this.filteredBills = this.getFilteredBills();
+                    this.isLoading = false;
+                })
             }, res => {
                 console.log(res)
             })
@@ -89,6 +91,7 @@
                 q: '',
                 isFilterApplied: false,
                 bills: [],
+                isLoading: true,
                 filteredBills: [],
                 currentSession: moment().year()
             }

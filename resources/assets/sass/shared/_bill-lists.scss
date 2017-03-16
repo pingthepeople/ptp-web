@@ -55,6 +55,13 @@
     }
 }
 
+.bill-list__loading {
+    margin: 2em 0;
+    text-align: center;
+    color: $secondary-text;
+    font-style: italic;
+}
+
 
 .bill-table {
     width: 100%;
