@@ -42,10 +42,10 @@
                 </td>
                 <td class="bill-table__alert-controls">
                     <label :for="bill.Id+'email'">
-                        Email <input :id="bill.Id+'email'" name="email" type="checkbox" v-model="bill.pivot.ReceiveAlertEmail" @change="toggleEmailHandler(bill.Id)">
+                        Email <input :id="bill.Id+'email'" name="email" type="checkbox" :checked="bill.pivot.ReceiveAlertEmail==1" @change="toggleEmailHandler(bill.Id)">
                     </label>
                     <label :for="bill.Id+'sms'">
-                        SMS <input :id="bill.Id+'sms'" name="sms" type="checkbox" v-model="bill.pivot.ReceiveAlertSms" @change="toggleSmsHandler(bill.Id)">
+                        SMS <input :id="bill.Id+'sms'" name="sms" type="checkbox" :checked="bill.pivot.ReceiveAlertSms==1" @change="toggleSmsHandler(bill.Id)">
                     </label>
                 </td>
             </tr>

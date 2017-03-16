@@ -51,7 +51,7 @@
                 return this.$store.getters.user
             },
             isTracked() {
-                return this.user.tracked_bills.map(b=>b.BillId).includes(this.bill.Id);
+                return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(this.bill.Id);
             }
         },
         filters: {
