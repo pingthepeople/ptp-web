@@ -19,7 +19,20 @@
     font-size: 2em;
 }
 
+input[type=text],
+input[type=email],
+textarea {
+    width: 100%;
+}
 
 .account {
     margin-top: 2em;
+
+    label {
+        margin-top: 1em;
+    }
+
+    .account__submit {
+        margin-top: 1em
+    }
 }

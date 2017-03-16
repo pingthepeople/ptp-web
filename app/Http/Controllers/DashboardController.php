@@ -65,6 +65,19 @@ class DashboardController extends Controller
         return view('account', compact('user'));
     }
 
+    public function saveAccount(Request $request) {
+        $this->validate($request, [
+                'Name' => 'required',
+                'Email' => 'required',
+            ]);
+
+        $user = Auth::user();
+        $user->Name = $request->input('Name');
+        $user->Email = $request->input('Email');
+        $user->save();
+        return redirect('/account');
+    }
+
     /**
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
