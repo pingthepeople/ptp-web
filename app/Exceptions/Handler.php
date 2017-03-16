@@ -8,6 +8,14 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
+    public function __construct()
+    {
+        $this->_telemetryClient = new \ApplicationInsights\Telemetry_Client();
+        // there's probably a better way to get the instrumentation key than calling out to the environment.'
+        $instrumentationKey = env('APPINSIGHTS_INSTRUMENTATIONKEY');
+        $this->_telemetryClient->getContext()->setInstrumentationKey($instrumentationKey);
+    }
+
     /**
      * A list of the exception types that should not be reported.
      *
@@ -32,6 +40,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        $this->_telemetryClient->trackException($exception);
+        $this->_telemetryClient->flush();
+
         parent::report($exception);
     }
 

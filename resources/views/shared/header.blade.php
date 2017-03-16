@@ -5,7 +5,7 @@
                 <div class="header__primary">
                     <nav class="main-nav">
                         <div class="logo">
-                            <a href="{{url('/')}}">INaction</a>
+                            <a href="{{url('/')}}">Ping the People</a>
                         </div>
                         <ul>
                             <li {{ (Request::is('/') ? 'class=is-active' : '') }}>

@@ -44,7 +44,7 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function bills() {
-        return $this->belongsToMany(Bill::class, 'UserBill', 'UserId', 'BillId')->withPivot('ReceiveAlertEmail', 'ReceiveAlertSms');
+        return $this->belongsToMany(Bill::class, 'UserBill', 'UserId', 'BillId')->withPivot('ReceiveAlertEmail', 'ReceiveAlertSms')->orderBy('Name');
     }
 
     public function trackedBills() {
