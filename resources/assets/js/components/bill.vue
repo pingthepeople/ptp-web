@@ -1,8 +1,21 @@
 <template>
     <div :class="'bill '+(isTracked ? 'bill--tracked' : '')">
         <header class="bill__header">
-            <h3 class="bill__name">{{ b.Name }}</h3>
-            <p class="bill__title">{{ b.Title }}</p>
+            <div class="bill__header-meta">
+                <h3 class="bill__name">{{ b.Name }}</h3>
+                <p class="bill__title">{{ b.Title }}</p>
+
+                <div class="bill__tags" v-if="b.committees.length">Committee:
+                    <span class="bill__tag" v-for="(committee, index) in b.committees">
+                                {{committee.Name}}<span v-if="index!=b.committees.length-1">,&nbsp;</span>
+                            </span>
+                </div>
+                <div class="bill__tags" v-if="b.subjects.length">Subject:
+                    <span class="bill__tag" v-for="(subject, index) in b.subjects">
+                                {{subject.Name}}<span v-if="index!=b.subjects.length-1">,&nbsp;</span>
+                            </span>
+                </div>
+            </div>
             <div class="bill__actions">
                 <div v-if="isTracked">
                     <button @click.prevent="stopTrackingHandler" class="button button--small">Stop tracking {{this.b.Name}}</button>
@@ -12,11 +25,7 @@
                 </div>
             </div>
         </header>
-        <div class="bill__tags">Subject:
-            <span class="bill__tag" v-for="(subject, index) in b.subjects">
-                                {{subject.Name}}<span v-if="index!=b.subjects.length-1">,&nbsp;</span>
-                            </span>
-        </div>
+
         <div class="bill__description">
             <transition name="description-swap">
                 <div v-if="isShowingFullDescription">
