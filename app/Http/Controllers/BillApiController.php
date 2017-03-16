@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Bill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class BillApiController
@@ -25,15 +26,29 @@ class BillApiController extends Controller
     }
 
     public function initialChunk() {
+        if(Cache::has('bills--initial')) {
+            $bills = Cache::get('bills--initial');
+        } else {
+            $bills = Bill::take(10)->get();
+            Cache::put('bills--initial', $bills);
+        }
+
         return response()->json([
-            'bills' => Bill::take(10)->get(),
+            'bills' => $bills,
             'user' => Auth::user()
         ]);
     }
 
     public function remainingChunk() {
+        if(Cache::has('billsRemaining')) {
+            $bills = Cache::get('billsRemaining');
+        } else {
+            $bills = Bill::skip(10)->take(5000)->get();
+            Cache::put('billsRemaining', $bills, 600);
+        }
+
         return response()->json([
-            'bills' => Bill::skip(10)->take(5000)->get(),
+            'bills' => $bills,
         ]);
     }
 
