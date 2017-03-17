@@ -12,7 +12,7 @@
                     <div v-if="isFilterApplied">
                         Here {{filteredBills.length | pluralizeIs}} the {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} that match your search. <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
                     </div>
-                    <div v-else>
+                    <div v-else-if="!isLoading">
                         Here are all {{bills.length}} bills
                     </div>
                 </div>
