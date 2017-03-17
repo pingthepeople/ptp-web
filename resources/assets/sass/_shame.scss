@@ -18,3 +18,15 @@
     margin-bottom: .5em;
     font-size: 2em;
 }
+
+
+.pager {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pager__item {
+    display: inline-block;
+    margin: 0 5px;
+}
