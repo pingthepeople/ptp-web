@@ -41,7 +41,6 @@ class SocialAuthController extends Controller
 
     public function googleCallback() {
         $googleUser = Socialite::driver('google')->user();
-        dd($googleUser);
         $email = $googleUser->getEmail();
 
         if(User::where('Email', $email)->exists()) {
