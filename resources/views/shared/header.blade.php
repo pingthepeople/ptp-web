@@ -21,7 +21,7 @@
                     @if (Auth::check())
                         @if(Auth::check())
                             <div class="user">
-                                Hello, {{ $user->Name }}
+                                Hello, <a href="{{url('/account')}}" {{ (Request::is('account') ? 'class=is-active' : '') }}>{{ $user->Name }}</a>
                             </div>
                         @endif
                         <a href="{{ url('/logout') }}">Logout</a>

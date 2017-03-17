@@ -11,8 +11,15 @@ $headerBg: #2c3e50;
         display: flex;
 
         a {
+            padding-bottom: 5px;
             text-decoration: none;
             color: #ecf0f1;
+        }
+        a.is-active,
+        a:hover,
+        a:focus {
+            padding-bottom: 5px;
+            border-bottom: 2px solid #fff;
         }
 
         .header__primary {
@@ -45,7 +52,9 @@ $headerBg: #2c3e50;
 
 
                 }
-                > .is-active > a {
+                > .is-active > a,
+                > li > a:hover,
+                > li > a:focus {
                     border-bottom-color: #fff;
                 }
             }
