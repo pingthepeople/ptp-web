@@ -7,7 +7,7 @@
 
                 <div class="bill__tags" v-if="b.committees.length">Committee:
                     <span class="bill__tag" v-for="(committee, index) in b.committees">
-                                {{committee.Name}}<span v-if="index!=b.committees.length-1">,&nbsp;</span>
+                                ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}<span v-if="index!=b.committees.length-1">,&nbsp;</span>
                             </span>
                 </div>
                 <div class="bill__tags" v-if="b.subjects.length">Subject:
