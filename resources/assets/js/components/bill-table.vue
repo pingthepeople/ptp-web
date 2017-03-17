@@ -18,7 +18,7 @@
                 </td>
                 <td class="bill-table__bill-actions">
                     <div v-if="bill.actions[0]">
-                        <div class="bill-table__action-type">{{bill.actions[0].ActionType}}</div>
+                        <div class="bill-table__action-type">({{bill.actions[0].Chamber.substr(0,1)}}) {{bill.actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">
                             {{bill.actions[0].Description}}<br>
                             {{formatDate(bill.actions[0].Date)}}
@@ -28,7 +28,7 @@
                 </td>
                 <td class="bill-table__bill-actions">
                     <div v-if="bill.scheduled_actions[0]">
-                        <div class="bill-table__action-type">{{bill.scheduled_actions[0].ActionType}}</div>
+                        <div class="bill-table__action-type">({{bill.scheduled_actions[0].Chamber.substr(0,1)}}) {{bill.scheduled_actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">{{formatDate(bill.scheduled_actions[0].Date)}}<br>
                             <div v-if="bill.scheduled_actions[0].Start">
                                 {{formatTime(bill.scheduled_actions[0].Start)}} - {{formatTime(bill.scheduled_actions[0].End)}}<br>
