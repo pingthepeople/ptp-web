@@ -49,3 +49,20 @@ fieldset {
         margin-top: 1em
     }
 }
+
+
+
+.alert {
+    border: 1px solid $brand-danger;
+    border-radius: 3px;
+
+    ul {
+        margin: 10px;
+        padding: 0 0 0 20px;
+        list-style-position: outside;
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
+}
