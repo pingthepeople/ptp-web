@@ -15,7 +15,7 @@ class BillApiController extends Controller
 {
     public function __construct()
     {
-        if(env('APP_ENV') != 'production') {
+        if(env('APP_ENV') == 'local') {
             $this->middleware(\Clockwork\Support\Laravel\ClockworkMiddleware::class);
         }
     }
