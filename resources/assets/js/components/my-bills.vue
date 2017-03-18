@@ -1,6 +1,11 @@
 <template>
     <div>
-        <h1 class="section-title">My bills</h1>
+        <div class="u-flex">
+            <h1 class="u-left section-title">My bills</h1>
+            <div class="u-right">
+                <a href="/my-bills.csv">Download .csv of tracked bills</a>
+            </div>
+        </div>
         <div class="filters">
             <form class="filters__search search" @submit.prevent="filterBillHandler">
                 <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Filter bills">

@@ -128,4 +128,17 @@ class Bill extends Model
 
         return "$chamber $number";
     }
+
+    public function toRowArray() {
+        $subjects = implode(", ", $this->subjects->toArray());
+
+        return [
+            $this->Name,
+            $this->Title,
+            $this->Description,
+            $this->Authors,
+            $this->Chamber,
+            $subjects
+        ];
+    }
 }

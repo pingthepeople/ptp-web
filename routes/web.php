@@ -18,6 +18,8 @@ Route::get('/', 'DashboardController@myBills');
 Route::get('/all-bills', 'DashboardController@allBills');
     Route::post('/track-bill/{Id}', 'DashboardController@trackBill');
 
+Route::get('/my-bills.csv', 'SpreadsheetExportController@myBillsToCsv');
+
 Route::get('/logout', 'DashboardController@logout');
 Route::get('/login', 'GuestController@guest');
 Route::get('/account', 'DashboardController@account');
