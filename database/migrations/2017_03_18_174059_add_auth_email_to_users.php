@@ -14,7 +14,7 @@ class AddAuthEmailToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->text('AuthProviderEmail', 256);
+            $table->text('AuthProviderEmail', 256)->nullable();
         });
 
         DB::statement('UPDATE `users` SET `AuthProviderEmail` = `Email`;');
