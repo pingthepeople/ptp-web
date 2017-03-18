@@ -11,8 +11,15 @@ $headerBg: #2c3e50;
         display: flex;
 
         a {
+            padding-bottom: 5px;
             text-decoration: none;
             color: #ecf0f1;
+        }
+        a.is-active,
+        a:hover,
+        a:focus {
+            padding-bottom: 5px;
+            border-bottom: 2px solid #fff;
         }
 
         .header__primary {
@@ -22,7 +29,7 @@ $headerBg: #2c3e50;
         .main-nav {
             .logo {
                 display: inline-block;
-                font-size: 3rem;
+                font-size: 2rem;
             }
 
             > ul {
@@ -33,8 +40,7 @@ $headerBg: #2c3e50;
 
                 > li {
                     display: inline-block;
-                    margin: 0;
-                    margin-left: 1.5em;
+                    margin: 0 0 0 1.5em;
 
                     > a {
                         display: inline-block;
@@ -45,7 +51,9 @@ $headerBg: #2c3e50;
 
 
                 }
-                > .is-active > a {
+                > .is-active > a,
+                > li > a:hover,
+                > li > a:focus {
                     border-bottom-color: #fff;
                 }
             }
@@ -53,7 +61,7 @@ $headerBg: #2c3e50;
 
         .header__secondary {
             margin-left: auto;
-            margin-top: 1em;
+            margin-top: .2em;
 
             .user {
                 display: inline-block;

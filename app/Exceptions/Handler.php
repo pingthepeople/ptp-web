@@ -4,12 +4,15 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
-    public function __construct()
+    public function __construct(Container $container)
     {
+        parent::__construct($container);
+
         $this->_telemetryClient = new \ApplicationInsights\Telemetry_Client();
         // there's probably a better way to get the instrumentation key than calling out to the environment.'
         $instrumentationKey = env('APPINSIGHTS_INSTRUMENTATIONKEY');

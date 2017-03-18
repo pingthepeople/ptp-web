@@ -9,13 +9,20 @@
 
         .bill__name,
         .bill__title{
+            display: inline-block;
             margin: 0 20px;
             font-size: 1.75rem;
-            line-height: 1.4em;
+            line-height: 1em;
         }
         .bill__name {
             margin: 0;
+            white-space: nowrap;
             font-weight: bold;
+        }
+
+        .bill__tags {
+            font-size: 1.25rem;
+            color: $secondary-text;
         }
 
         .bill__actions {
@@ -48,9 +55,11 @@
     }
 }
 
-.bill__tags {
-    font-size: 1.25rem;
+.bill-list__loading {
+    margin: 2em 0;
+    text-align: center;
     color: $secondary-text;
+    font-style: italic;
 }
 
 
