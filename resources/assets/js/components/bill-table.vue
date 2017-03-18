@@ -2,17 +2,41 @@
     <table class="bill-table">
         <thead>
             <tr>
-                <td>Bill</td>
-                <td>Title</td>
-                <td>Most Recent Event</td>
-                <td>Next Scheduled Event</td>
+                <td @click="changeSort('Name')">
+                    Bill
+                    <span v-if="sortCol=='Name'" class="sort-indicator">
+                        <span v-if="sortAsc">&uarr;</span>
+                        <span v-else>&darr;</span>
+                    </span>
+                </td>
+                <td @click="changeSort('Title')">
+                    Title
+                    <span v-if="sortCol=='Title'" class="sort-indicator">
+                        <span v-if="sortAsc">&uarr;</span>
+                        <span v-else>&darr;</span>
+                    </span>
+                </td>
+                <td @click="changeSort('actions')">
+                    Most Recent Event
+                    <span v-if="sortCol=='actions'" class="sort-indicator">
+                        <span v-if="sortAsc">&uarr;</span>
+                        <span v-else>&darr;</span>
+                    </span>
+                </td>
+                <td @click="changeSort('scheduled_actions')">
+                    Next Scheduled Event
+                    <span v-if="sortCol=='scheduled_actions'" class="sort-indicator">
+                        <span v-if="sortAsc">&uarr;</span>
+                        <span v-else>&darr;</span>
+                    </span>
+                </td>
                 <td>
                     Alerts
                 </td>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="bill in bills">
+            <tr v-for="bill in sortedBills">
                 <td class="bill-table__bill-name">{{bill.Name}}</td>
                 <td class="bill-table__bill-title">{{bill.Title}}
                 </td>
@@ -53,7 +77,7 @@
     </table>
 </template>
 
-<script>
+<script type="text/babel">
     let moment = require('moment')
 
     module.exports = {
@@ -64,6 +88,33 @@
             user() {
                 return this.$store.getters.user
             },
+            sortedBills() {
+                return this.bills.sort( (a,b) => {
+                    if(this.sortCol == "scheduled_actions" || this.sortCol == "actions") {
+                        if(!b[this.sortCol][0]) { return -1 }
+                        let aDate = a[this.sortCol][0] ? a[this.sortCol][0].Date : moment()
+                        let bDate = b[this.sortCol][0] ? b[this.sortCol][0].Date : moment()
+                        if(this.sortAsc) {
+                            return moment(aDate).isBefore(bDate)
+                        } else {
+                            return moment(aDate).isAfter(bDate)
+                        }
+                    } else {
+                        if(this.sortAsc) {
+                            return a[this.sortCol] > b[this.sortCol]
+                        } else {
+                            return a[this.sortCol] < b[this.sortCol]
+                        }
+                    }
+
+                })
+            }
+        },
+        data() {
+            return {
+                sortCol: 'Name',
+                sortAsc: true
+            }
         },
         methods: {
             startTrackingHandler(id) {
@@ -92,6 +143,15 @@
             },
             formatTime(timeToFormat) {
                 return moment('01/01/0001 ' + timeToFormat, 'MM/DD/YYYY HH:mm:ss').format('h:mma')
+            },
+
+            changeSort(col) {
+                if(this.sortCol == col) {
+                    this.sortAsc = !this.sortAsc;
+                } else {
+                    this.sortCol = col;
+                    this.sortAsc = true;
+                }
             }
         },
         mounted() {

@@ -66,8 +66,18 @@
 .bill-table {
     width: 100%;
 
+    .sort-indicator {
+        float: right;
+    }
+
     td {
+        padding: 5px 10px;
         vertical-align: top;
+        border: 1px solid $border-color;
+        border-color: $border-color lighten($border-color, 7%)
+    }
+    td:first-child {
+        padding: 5px 10px;
     }
 
     .bill-table__cell-header,
