@@ -130,7 +130,7 @@ class Bill extends Model
     }
 
     public function toRowArray() {
-        $subjects = implode(", ", $this->subjects->toArray());
+        $subjects = implode(", ", $this->subjects->map(function($s) {return $s->Name;})->toArray());
 
         return [
             $this->Name,
