@@ -23,7 +23,7 @@ class BillApiController extends Controller
             $bills = json_decode(Cache::get('bills'));
         } else {
             $bills = Bill::all();
-            Cache::put('bills', $bills, 600);
+            Cache::put('bills', $bills->toJson(), 600);
         }
 
         return response()->json([
