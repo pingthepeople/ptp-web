@@ -68,7 +68,7 @@ class DashboardController extends Controller
     public function saveAccount(Request $request) {
         $this->validate($request, [
                 'Name' => 'required',
-                'Email' => 'required',
+                'Email' => 'nullable|Email',
                 'DigestType' => 'digits_between:0,2',
                 'Mobile' => 'nullable|regex:/\+?1?[- (]?[0-9]{3}[- )]?[0-9]{3}[- ]?[0-9]{4}/'
             ]);
