@@ -4,8 +4,8 @@
         <div>
             <div class="filters">
                 <form class="filters__search search" @submit.prevent="filterBillHandler">
-                    <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Filter bills">
-                    <input class="search__submit" type="submit" value="Filter bills">
+                    <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill name, keyword, committee, subject...">
+                    <input class="search__submit" type="submit" value="Search">
                 </form>
 
                 <div class="filters__message" v-if="filteredBills.length">
