@@ -103,16 +103,11 @@
         },
         mounted() {
             // load all bills
-            this.$http.get('/api/bills/initial-chunk').then(res => {
+            this.$http.get('/api/bills').then(res => {
                 this.bills = res.body.bills;
                 this.$store.dispatch('storeUser', res.body.user);
                 this.filteredBills = this.getFilteredBills();
-
-                this.$http.get('/api/bills/remaining-chunk').then(res => {
-                    this.bills = this.bills.concat(res.data.bills);
-                    this.filteredBills = this.getFilteredBills();
-                    this.isLoading = false;
-                })
+                this.isLoading = false;
             }, res => {
                 console.log(res)
             })
