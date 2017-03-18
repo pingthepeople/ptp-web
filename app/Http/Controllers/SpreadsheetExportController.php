@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Bill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use League\Csv\Writer;
 
 class SpreadsheetExportController extends Controller
 {
     public function myBillsToCsv()
     {
-        $bills = Bill::all();
+        $user = Auth::user();
+        if(!$user) {
+            return response('', 403);
+        }
+        $bills = $user->bills;
 
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
 
