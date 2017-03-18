@@ -9,10 +9,10 @@
 
             <div class="filters__message" v-if="filteredBills.length">
                 <div v-if="isFilterApplied">
-                    {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} you're tracking matched your search.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
+                    {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} you're watching matched your search.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
                 </div>
                 <div v-else>
-                    Here {{filteredBills.length | pluralizeIs}} {{filteredBills.length | pluralizeAll}} {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} you're tracking
+                    Here {{filteredBills.length | pluralizeIs}} {{filteredBills.length | pluralizeAll}} {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} you're watching
                 </div>
             </div>
         </div>

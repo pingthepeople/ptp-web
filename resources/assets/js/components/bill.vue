@@ -18,10 +18,10 @@
             </div>
             <div class="bill__actions">
                 <div v-if="isTracked">
-                    <button @click.prevent="stopTrackingHandler" class="button button--small">Stop tracking {{this.b.Name}}</button>
+                    <button @click.prevent="stopTrackingHandler" class="button button--small">Stop watching {{this.b.Name}}</button>
                 </div>
                 <div v-else>
-                    <button @click.prevent="startTrackingHandler" class="button button--small">Track {{this.b.Name}}</button>
+                    <button @click.prevent="startTrackingHandler" class="button button--small">Watch {{this.b.Name}}</button>
                 </div>
             </div>
         </header>
