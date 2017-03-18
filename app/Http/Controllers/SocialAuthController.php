@@ -19,13 +19,14 @@ class SocialAuthController extends Controller
         $facebookUser = Socialite::driver('facebook')->user();
         $email = $facebookUser->getEmail();
 
-        if(User::where('Email', $email)->exists()) {
-            $user = User::where('Email', $email)->first();
+        if(User::where('AuthProviderEmail', $email)->exists()) {
+            $user = User::where('AuthProviderEmail', $email)->first();
             Auth::login($user);
             return redirect('/')->with('status', 'Login successful');
         } else {
             $newUser = User::create([
                 'Email' => $email,
+                'AuthProviderEmail' => $email,
                 'Name' => $facebookUser->getName(),
             ]);
             if($newUser) {
@@ -43,13 +44,14 @@ class SocialAuthController extends Controller
         $googleUser = Socialite::driver('google')->user();
         $email = $googleUser->getEmail();
 
-        if(User::where('Email', $email)->exists()) {
-            $user = User::where('Email', $email)->first();
+        if(User::where('AuthProviderEmail', $email)->exists()) {
+            $user = User::where('AuthProviderEmail', $email)->first();
             Auth::login($user);
             return redirect('/')->with('status', 'Login successful');
         } else {
             $newUser = User::create([
                 'Email' => $email,
+                'AuthProviderEmail' => $email,
                 'Name' => $googleUser->getName(),
             ]);
             if($newUser) {
