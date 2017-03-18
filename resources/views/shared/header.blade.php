@@ -19,14 +19,11 @@
                 </div>
                 <div class="header__secondary">
                     @if (Auth::check())
-                        @if(Auth::check())
-                            <div class="user">
-                                Hello, {{ $user->Name }}
-                            </div>
-                        @endif
+                        <div class="user">
+                            Hello, <a href="{{url('/account')}}" {{ (Request::is('account') ? 'class=is-active' : '') }}>{{ $user->Name }}</a>
+                        </div>
+
                         <a href="{{ url('/logout') }}">Logout</a>
-                    @else
-                        <a href="{{ url('/login-via-facebook') }}">Login with Facebook</a>
                     @endif
                 </div>
             </div>

@@ -34,4 +34,28 @@ class SocialAuthController extends Controller
             }
         }
     }
+
+    public function googleRedirect() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleCallback() {
+        $googleUser = Socialite::driver('google')->user();
+        $email = $googleUser->getEmail();
+
+        if(User::where('Email', $email)->exists()) {
+            $user = User::where('Email', $email)->first();
+            Auth::login($user);
+            return redirect('/')->with('status', 'Login successful');
+        } else {
+            $newUser = User::create([
+                'Email' => $email,
+                'Name' => $googleUser->getName(),
+            ]);
+            if($newUser) {
+                Auth::login($newUser);
+                return redirect('/')->with('status', 'New user created');
+            }
+        }
+    }
 }
