@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Cache;
  */
 class BillApiController extends Controller
 {
+    public function __construct()
+    {
+        if(env('APP_ENV') != 'production') {
+            $this->middleware(\Clockwork\Support\Laravel\ClockworkMiddleware::class);
+        }
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Database\Eloquent\Collection|static[]
