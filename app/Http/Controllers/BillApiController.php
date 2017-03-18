@@ -19,8 +19,15 @@ class BillApiController extends Controller
      */
     public function all(Request $request)
     {
+        if(Cache::has('bills')) {
+            $bills = json_decode(Cache::get('bills'));
+        } else {
+            $bills = Bill::all();
+            Cache::put('bills', $bills, 600);
+        }
+
         return response()->json([
-            'bills' => Bill::all(),
+            'bills' => $bills,
             'user' => Auth::user()
         ]);
     }

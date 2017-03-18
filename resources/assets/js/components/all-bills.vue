@@ -17,13 +17,22 @@
                     </div>
                 </div>
             </div>
-            <bill-list v-if="filteredBills.length" :bills="filteredBills"></bill-list>
+
+            <ol class="pager">
+                <li class="pager__item" v-for="page in nPages">
+                    <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
+                        {{page}}
+                    </a>
+                </li>
+            </ol>
+
+            <bill-list v-if="billsToDisplay.length" :bills="billsToDisplay"></bill-list>
 
             <div v-if="isLoading" class="bill-list__loading">Loading all bills...</div>
 
-            <ol class="page">
+            <ol class="pager">
                 <li class="pager__item" v-for="page in nPages">
-                    <a class="pager__link" @click.prevent="pageTo(page)" href="javascript:void(0)">
+                    <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                         {{page}}
                     </a>
                 </li>
@@ -50,14 +59,18 @@
 
 <script type="text/babel">
     const moment = require('moment');
+    const pageSize = 50;
 
     module.exports = {
         components: {
             billList: require('./bill-list.vue'),
         },
         computed: {
+            billsToDisplay() {
+                return this.filteredBills.slice(0+(this.currentPage*pageSize), pageSize+(this.currentPage*pageSize))
+            },
             nPages() {
-                return parseInt(this.filteredBills.length / 50);
+                return Math.ceil(this.filteredBills.length / pageSize);
             }
         },
         filters: {
@@ -75,21 +88,22 @@
                     return this.bills.filter( bill => {
                         let subjects = bill.subjects.reduce( (acc, subject) => acc+' '+subject.Name, '')
                         let committees = bill.committees.reduce( (acc, committee) => acc+' '+committee.Name, '')
-                        let foundBills = bill.Title.toLowerCase().indexOf(this.q)!==-1
+                        return bill.Title.toLowerCase().indexOf(this.q)!==-1
                                 || bill.Name.toLowerCase().indexOf(this.q)!==-1
                                 || bill.Description.toLowerCase().indexOf(this.q)!==-1
                                 || (bill.subjects.length && subjects.toLowerCase().indexOf(this.q)!==-1)
                                 || (bill.committees.length && committees.toLowerCase().indexOf(this.q)!==-1)
-
-                        return foundBills.slice(0+(this.currentPage*50), 50+(this.currentPage*50))
                     })
                 } else {
                     this.isFilterApplied = false
-                    return this.bills.slice(0+(this.currentPage*50), 50+(this.currentPage*50))
+                    return this.bills
                 }
             },
             filterBillHandler() {
                 this.filteredBills = this.getFilteredBills();
+                if(this.currentPage > this.nPages) {
+                    this.currentPage = this.nPages-1
+                }
             },
             clearSearch() {
                 this.q = "";
@@ -97,22 +111,17 @@
                 this.isFilterApplied = false;
             },
             pageTo(page) {
-                this.currentPage = page
+                this.currentPage = page-1
                 this.filteredBills = this.getFilteredBills();
             }
         },
         mounted() {
             // load all bills
-            this.$http.get('/api/bills/initial-chunk').then(res => {
+            this.$http.get('/api/bills').then(res => {
                 this.bills = res.body.bills;
                 this.$store.dispatch('storeUser', res.body.user);
                 this.filteredBills = this.getFilteredBills();
-
-                this.$http.get('/api/bills/remaining-chunk').then(res => {
-                    this.bills = this.bills.concat(res.data.bills);
-                    this.filteredBills = this.getFilteredBills();
-                    this.isLoading = false;
-                })
+                this.isLoading = false;
             }, res => {
                 console.log(res)
             })
@@ -121,8 +130,8 @@
             return {
                 q: '',
                 isFilterApplied: false,
-                bills: [],
                 isLoading: true,
+                bills: [],
                 filteredBills: [],
                 currentSession: moment().year(),
                 currentPage: 0,
