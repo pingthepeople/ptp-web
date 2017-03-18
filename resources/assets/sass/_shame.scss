@@ -41,15 +41,32 @@
 }
 
 .pager {
-    margin: 0;
+    margin: 1em;
     padding: 0;
     list-style: none;
+    text-align: center;
 }
 
 .pager__item {
     display: inline-block;
     margin: 0 5px;
+
+    a {
+        color: $text-color;
+        display: inline-block;
+        text-decoration: none;
+        padding-bottom: 2px;
+        border-bottom: 2px solid transparent;
+
+        &.is-active,
+        &:hover,
+        &:active {
+            font-weight: bold;
+            border-bottom-color: $text-color;
+        }
+    }
 }
+
 
 input[type=text],
 input[type=email],
