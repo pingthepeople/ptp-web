@@ -21,8 +21,21 @@
 
 input[type=text],
 input[type=email],
+input[type=tel],
 textarea {
     width: 100%;
+}
+
+fieldset {
+    margin-top: 1em;
+
+    legend {
+        margin-bottom: 0;
+    }
+
+    label {
+        font-size: .9em;
+    }
 }
 
 .account {

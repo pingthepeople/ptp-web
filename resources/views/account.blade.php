@@ -26,6 +26,16 @@
                     <label for="email">Email</label>
                     <input type="email" value="{{$user->Email}}" id="email" name="Email">
 
+                    <label for="mobile">Mobile number</label>
+                    <input type="tel" value="{{$user->Mobile}}" id="mobile" name="Mobile">
+
+                    <fieldset>
+                        <legend>Daily email digest</legend>
+                        <label for="none"><input type="radio" name="DigestType" id="none" value="0" {{$user->DigestType==0 ? 'checked' : ''}}> None</label>
+                        <label for="myBills"><input type="radio" name="DigestType" id="myBills" value="1" {{$user->DigestType==1 ? 'checked' : ''}}> My Bills</label>
+                        <label for="allBills"><input type="radio" name="DigestType" id="allBills" value="2" {{$user->DigestType==2 ? 'checked' : ''}}> All Bills</label>
+                    </fieldset>
+
                     <div class="account__submit">
                         <input type="submit">
                     </div>
