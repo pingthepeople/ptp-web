@@ -47,8 +47,6 @@ class Bill extends Model
      */
     protected $with = [
         "subjects",
-        "actions",
-        "scheduledActions",
         "committees"
     ];
 
