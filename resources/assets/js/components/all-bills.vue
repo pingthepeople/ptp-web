@@ -88,11 +88,11 @@
                     return this.bills.filter( bill => {
                         let subjects = bill.subjects.reduce( (acc, subject) => acc+' '+subject.Name, '')
                         let committees = bill.committees.reduce( (acc, committee) => acc+' '+committee.Name, '')
-                        return bill.Title.toLowerCase().indexOf(this.q)!==-1
-                                || bill.Name.toLowerCase().indexOf(this.q)!==-1
-                                || bill.Description.toLowerCase().indexOf(this.q)!==-1
-                                || (bill.subjects.length && subjects.toLowerCase().indexOf(this.q)!==-1)
-                                || (bill.committees.length && committees.toLowerCase().indexOf(this.q)!==-1)
+                        return bill.Title.toLowerCase().indexOf(this.q.toLowerCase())!==-1
+                                || bill.Name.toLowerCase().indexOf(this.q.toLowerCase())!==-1
+                                || bill.Description.toLowerCase().indexOf(this.q.toLowerCase())!==-1
+                                || (bill.subjects.length && subjects.toLowerCase().indexOf(this.q.toLowerCase())!==-1)
+                                || (bill.committees.length && committees.toLowerCase().indexOf(this.q.toLowerCase())!==-1)
                     })
                 } else {
                     this.isFilterApplied = false
