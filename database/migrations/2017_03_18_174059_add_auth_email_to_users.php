@@ -17,7 +17,7 @@ class AddAuthEmailToUsers extends Migration
             $table->text('AuthProviderEmail', 256)->nullable();
         });
 
-        DB::statement('UPDATE `users` SET `AuthProviderEmail` = `Email`;');
+        DB::statement('UPDATE users SET AuthProviderEmail = Email;');
     }
 
     /**
