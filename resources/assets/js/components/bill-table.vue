@@ -2,28 +2,28 @@
     <table class="bill-table">
         <thead>
             <tr>
-                <td @click="changeSort('Name')">
+                <td @click="changeSort('Name')" :class="sortCol=='Name' ? 'is-sorted' : ''">
                     Bill
                     <span v-if="sortCol=='Name'" class="sort-indicator">
                         <span v-if="sortAsc">&uarr;</span>
                         <span v-else>&darr;</span>
                     </span>
                 </td>
-                <td @click="changeSort('Title')">
+                <td @click="changeSort('Title')" :class="sortCol=='Title' ? 'is-sorted' : ''">
                     Title
                     <span v-if="sortCol=='Title'" class="sort-indicator">
                         <span v-if="sortAsc">&uarr;</span>
                         <span v-else>&darr;</span>
                     </span>
                 </td>
-                <td @click="changeSort('actions')">
+                <td @click="changeSort('actions')" :class="sortCol=='actions' ? 'is-sorted' : ''">
                     Most Recent Event
                     <span v-if="sortCol=='actions'" class="sort-indicator">
                         <span v-if="sortAsc">&uarr;</span>
                         <span v-else>&darr;</span>
                     </span>
                 </td>
-                <td @click="changeSort('scheduled_actions')">
+                <td @click="changeSort('scheduled_actions')" :class="sortCol=='scheduled_actions' ? 'is-sorted' : ''">
                     Next Scheduled Event
                     <span v-if="sortCol=='scheduled_actions'" class="sort-indicator">
                         <span v-if="sortAsc">&uarr;</span>

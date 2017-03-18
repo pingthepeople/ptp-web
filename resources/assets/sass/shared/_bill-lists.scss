@@ -66,6 +66,15 @@
 .bill-table {
     width: 100%;
 
+    thead {
+        td {
+            color: $text-color;
+        }
+        td.is-sorted {
+            font-weight: bold;
+            color: #000;
+        }
+    }
     .sort-indicator {
         float: right;
     }
