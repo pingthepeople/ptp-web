@@ -91,8 +91,7 @@
                         || (bill.subjects.some (element => containsQuery(element.Name)))
                         || (bill.committees.some (element => containsQuery(element.Name)))
                         || containsQuery(bill.Title)
-                        || containsQuery(bill.Description)
-                    })
+                        || containsQuery(bill.Description))
                 } else {
                     this.isFilterApplied = false
                     return this.bills
