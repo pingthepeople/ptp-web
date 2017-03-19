@@ -50,7 +50,7 @@
                 </div>
                 <div v-else>
                     <div>{{ this.b.Description | truncate }}</div>
-                    <button @click.prevent="isShowingFullDescription=true" class="bill__description-toggle button--plain">Show full description</button>
+                    <button v-if="this.b.Description.length > 250" @click.prevent="isShowingFullDescription=true" class="bill__description-toggle button--plain">Show full description</button>
                 </div>
             </transition>
         </div>
