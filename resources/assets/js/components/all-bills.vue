@@ -85,14 +85,13 @@
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    return this.bills.filter( bill => {
-                        let subjects = bill.subjects.reduce( (acc, subject) => acc+' '+subject.Name, '')
-                        let committees = bill.committees.reduce( (acc, committee) => acc+' '+committee.Name, '')
-                        return bill.Title.toLowerCase().indexOf(this.q.toLowerCase())!==-1
-                                || bill.Name.toLowerCase().indexOf(this.q.toLowerCase())!==-1
-                                || bill.Description.toLowerCase().indexOf(this.q.toLowerCase())!==-1
-                                || (bill.subjects.length && subjects.toLowerCase().indexOf(this.q.toLowerCase())!==-1)
-                                || (bill.committees.length && committees.toLowerCase().indexOf(this.q.toLowerCase())!==-1)
+                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1;
+                    return this.bills.filter( bill => 
+                        containsQuery(bill.Name)
+                        || (bill.subjects.some (element => containsQuery(element.Name)))
+                        || (bill.committees.some (element => containsQuery(element.Name)))
+                        || containsQuery(bill.Title)
+                        || containsQuery(bill.Description)
                     })
                 } else {
                     this.isFilterApplied = false
