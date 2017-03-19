@@ -85,6 +85,7 @@
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
+                    let query = this.q.toLowerCase();
                     var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1;
                     return this.bills.filter( bill => 
                         containsQuery(bill.Name)
