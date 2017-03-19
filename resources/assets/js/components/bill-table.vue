@@ -89,24 +89,34 @@
                 return this.$store.getters.user
             },
             sortedBills() {
+                let direction = this.sortAsc ? 1 : -1;
                 return this.bills.sort( (a,b) => {
-                    if(this.sortCol == "scheduled_actions" || this.sortCol == "actions") {
-                        if(!b[this.sortCol][0]) { return -1 }
-                        let aDate = a[this.sortCol][0] ? a[this.sortCol][0].Date : moment()
-                        let bDate = b[this.sortCol][0] ? b[this.sortCol][0].Date : moment()
-                        if(this.sortAsc) {
-                            return moment(aDate).isBefore(bDate)
-                        } else {
-                            return moment(aDate).isAfter(bDate)
-                        }
-                    } else {
-                        if(this.sortAsc) {
-                            return a[this.sortCol] > b[this.sortCol]
-                        } else {
-                            return a[this.sortCol] < b[this.sortCol]
-                        }
+                    
+                    let aProperty = a[this.sortCol]
+                    let bProperty = b[this.sortCol]
+                    let aValue = aProperty
+                    let bValue = bProperty
+
+                    switch (this.sortCol) {
+                        case "Name":
+                            aValue = a["Link"];
+                            bValue = b["Link"];
+                            break;
+                        case "actions":
+                            aValue = aProperty[0] ? aProperty[0].Date : ""
+                            bValue = bProperty[0] ? bProperty[0].Date : ""
+                            break;
+                        case "scheduled_actions":
+                            aValue = aProperty[0] ? aProperty[0].Date + " " + aProperty[0].Start : ""
+                            bValue = bProperty[0] ? bProperty[0].Date + " " + bProperty[0].Start : ""
+                            break;
+                        default:
+                            /* NOP. Use existing default values. */
+                            break;
                     }
 
+                    let result = aValue < bValue ? -1 : (aValue > bValue ? 1 : 0)
+                    return result * direction 
                 })
             }
         },
