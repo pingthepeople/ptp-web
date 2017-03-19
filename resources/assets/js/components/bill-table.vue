@@ -89,34 +89,38 @@
                 return this.$store.getters.user
             },
             sortedBills() {
-                let direction = this.sortAsc ? 1 : -1;
                 return this.bills.sort( (a,b) => {
-                    
+
                     let aProperty = a[this.sortCol]
                     let bProperty = b[this.sortCol]
                     let aValue = aProperty
                     let bValue = bProperty
 
                     switch (this.sortCol) {
-                        case "Name":
+                        case "Name": // sort by bill name
                             aValue = a["Link"];
                             bValue = b["Link"];
                             break;
-                        case "actions":
-                            aValue = aProperty[0] ? aProperty[0].Date : ""
-                            bValue = bProperty[0] ? bProperty[0].Date : ""
+                        case "actions": // sort by event date, then by bill name
+                            if (aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
+                            if (bProperty.length === 0) { return -1; }
+                            aValue = aProperty[0].Date + a["Link"]
+                            bValue = bProperty[0].Date + b["Link"] 
                             break;
-                        case "scheduled_actions":
-                            aValue = aProperty[0] ? aProperty[0].Date + " " + aProperty[0].Start : ""
-                            bValue = bProperty[0] ? bProperty[0].Date + " " + bProperty[0].Start : ""
+                        case "scheduled_actions": // sort by event date + start time, then by bill name
+                            if (aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
+                            if (bProperty.length === 0) { return -1; }
+                            aValue = aProperty[0].Date + aProperty[0].Start + a["Link"]
+                            bValue = bProperty[0].Date + bProperty[0].Start + b["Link"]
                             break;
                         default:
                             /* NOP. Use existing default values. */
                             break;
                     }
-
-                    let result = aValue < bValue ? -1 : (aValue > bValue ? 1 : 0)
-                    return result * direction 
+                    
+                    return this.sortAsc 
+                        ? aValue < bValue ? -1 : (aValue > bValue ? 1 : 0)
+                        : aValue > bValue ? -1 : (aValue < bValue ? 1 : 0)
                 })
             }
         },
