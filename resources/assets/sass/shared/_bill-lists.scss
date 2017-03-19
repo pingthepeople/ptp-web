@@ -7,6 +7,10 @@
         margin-bottom: 10px;
         display: flex;
 
+        .bill__name-and-title {
+            display: flex;
+        }
+
         .bill__name,
         .bill__title{
             display: inline-block;

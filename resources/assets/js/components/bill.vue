@@ -2,8 +2,10 @@
     <div :class="'bill '+(isTracked ? 'bill--tracked' : '')">
         <header class="bill__header">
             <div class="bill__header-meta">
-                <h3 class="bill__name">{{ b.Name }}</h3>
-                <p class="bill__title">{{ b.Title }}</p>
+                <div class="bill__name-and-title">
+                    <h3 class="bill__name">{{ b.Name }}</h3>
+                    <p class="bill__title">{{ b.Title }}</p>
+                </div>
 
                 <div class="bill__tags" v-if="b.committees.length">Committee:
                     <span class="bill__tag" v-for="(committee, index) in b.committees">
