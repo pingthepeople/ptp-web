@@ -2,6 +2,7 @@
     <table class="bill-table">
         <thead>
             <tr>
+                <td class="bill-table__bill-star"></td>
                 <td @click="changeSort('Name')" :class="'sortable' +(sortCol=='Name' ? ' is-sorted' : '')">
                     Bill
                     <span v-if="sortCol=='Name'" class="sort-indicator">
@@ -37,6 +38,20 @@
         </thead>
         <tbody>
             <tr v-for="bill in sortedBills">
+                <td class="bill-table__bill-star">
+                    <a v-if="isTracked(bill.Id)" @click.prevent="stopTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
+                        <span class="visually-hidden">Stop watching {{bill.Name}}</span>
+                        <svg height="35" width="33" class="star is-tracked">
+                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                        </svg>
+                    </a>
+                    <a v-else @click.prevent="startTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
+                        <span class="visually-hidden">Watch {{bill.Name}}</span>
+                        <svg height="35" width="33" class="star">
+                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                        </svg>
+                    </a>
+                </td>
                 <td class="bill-table__bill-name">{{bill.Name}}</td>
                 <td class="bill-table__bill-title">{{bill.Title}}
                 </td>
@@ -159,6 +174,26 @@
                 return moment('01/01/0001 ' + timeToFormat, 'MM/DD/YYYY HH:mm:ss').format('h:mma')
             },
 
+            startTrackingHandler(billId) {
+                // update the global store to reflect tracking the bill...
+                this.$store.dispatch('trackBill', billId)
+
+                // ... then call the API to make the change on the backend
+                this.$http.post('/api/track', {id: billId}).then(res => {
+                    // do nothing if we succeed, since we already update the store
+                }, res => {
+                    // if the API call fails, revert tracking on the bill in the store
+                    this.$store.dispatch('stopTrackingBill', billId)
+                })
+            },
+            stopTrackingHandler(billId) {
+                // same as above
+                this.$store.dispatch('stopTrackingBill', billId)
+                this.$http.post('/api/stop-tracking', {id: billId}).then(res => {}, res => {
+                    this.$store.dispatch('trackBill', billId)
+                })
+            },
+
             changeSort(col) {
                 if(this.sortCol == col) {
                     this.sortAsc = !this.sortAsc;
@@ -166,6 +201,10 @@
                     this.sortCol = col;
                     this.sortAsc = true;
                 }
+            },
+
+            isTracked(id) {
+                return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(id);
             }
         },
         mounted() {

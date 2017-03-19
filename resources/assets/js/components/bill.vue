@@ -2,6 +2,20 @@
     <div :class="'bill '+(isTracked ? 'bill--tracked' : '')">
         <header class="bill__header">
             <div class="bill__header-meta">
+                <div class="bill__star">
+                    <a v-if="isTracked" @click.prevent="stopTrackingHandler" class="">
+                        <span class="visually-hidden">Stop watching {{this.b.Name}}</span>
+                        <svg height="35" width="33" class="star is-tracked">
+                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                        </svg>
+                    </a>
+                    <a v-else @click.prevent="startTrackingHandler" class="">
+                        <span class="visually-hidden">Watch {{this.b.Name}}</span>
+                        <svg height="35" width="33" class="star">
+                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                        </svg>
+                    </a>
+                </div>
                 <div class="bill__name-and-title">
                     <h3 class="bill__name">{{ b.Name }}</h3>
                     <p class="bill__title">{{ b.Title }}</p>

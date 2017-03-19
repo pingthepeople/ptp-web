@@ -4,8 +4,23 @@
     border-bottom: 1px solid $border-color;
 
     .bill__header {
+        position: relative;
         margin-bottom: 10px;
         display: flex;
+
+        .bill__star {
+            position: absolute;
+            left: -30px;
+            top: -4px;
+            cursor: pointer;
+
+            .star polygon {
+                fill: $secondary-text;
+            }
+            .star.is-tracked polygon {
+                fill: $primary-color;
+            }
+        }
 
         .bill__name-and-title {
             display: flex;
@@ -94,6 +109,19 @@
     }
     td:first-child {
         padding: 5px 10px;
+    }
+
+    td.bill-table__bill-star {
+        border: none;
+        max-width: 30px;
+        padding: 5px 0;
+
+        .star polygon {
+            fill: $secondary-text;
+        }
+        .star.is-tracked polygon {
+            fill: $primary-color;
+        }
     }
 
     .bill-table__cell-header,
