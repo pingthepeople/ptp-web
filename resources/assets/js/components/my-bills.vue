@@ -51,11 +51,14 @@
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    return this.bills.filter( bill => {
-                        return bill.Title.toLowerCase().indexOf(this.q.toLowerCase())!==-1
-                                || bill.Name.toLowerCase().indexOf(this.q.toLowerCase())!==-1
-
-                    })
+                    let query = this.q.toLowerCase();
+                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1;
+                    return this.bills.filter( bill => 
+                        containsQuery(bill.Name)
+                        || (bill.subjects.some (element => containsQuery(element.Name)))
+                        || (bill.committees.some (element => containsQuery(element.Name)))
+                        || containsQuery(bill.Title)
+                        || containsQuery(bill.Description))
                 } else {
                     this.isFilterApplied = false
                     return this.bills
