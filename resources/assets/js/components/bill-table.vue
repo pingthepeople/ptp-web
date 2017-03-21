@@ -191,7 +191,7 @@
             },
 
             isTracked(id) {
-                return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(id);
+                return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(parseInt(id));
             }
         },
         mounted() {
