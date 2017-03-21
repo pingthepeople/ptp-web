@@ -146,20 +146,6 @@
             }
         },
         methods: {
-            startTrackingHandler(id) {
-                this.$http.post('/api/track', {id: id}).then(res => {
-                    this.b = res.data;
-                }, res => {
-                    console.log(res);
-                })
-            },
-            stopTrackingHandler(id) {
-                this.$http.post('/api/stop-tracking', {id: id}).then(res => {
-                    this.b = res.data;
-                }, res => {
-                    console.log(res);
-                })
-            },
             toggleEmailHandler(id) {
                 this.$http.post('/api/bills/'+id+'/toggle-email-subscription')
             },
