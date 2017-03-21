@@ -39,13 +39,13 @@
         <tbody>
             <tr v-for="bill in sortedBills">
                 <td class="bill-table__bill-star">
-                    <a v-if="isTracked(bill.Id)" @click.prevent="stopTrackingHandler(parseInt(bill.Id))" class="" href="javascript:void(0)">
+                    <a v-if="isTracked(bill.Id)" @click.prevent="stopTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
                         <span class="visually-hidden">Stop watching {{bill.Name}}</span>
                         <svg height="35" width="33" class="star is-tracked">
                             <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
                         </svg>
                     </a>
-                    <a v-else @click.prevent="startTrackingHandler(parseInt(bill.Id))" class="" href="javascript:void(0)">
+                    <a v-else @click.prevent="startTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
                         <span class="visually-hidden">Watch {{bill.Name}}</span>
                         <svg height="35" width="33" class="star">
                             <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
@@ -173,6 +173,7 @@
                 })
             },
             stopTrackingHandler(billId) {
+                console.log("stop_tracking_");
                 console.log(billId);
                 // same as above
                 this.$store.dispatch('stopTrackingBill', billId)
