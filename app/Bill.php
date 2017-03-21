@@ -47,8 +47,7 @@ class Bill extends Model
      */
     protected $with = [
         "subjects",
-        "actions",
-        "scheduledActions"
+        "committees"
     ];
 
     /**
@@ -128,5 +127,18 @@ class Bill extends Model
         $number = intval(substr($name, 2)); // casting to an intval removes leading zeroes
 
         return "$chamber $number";
+    }
+
+    public function toRowArray() {
+        $subjects = implode(", ", $this->subjects->map(function($s) {return $s->Name;})->toArray());
+
+        return [
+            $this->Name,
+            $this->Title,
+            $this->Description,
+            $this->Authors,
+            $this->Chamber,
+            $subjects
+        ];
     }
 }

@@ -4,20 +4,39 @@
         <div>
             <div class="filters">
                 <form class="filters__search search" @submit.prevent="filterBillHandler">
-                    <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Filter bills">
-                    <input class="search__submit" type="submit" value="Filter bills">
+                    <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill name, keyword, committee, subject...">
+                    <input class="search__submit" type="submit" value="Search bills">
                 </form>
 
                 <div class="filters__message" v-if="filteredBills.length">
                     <div v-if="isFilterApplied">
                         Here {{filteredBills.length | pluralizeIs}} the {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} that match your search. <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
                     </div>
-                    <div v-else>
-                        Here are all {{filteredBills.length}} bills
+                    <div v-else-if="!isLoading">
+                        Here are all {{bills.length}} bills
                     </div>
                 </div>
             </div>
-            <bill-list v-on:track="trackHandler" v-on:stopTracking="stopTrackingHandler" v-if="filteredBills.length" :bills="filteredBills"></bill-list>
+
+            <ol class="pager">
+                <li class="pager__item" v-for="page in nPages">
+                    <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
+                        {{page}}
+                    </a>
+                </li>
+            </ol>
+
+            <bill-list v-if="billsToDisplay.length" :bills="billsToDisplay"></bill-list>
+
+            <div v-if="isLoading" class="bill-list__loading">Loading all bills...</div>
+
+            <ol class="pager">
+                <li class="pager__item" v-for="page in nPages">
+                    <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
+                        {{page}}
+                    </a>
+                </li>
+            </ol>
 
             <div class="filters__no-result" v-if="isFilterApplied && !filteredBills.length">
                 Your search did not return any results.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
@@ -26,12 +45,33 @@
     </div>
 </template>
 
+<style>
+    ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    ol li {
+        display: block;
+
+    }
+</style>
+
 <script type="text/babel">
     const moment = require('moment');
+    const pageSize = 50;
 
     module.exports = {
         components: {
             billList: require('./bill-list.vue'),
+        },
+        computed: {
+            billsToDisplay() {
+                return this.filteredBills.slice(0+(this.currentPage*pageSize), pageSize+(this.currentPage*pageSize))
+            },
+            nPages() {
+                return Math.ceil(this.filteredBills.length / pageSize);
+            }
         },
         filters: {
             pluralizeIs(value) {
@@ -45,13 +85,14 @@
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    return this.bills.filter( bill => {
-                        let subjects = bill.subjects.reduce( (acc, subject) => acc+' '+subject.Name, '')
-                        return bill.Title.toLowerCase().indexOf(this.q)!==-1
-                                || bill.Name.toLowerCase().indexOf(this.q)!==-1
-                                || bill.Description.toLowerCase().indexOf(this.q)!==-1
-                                || (bill.subjects.length && subjects.toLowerCase().indexOf(this.q)!==-1)
-                    })
+                    let query = this.q.toLowerCase();
+                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1;
+                    return this.bills.filter( bill => 
+                        containsQuery(bill.Name)
+                        || (bill.subjects.some (element => containsQuery(element.Name)))
+                        || (bill.committees.some (element => containsQuery(element.Name)))
+                        || containsQuery(bill.Title)
+                        || containsQuery(bill.Description))
                 } else {
                     this.isFilterApplied = false
                     return this.bills
@@ -59,17 +100,18 @@
             },
             filterBillHandler() {
                 this.filteredBills = this.getFilteredBills();
+                if(this.currentPage > this.nPages) {
+                    this.currentPage = this.nPages-1
+                }
             },
             clearSearch() {
                 this.q = "";
                 this.filteredBills = this.bills;
                 this.isFilterApplied = false;
             },
-            trackHandler(id) {
-                console.log(id)
-            },
-            stopTrackingHandler(id) {
-                console.log(id)
+            pageTo(page) {
+                this.currentPage = page-1
+                this.filteredBills = this.getFilteredBills();
             }
         },
         mounted() {
@@ -78,6 +120,7 @@
                 this.bills = res.body.bills;
                 this.$store.dispatch('storeUser', res.body.user);
                 this.filteredBills = this.getFilteredBills();
+                this.isLoading = false;
             }, res => {
                 console.log(res)
             })
@@ -86,9 +129,11 @@
             return {
                 q: '',
                 isFilterApplied: false,
+                isLoading: true,
                 bills: [],
                 filteredBills: [],
-                currentSession: moment().year()
+                currentSession: moment().year(),
+                currentPage: 0,
             }
         }
     }

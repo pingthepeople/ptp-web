@@ -55,6 +55,44 @@ class DashboardController extends Controller
         return back();
     }
 
+    public function account(Request $request) {
+        if(!Auth::check()) {
+            return redirect('/login');
+        }
+
+        $user = Auth::user();
+
+        return view('account', compact('user'));
+    }
+
+    public function saveAccount(Request $request) {
+        $this->validate($request, [
+                'Name' => 'required',
+                'Email' => 'nullable|Email',
+                'DigestType' => 'digits_between:0,2',
+                'Mobile' => 'nullable|regex:/\+?1?[- (]?[0-9]{3}[- )]?[0-9]{3}[- ]?[0-9]{4}/'
+            ]);
+
+        $mobile = '';
+        if($request->input('Mobile')) {
+            // phone number will contain 10 or 11 digits
+            $mobile = preg_replace("/[^0-9]/", "", $request->input('Mobile'));
+            if(strlen($mobile) == 10) {
+                $mobile = "+1$mobile";
+            } else {
+                $mobile = "+$mobile";
+            }
+        }
+
+        $user = Auth::user();
+        $user->Name = $request->input('Name');
+        $user->Email = $request->input('Email');
+        $user->Mobile = $mobile;
+        $user->DigestType = $request->input('DigestType');
+        $user->save();
+        return redirect('/account');
+    }
+
     /**
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */

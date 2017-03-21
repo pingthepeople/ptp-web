@@ -4,18 +4,44 @@
     border-bottom: 1px solid $border-color;
 
     .bill__header {
+        position: relative;
         margin-bottom: 10px;
         display: flex;
 
+        .bill__star {
+            position: absolute;
+            left: -30px;
+            top: -4px;
+            cursor: pointer;
+
+            .star polygon {
+                fill: $secondary-text;
+            }
+            .star.is-tracked polygon {
+                fill: $primary-color;
+            }
+        }
+
+        .bill__name-and-title {
+            display: flex;
+        }
+
         .bill__name,
         .bill__title{
+            display: inline-block;
             margin: 0 20px;
             font-size: 1.75rem;
-            line-height: 1.4em;
+            line-height: 1em;
         }
         .bill__name {
             margin: 0;
+            white-space: nowrap;
             font-weight: bold;
+        }
+
+        .bill__tags {
+            font-size: 1.25rem;
+            color: $secondary-text;
         }
 
         .bill__actions {
@@ -48,17 +74,54 @@
     }
 }
 
-.bill__tags {
-    font-size: 1.25rem;
+.bill-list__loading {
+    margin: 2em 0;
+    text-align: center;
     color: $secondary-text;
+    font-style: italic;
 }
 
 
 .bill-table {
     width: 100%;
 
+    thead {
+        td {
+            color: $text-color;
+        }
+        td.sortable {
+            cursor: pointer;
+        }
+        td.is-sorted {
+            font-weight: bold;
+            color: #000;
+        }
+    }
+    .sort-indicator {
+        float: right;
+    }
+
     td {
+        padding: 5px 10px;
         vertical-align: top;
+        border: 1px solid $border-color;
+        border-color: $border-color lighten($border-color, 7%)
+    }
+    td:first-child {
+        padding: 5px 10px;
+    }
+
+    td.bill-table__bill-star {
+        border: none;
+        max-width: 30px;
+        padding: 5px 0;
+
+        .star polygon {
+            fill: $secondary-text;
+        }
+        .star.is-tracked polygon {
+            fill: $primary-color;
+        }
     }
 
     .bill-table__cell-header,
@@ -102,5 +165,6 @@
     .search__input {
         width: 100%;
         height: auto;
+        margin-right: 10px;
     }
 }

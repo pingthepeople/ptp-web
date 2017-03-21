@@ -1,22 +1,47 @@
 <template>
     <div :class="'bill '+(isTracked ? 'bill--tracked' : '')">
         <header class="bill__header">
-            <h3 class="bill__name">{{ b.Name }}</h3>
-            <p class="bill__title">{{ b.Title }}</p>
+            <div class="bill__header-meta">
+                <div class="bill__star">
+                    <a v-if="isTracked" @click.prevent="stopTrackingHandler" class="">
+                        <span class="visually-hidden">Stop watching {{this.b.Name}}</span>
+                        <svg height="35" width="33" class="star is-tracked">
+                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                        </svg>
+                    </a>
+                    <a v-else @click.prevent="startTrackingHandler" class="">
+                        <span class="visually-hidden">Watch {{this.b.Name}}</span>
+                        <svg height="35" width="33" class="star">
+                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="bill__name-and-title">
+                    <h3 class="bill__name">{{ b.Name }}</h3>
+                    <p class="bill__title">{{ b.Title }}</p>
+                </div>
+
+                <div class="bill__tags" v-if="b.committees.length">Committee:
+                    <span class="bill__tag" v-for="(committee, index) in b.committees">
+                                ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}<span v-if="index!=b.committees.length-1">,&nbsp;</span>
+                            </span>
+                </div>
+                <div class="bill__tags" v-if="b.subjects.length">Subject:
+                    <span class="bill__tag" v-for="(subject, index) in b.subjects">
+                                {{subject.Name}}<span v-if="index!=b.subjects.length-1">,&nbsp;</span>
+                            </span>
+                </div>
+            </div>
             <div class="bill__actions">
                 <div v-if="isTracked">
-                    <button @click.prevent="stopTrackingHandler" class="button button--small">Stop tracking {{this.b.Name}}</button>
+                    <button @click.prevent="stopTrackingHandler" class="button button--small">Stop watching {{this.b.Name}}</button>
                 </div>
                 <div v-else>
-                    <button @click.prevent="startTrackingHandler" class="button button--small">Track {{this.b.Name}}</button>
+                    <button @click.prevent="startTrackingHandler" class="button button--small">Watch {{this.b.Name}}</button>
                 </div>
             </div>
         </header>
-        <div class="bill__tags">Subject:
-            <span class="bill__tag" v-for="(subject, index) in b.subjects">
-                                {{subject.Name}}<span v-if="index!=b.subjects.length-1">,&nbsp;</span>
-                            </span>
-        </div>
+
         <div class="bill__description">
             <transition name="description-swap">
                 <div v-if="isShowingFullDescription">
@@ -25,7 +50,7 @@
                 </div>
                 <div v-else>
                     <div>{{ this.b.Description | truncate }}</div>
-                    <button @click.prevent="isShowingFullDescription=true" class="bill__description-toggle button--plain">Show full description</button>
+                    <button v-if="this.b.Description.length > 250" @click.prevent="isShowingFullDescription=true" class="bill__description-toggle button--plain">Show full description</button>
                 </div>
             </transition>
         </div>

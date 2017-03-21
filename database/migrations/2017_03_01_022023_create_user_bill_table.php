@@ -22,7 +22,7 @@ class CreateUserBillTable extends Migration
             $table->integer('BillId')->unsigned()->nullable();
             $table->foreign('BillId')->references('Id')->on('Bill');
             $table->integer('UserId')->unsigned()->nullable();
-            $table->foreign('UserId')->references('Id')->on('User');
+            $table->foreign('UserId')->references('id')->on('users');
         });
     }
 

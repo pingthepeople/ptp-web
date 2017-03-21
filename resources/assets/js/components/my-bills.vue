@@ -1,18 +1,23 @@
 <template>
     <div>
-        <h1 class="section-title">My bills</h1>
+        <div class="u-flex">
+            <h1 class="u-left section-title">My bills</h1>
+            <div class="u-right">
+                <a href="/my-bills.csv">Download .csv of tracked bills</a>
+            </div>
+        </div>
         <div class="filters">
             <form class="filters__search search" @submit.prevent="filterBillHandler">
-                <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Filter bills">
-                <input class="search__submit" type="submit" value="Filter bills">
+                <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill name, keyword, committee, subject...">
+                <input class="search__submit" type="submit" value="Search bills">
             </form>
 
             <div class="filters__message" v-if="filteredBills.length">
                 <div v-if="isFilterApplied">
-                    {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} you're tracking matched your search.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
+                    {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} you're watching matched your search.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
                 </div>
                 <div v-else>
-                    Here {{filteredBills.length | pluralizeIs}} {{filteredBills.length | pluralizeAll}} {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} you're tracking
+                    Here {{filteredBills.length | pluralizeIs}} {{filteredBills.length | pluralizeAll}} {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} you're watching
                 </div>
             </div>
         </div>
@@ -46,11 +51,14 @@
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    return this.bills.filter( bill => {
-                        return bill.Title.toLowerCase().indexOf(this.q)!==-1
-                                || bill.Name.toLowerCase().indexOf(this.q)!==-1
-
-                    })
+                    let query = this.q.toLowerCase();
+                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1;
+                    return this.bills.filter( bill => 
+                        containsQuery(bill.Name)
+                        || (bill.subjects.some (element => containsQuery(element.Name)))
+                        || (bill.committees.some (element => containsQuery(element.Name)))
+                        || containsQuery(bill.Title)
+                        || containsQuery(bill.Description))
                 } else {
                     this.isFilterApplied = false
                     return this.bills

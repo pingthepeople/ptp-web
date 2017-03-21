@@ -12,9 +12,119 @@
     color: $link-color;
 }
 
+.button--fb {
+    background: #3B5998;
+    border-color: darken(#3B5998, 20%);
+    color: #fff;
+}
+.button--fb:hover,
+.button--fb:focus {
+    background: lighten(#3B5998, 10%);
+    color: #fff;
+}
+.button--google {
+    background: #dd4b39;
+    border-color: darken(#dd4b39, 20%);
+    color: #fff;
+}
+.button--google:hover,
+.button--google:focus {
+    background: lighten(#dd4b39, 10%);
+    color: #fff;
+}
+
 
 
 .section-title {
     margin-bottom: .5em;
     font-size: 2em;
 }
+
+.pager {
+    margin: 1em;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.pager__item {
+    display: inline-block;
+    margin: 0 5px;
+
+    a {
+        color: $text-color;
+        display: inline-block;
+        text-decoration: none;
+        padding-bottom: 2px;
+        border-bottom: 2px solid transparent;
+
+        &.is-active,
+        &:hover,
+        &:active {
+            font-weight: bold;
+            border-bottom-color: $text-color;
+        }
+    }
+}
+
+
+input[type=text],
+input[type=email],
+input[type=tel],
+textarea {
+    width: 100%;
+}
+
+fieldset {
+    margin-top: 1em;
+
+    legend {
+        margin-bottom: 0;
+    }
+
+    label {
+        font-size: .9em;
+    }
+}
+
+.account {
+    margin-top: 2em;
+
+    label {
+        margin-top: 1em;
+    }
+
+    .account__submit {
+        margin-top: 1em
+    }
+}
+
+
+
+.alert {
+    border: 1px solid $brand-danger;
+    border-radius: 3px;
+
+    ul {
+        margin: 10px;
+        padding: 0 0 0 20px;
+        list-style-position: outside;
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+
+.visually-hidden { /*https://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html*/
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px);
+    padding:0 !important;
+    border:0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+}
+body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .visually-hidden button { display: none !important; }
