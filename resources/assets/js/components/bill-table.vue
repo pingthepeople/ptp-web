@@ -173,8 +173,6 @@
                 })
             },
             stopTrackingHandler(billId) {
-                console.log("stop_tracking_");
-                console.log(billId);
                 // same as above
                 this.$store.dispatch('stopTrackingBill', billId)
                 this.$http.post('/api/stop-tracking', {id: billId}).then(res => {}, res => {
