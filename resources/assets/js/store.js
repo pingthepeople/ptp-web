@@ -30,11 +30,11 @@ const mutations = {
         state.user = user
     },
     ['setTracking'] (state, {billId, track}) {
-        let trackedBillIds = state.user.tracked_bills.map(b=>b.BillId)
+        let trackedBillIds = state.user.tracked_bills.map(b=>parseInt(b.BillId))
         if(track && !trackedBillIds.includes(billId)) {
             state.user.tracked_bills.push({
                 UserId: state.user.Id ? state.user.Id : 0,
-                BillId: billId,
+                BillId: billId.toString(),
                 ReceiveAlertEmail: 0,
                 ReceiveAlertSms: 0
             })

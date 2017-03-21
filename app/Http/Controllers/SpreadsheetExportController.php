@@ -19,7 +19,7 @@ class SpreadsheetExportController extends Controller
 
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
 
-        $client = new Client(['timeout'=>30]);
+        $client = new Client(['timeout'=>60]);
         $response = $client->request('POST', env('BILL_REPORT_URL'), ['json'=>[
             'Id' => $user->id,
             'Secret' => env('BILL_REPORT_SECRET')
