@@ -5,6 +5,10 @@
 
     RewriteEngine On
 
+    # Redirect www.pingthepeople.org to https://pingthepeople.org
+    RewriteCond %{HTTP_HOST} ^www.pingthepeople.org [NC]
+    RewriteRule ^(.*)$ https://pingthepeople.org/$1 [L,R=301,NC]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
