@@ -12,7 +12,7 @@
                                 <a href="{{url('/')}}">My Watchlist</a>
                             </li>
                             <li {{ (Request::is('all-bills') ? 'class=is-active' : '') }}>
-                                <a href="{{url('/all-bills')}}">All Bills</a>
+                                <a href="{{url('/all-bills')}}">All Legislation</a>
                             </li>
                         </ul>
                     </nav>
