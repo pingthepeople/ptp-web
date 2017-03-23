@@ -10,6 +10,7 @@ Vue.component('all-bills', require('./components/all-bills.vue'));
 Vue.component('my-bills', require('./components/my-bills.vue'));
 Vue.component('bill-list', require('./components/bill-list.vue'));
 Vue.component('bill', require('./components/bill.vue'));
+Vue.component('watchlist-link', require('./components/watchlist-link.vue'));
 
 import store from './store'
 

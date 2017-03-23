@@ -18,25 +18,25 @@
                 </div>
             </div>
 
-            <ol class="pager">
+            <ul class="pager">
                 <li class="pager__item" v-for="page in nPages">
                     <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                         {{page}}
                     </a>
                 </li>
-            </ol>
+            </ul>
 
             <bill-list v-if="billsToDisplay.length" :bills="billsToDisplay"></bill-list>
 
             <div v-if="isLoading" class="bill-list__loading">Loading all bills...</div>
 
-            <ol class="pager">
+            <ul class="pager">
                 <li class="pager__item" v-for="page in nPages">
                     <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                         {{page}}
                     </a>
                 </li>
-            </ol>
+            </ul>
 
             <div class="filters__no-result" v-if="isFilterApplied && !filteredBills.length">
                 Your search did not return any results.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
@@ -44,18 +44,6 @@
         </div>
     </div>
 </template>
-
-<style>
-    ol {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-    ol li {
-        display: block;
-
-    }
-</style>
 
 <script type="text/babel">
     const moment = require('moment');
