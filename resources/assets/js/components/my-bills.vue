@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="u-flex">
-            <h1 class="u-left section-title">My bills</h1>
+            <h1 class="u-left section-title">My Watchlist</h1>
             <div class="u-right">
                 <a href="/my-bills.csv">Download .csv of tracked bills</a>
             </div>
