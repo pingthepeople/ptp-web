@@ -1,10 +1,10 @@
 <template>
     <div>
-        <h1 class="section-title">All bills</h1>
+        <h1 class="section-title">All Legislation</h1>
         <div>
             <div class="filters">
                 <form class="filters__search search" @submit.prevent="filterBillHandler">
-                    <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill name, keyword, committee, subject...">
+                    <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by number, keyword, committee, subject...">
                     <input class="search__submit" type="submit" value="Search bills">
                 </form>
 
@@ -13,7 +13,7 @@
                         Here {{filteredBills.length | pluralizeIs}} the {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} that match your search. <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
                     </div>
                     <div v-else-if="!isLoading">
-                        Here are all {{bills.length}} bills
+                        Here are all {{bills.length}} pieces of legislation
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
 
             <bill-list v-if="billsToDisplay.length" :bills="billsToDisplay"></bill-list>
 
-            <div v-if="isLoading" class="bill-list__loading">Loading all bills...</div>
+            <div v-if="isLoading" class="bill-list__loading">Loading all legislation...</div>
 
             <ol class="pager">
                 <li class="pager__item" v-for="page in nPages">
@@ -78,7 +78,7 @@
                 return value == 1 ? "is" : "are";
             },
             pluralizeBill(value) {
-                return value == 1 ? "bill" : "bills";
+                return value == 1 ? "item" : "items";
             }
         },
         methods: {

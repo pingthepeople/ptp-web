@@ -3,7 +3,7 @@
         <div class="u-flex">
             <h1 class="u-left section-title">My Watchlist</h1>
             <div class="u-right">
-                <a href="/my-bills.csv">Download .csv of tracked bills</a>
+                <a href="/my-bills.csv">Download a watchlist spreadsheet (.csv)</a>
             </div>
         </div>
         <div class="filters">
@@ -41,7 +41,7 @@
                 return value == 1 ? "is" : "are";
             },
             pluralizeBill(value) {
-                return value == 1 ? "bill" : "bills";
+                return value == 1 ? "item" : "items";
             },
             pluralizeAll(value) {
                 return value == 1 ? "the" : "all";
