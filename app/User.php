@@ -63,6 +63,13 @@ class User extends Authenticatable
             if($startTracking) {
                 if(!$this->bills()->pluck('Bill.Id')->contains($id)) {
                     $this->bills()->attach($id);
+
+                    if(!empty($this->Email)) {
+                        $this->bills()->updateExistingPivot($id, ['ReceiveAlertEmail'=>1]);
+                    }
+                    if(!empty($this->Mobile)) {
+                        $this->bills()->updateExistingPivot($id, ['ReceiveAlertSms'=>1]);
+                    }
                 }
             } else {
                 $this->bills()->detach($id);

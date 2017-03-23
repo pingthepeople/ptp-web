@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h1 class="section-title">All bills</h1>
+        <h1 class="section-title">All Legislation</h1>
         <div>
             <div class="filters">
                 <form class="filters__search search" @submit.prevent="filterBillHandler">
-                    <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill name, keyword, committee, subject...">
-                    <input class="search__submit" type="submit" value="Search bills">
+                    <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, committee, subject...">
+                    <input class="search__submit" type="submit" value="Search">
                 </form>
 
                 <div class="filters__message" v-if="filteredBills.length">
@@ -13,30 +13,30 @@
                         Here {{filteredBills.length | pluralizeIs}} the {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} that match your search. <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
                     </div>
                     <div v-else-if="!isLoading">
-                        Here are all {{bills.length}} bills
+                        Here are all {{bills.length}} pieces of legislation
                     </div>
                 </div>
             </div>
 
-            <ol class="pager">
+            <ul class="pager">
                 <li class="pager__item" v-for="page in nPages">
                     <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                         {{page}}
                     </a>
                 </li>
-            </ol>
+            </ul>
 
             <bill-list v-if="billsToDisplay.length" :bills="billsToDisplay"></bill-list>
 
-            <div v-if="isLoading" class="bill-list__loading">Loading all bills...</div>
+            <div v-if="isLoading" class="bill-list__loading">Loading all legislation...</div>
 
-            <ol class="pager">
+            <ul class="pager">
                 <li class="pager__item" v-for="page in nPages">
                     <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                         {{page}}
                     </a>
                 </li>
-            </ol>
+            </ul>
 
             <div class="filters__no-result" v-if="isFilterApplied && !filteredBills.length">
                 Your search did not return any results.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
@@ -44,18 +44,6 @@
         </div>
     </div>
 </template>
-
-<style>
-    ol {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-    ol li {
-        display: block;
-
-    }
-</style>
 
 <script type="text/babel">
     const moment = require('moment');
@@ -78,7 +66,7 @@
                 return value == 1 ? "is" : "are";
             },
             pluralizeBill(value) {
-                return value == 1 ? "bill" : "bills";
+                return value == 1 ? "item" : "items";
             }
         },
         methods: {

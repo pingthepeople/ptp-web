@@ -3,12 +3,18 @@
 @section('title', 'Ping the People')
 
 @section('content')
-    <div class="bill-list bill-list--all-bills">
-        <h1>Get started</h1>
-        <p>You are net yet watching any bills this session. Search for bills and click the "Watch" button to add them to your list. Be sure to review your <a href="/account">contact preferences</a> if you'd like to receive alerts about the bills you're watching.</p>
+    <h1>Welcome to <em>Ping the People</em>!</h1>
+    <div class="welcome">
+        <p><em>Ping the People</em> makes it easy to discover, track, and get instant updates on Indiana legislation that is important to you. Here's how to get started:</p>
+        <ol>
+            <li>Search <a href="/all-bills"><em>All Legislation</em></a> below by number, committee, subject, keyword, etc. Click the <strong>Watch</strong> button to add legislation to your watchlist. You can add or remove items whenever you'd like.</li>
+            <li>Check <watchlist-link><em>My Watchlist</em></watchlist-link> for the latest legislative updates and scheduled events. You can also choose to receive email and/or text message updates for each item.</li>
+            <li>Confirm your email and mobile <a href="/account">contact preferences</a> for updates and daily roundups. </li>
+        </ol>
+    </div>
+    <hr>
 
-        <div class="bill-list bill-list--all-bills">
-            <all-bills></all-bills>
-        </div>
+    <div class="bill-list bill-list--all-bills">
+        <all-bills></all-bills>
     </div>
 @endsection

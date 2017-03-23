@@ -1,15 +1,15 @@
 <template>
     <div>
         <div class="u-flex">
-            <h1 class="u-left section-title">My bills</h1>
+            <h1 class="u-left section-title">My Watchlist</h1>
             <div class="u-right">
-                <a href="/my-bills.csv">Download .csv of tracked bills</a>
+                <a href="/my-bills.csv">Download a watchlist spreadsheet (.csv)</a>
             </div>
         </div>
         <div class="filters">
             <form class="filters__search search" @submit.prevent="filterBillHandler">
-                <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill name, keyword, committee, subject...">
-                <input class="search__submit" type="submit" value="Search bills">
+                <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, committee, subject...">
+                <input class="search__submit" type="submit" value="Search">
             </form>
 
             <div class="filters__message" v-if="filteredBills.length">
@@ -41,7 +41,7 @@
                 return value == 1 ? "is" : "are";
             },
             pluralizeBill(value) {
-                return value == 1 ? "bill" : "bills";
+                return value == 1 ? "item" : "items";
             },
             pluralizeAll(value) {
                 return value == 1 ? "the" : "all";
