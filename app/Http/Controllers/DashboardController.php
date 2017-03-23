@@ -18,6 +18,9 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        if(env('APP_ENV') == 'local') {
+            $this->middleware(\Clockwork\Support\Laravel\ClockworkMiddleware::class);
+        }
     }
 
     public function start() {
@@ -30,6 +33,10 @@ class DashboardController extends Controller
      */
     public function myBills() {
         $user = Auth::user();
+        if($user->bills->count() == 0) {
+            return redirect('/start');
+        }
+        
         return view('default', compact('user'));
     }
 

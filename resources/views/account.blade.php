@@ -31,10 +31,10 @@
 
                     <fieldset>
                         <legend>Daily legislative roundup</legend>
-                        <p>In addition to instant alerts, we can send you a daily roundup of legislative activity. You can receive a roundup of all bills, or just the bills that you're watching.</p>
+                        <p>In addition to instant updates, we can send you a daily roundup of legislative activity. You can receive a roundup of all legislation, or just the items on your watchlist.</p>
                         <label for="none"><input type="radio" name="DigestType" id="none" value="0" {{$user->DigestType==0 ? 'checked' : ''}}> I don't want to receive this.</label>
-                        <label for="myBills"><input type="radio" name="DigestType" id="myBills" value="1" {{$user->DigestType==1 ? 'checked' : ''}}> Send me a roundup of bills I'm watching.</label>
-                        <label for="allBills"><input type="radio" name="DigestType" id="allBills" value="2" {{$user->DigestType==2 ? 'checked' : ''}}> Send me a roundup of all bills.</label>
+                        <label for="myBills"><input type="radio" name="DigestType" id="myBills" value="1" {{$user->DigestType==1 ? 'checked' : ''}}> Send me a roundup of the items on my watchlist.</label>
+                        <label for="allBills"><input type="radio" name="DigestType" id="allBills" value="2" {{$user->DigestType==2 ? 'checked' : ''}}> Send me a roundup of all legislation.</label>
                     </fieldset>
 
                     <div class="account__submit">
