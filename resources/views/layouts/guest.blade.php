@@ -21,12 +21,7 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T54QVZX"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<div class="container">
-    <div class="row">
-        <div class="twelve columns">
-            @yield('content')
-        </div>
-    </div>
-</div>
+
+@yield('content')
 </body>
 </html>
