@@ -1,0 +1,60 @@
+.hero {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,e2e2e2+100 */
+    background: rgb(252,252,252); /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, rgba(252,252,252,1) 0%, rgba(226,226,226,1) 100%); /* FF3.6-15 */
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(252,252,252,1) 0%,rgba(226,226,226,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: radial-gradient(ellipse at center, rgba(252,252,252,1) 0%,rgba(226,226,226,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#e2e2e2',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+    text-align: center;
+    padding: 4em 0;
+
+    .hero__tagline {
+        font-size: 2em;
+        font-weight: 300;
+
+        &-part {
+            display: block;
+            margin-bottom: .5em;
+        }
+    }
+    .hero__welcome {
+        margin: 1em 0 1.5em;
+    }
+
+    .button {
+        margin-right: 2em;
+    }
+    .button:last-child {
+        margin-right: 0;
+    }
+}
+
+.home-section {
+    padding: 3em 0 2em;
+
+    h2 {
+        font-size: 2.25em;
+        font-weight: bold;
+    }
+    h3 {
+        font-size: 1.875em;
+        font-weight: bold;
+    }
+    p {
+        font-size: 1.25em;
+    }
+
+    .intro__body p {
+        max-width: 680px;
+    }
+
+    .intro__aside {
+        margin-top: 4em;
+        max-width: 650px;
+    }
+    .intro__aside.right {
+        margin-left: auto;
+        text-align: right;
+    }
+}

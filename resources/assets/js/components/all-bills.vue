@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <ul class="pager">
+            <ul v-if="nPages>1" class="pager">
                 <li class="pager__item" v-for="page in nPages">
                     <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                         {{page}}
@@ -30,7 +30,7 @@
 
             <div v-if="isLoading" class="bill-list__loading">Loading all legislation...</div>
 
-            <ul class="pager">
+            <ul v-if="nPages>1" class="pager">
                 <li class="pager__item" v-for="page in nPages">
                     <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                         {{page}}
