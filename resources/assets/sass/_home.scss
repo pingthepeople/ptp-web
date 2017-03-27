@@ -6,6 +6,7 @@
     background: radial-gradient(ellipse at center, rgba(252,252,252,1) 0%,rgba(226,226,226,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#e2e2e2',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
+    box-shadow: inset 0 -6px 12px #ddd;
     text-align: center;
     padding: 4em 0;
 

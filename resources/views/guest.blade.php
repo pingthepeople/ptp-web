@@ -14,9 +14,9 @@
 
             <h1 class="hero__welcome">Welcome to <strong>Ping the People</strong></h1>
 
-            <p><a class="button button--large button--fb" href="http://ping.dev/login-via-facebook">Log in with Facebook</a>
+            <p><a class="button button--large button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
 
-                <a class="button button--large button--google" href="http://ping.dev/login-via-google">Log in with Google</a></p>
+                <a class="button button--large button--google" href="{{url('/login-via-google')}}">Log in with Google</a></p>
         </div>
     </div>
     <div class="home-section">
@@ -32,13 +32,13 @@
             <aside class="intro__aside right">
                 <h3>Search for topics important to you</h3>
                 <div>
-                    <img src="{{asset('images/homepage/discover.png')}}" alt="A screenshot of the search UI; the results of a search for 'kindergarten' shows bill HB 1004, Prekindergarten Education, along with details about the bill subject, description, committee, and an option to watch the bill">
+                    <img src="{{asset('images/homepage/discover.jpg')}}" alt="A screenshot of the search UI; the results of a search for 'kindergarten' shows bill HB 1004, Prekindergarten Education, along with details about the bill subject, description, committee, and an option to watch the bill">
                 </div>
             </aside>
 
             <aside class="intro__aside">
                 <h3>Track the status of  legislation</h3>
-                <div><img src="{{asset('images/homepage/track.png')}}" alt="A screenshot of the Watchlist UI; the prekindergarten bill from the previous screenshot is displayed, along with its most recent and upcoming actions, and options to receive alerts via email and SMS"></div>
+                <div><img src="{{asset('images/homepage/track.jpg')}}" alt="A screenshot of the Watchlist UI; the prekindergarten bill from the previous screenshot is displayed, along with its most recent and upcoming actions, and options to receive alerts via email and SMS"></div>
             </aside>
 
             <aside class="intro__aside right">
