@@ -50,7 +50,11 @@
             </aside>
         </div>
     </div>
-    <div class="home-section">
+    <div class="antihero">
+        <p><a class="button button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
+
+            <a class="button button--google" href="{{url('/login-via-google')}}">Log in with Google</a></p>
+
         <div class="content">
             <p>Ping the People is a labor of love and a work in progress. If you have questions, comments, issues, or bug reports, please do not hesitate to <a href="mailto:help@pingthepeople.org">contact us</a>.</p>
         </div>
