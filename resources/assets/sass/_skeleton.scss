@@ -193,6 +193,23 @@ input[type="button"] {
         font-size: 1.25em;
     }
 }
+
+@media only screen and (max-width: 34em) {
+    .button,
+    button,
+    input[type="submit"],
+    input[type="reset"],
+    input[type="button"] {
+
+        &.button--small {
+            padding: 0 8px;
+            font-weight: normal;
+        }
+        &.button--large {
+            font-size: 1em;
+        }
+    }
+}
 .button:hover,
 button:hover,
 input[type="submit"]:hover,

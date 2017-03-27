@@ -32,20 +32,20 @@
             <aside class="intro__aside right">
                 <h3>Search for topics important to you</h3>
                 <div>
-                    <img src="{{asset('images/homepage/discover.jpg')}}" alt="A screenshot of the search UI; the results of a search for 'kindergarten' shows bill HB 1004, Prekindergarten Education, along with details about the bill subject, description, committee, and an option to watch the bill">
+                    <img class="screenshot" src="{{asset('images/homepage/discover.jpg')}}" alt="A screenshot of the search UI; the results of a search for 'kindergarten' shows bill HB 1004, Prekindergarten Education, along with details about the bill subject, description, committee, and an option to watch the bill">
                 </div>
             </aside>
 
             <aside class="intro__aside">
                 <h3>Track the status of  legislation</h3>
-                <div><img src="{{asset('images/homepage/track.jpg')}}" alt="A screenshot of the Watchlist UI; the prekindergarten bill from the previous screenshot is displayed, along with its most recent and upcoming actions, and options to receive alerts via email and SMS"></div>
+                <div><img class="screenshot" src="{{asset('images/homepage/track.jpg')}}" alt="A screenshot of the Watchlist UI; the prekindergarten bill from the previous screenshot is displayed, along with its most recent and upcoming actions, and options to receive alerts via email and SMS"></div>
             </aside>
 
             <aside class="intro__aside right">
                 <h3>Get instant alerts on legislative action</h3>
-                <div>
-                    <img width="225px" src="{{asset('images/homepage/sms.jpg')}}" alt="A screenshot of an SMS alert regarding the prekindergarten bill from the previous screenshot">
-                    <img width="400px" src="{{asset('images/homepage/email.jpg')}}" alt="A screenshot of an email alert regarding the prekindergarten bill from the previous screenshot">
+                <div class="alert-demo">
+                    <img width="580px" src="{{asset('images/homepage/email.jpg')}}" alt="A screenshot of an email alert regarding the prekindergarten bill from the previous screenshot">
+                    <img width="300px" src="{{asset('images/homepage/sms.jpg')}}" alt="A screenshot of an SMS alert regarding the prekindergarten bill from the previous screenshot">
                 </div>
             </aside>
         </div>
