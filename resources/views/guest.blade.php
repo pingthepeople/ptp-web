@@ -23,7 +23,7 @@
         <div class="content intro">
             <div class="intro__body">
                 <h2>Keep tabs on Indiana state legislation</h2>
-                <p>There are <strong>1,417</strong> pieces of legislation in the 2017 session of the Indiana General Assembly.</p>
+                <p>There are over <strong>1,400</strong> pieces of legislation in the 2017 session of the Indiana General Assembly.</p> 
                 <p>It takes time to dig through legislation, track votes, and figure out what's happening next. That time could be better spent on outreach, organizing, and engagement.</p>
                 <p>Ping the People will do the digging for you. You can easily discover, watch, and receive instant updates on the legislation that is important to you. We'll keep an eye on everything, and you can focus on getting things done.</p>
 
