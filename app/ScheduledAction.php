@@ -45,7 +45,7 @@ class ScheduledAction extends Model
         parent::boot();
 
         static::addGlobalScope('future', function(Builder $builder) {
-            $builder->where('Date', '>=', Carbon::now())->orderBy('Date');
+            $builder->where('Date', '>=', Carbon::today())->orderBy('Date');
         });
     }
 
