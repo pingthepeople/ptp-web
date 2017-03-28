@@ -1,6 +1,6 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Lily+Script+One|Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700);
 @import "normalize";
 @import "skeleton";
 
@@ -8,7 +8,7 @@
 @import "variables";
 
 html {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background: $body-bg;
 }
 form {
@@ -18,32 +18,11 @@ input, textarea, select, fieldset {
     margin-bottom: 0;
 }
 
-.guest-welcome {
-    margin: 4em 0;
-    text-align: center;
-
-    h1 {
-        margin-bottom: 1em;
-    }
-}
-
-.logo {
-    font-weight: bold;
-}
-
-
-.u-flex {
-    display: flex;
-}
-.u-right {
-    margin-left: auto;
-}
-
 
 
 /* site components */
 @import "shared/bill-lists";
 @import "shared/header";
-
+@import "home";
 
 @import 'shame';
