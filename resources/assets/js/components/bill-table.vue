@@ -17,6 +17,13 @@
                         <span v-else>&darr;</span>
                     </span>
                 </td>
+                <td @click="changeSort('IsDead')" :class="'sortable' +(sortCol=='IsDead' ? ' is-sorted' : '')">
+                    Status
+                    <span v-if="sortCol=='IsDead'" class="sort-indicator">
+                        <span v-if="sortAsc">&uarr;</span>
+                        <span v-else>&darr;</span>
+                    </span>
+                </td>
                 <td @click="changeSort('actions')" :class="'sortable' +(sortCol=='actions' ? ' is-sorted' : '')">
                     Most Recent Event
                     <span v-if="sortCol=='actions'" class="sort-indicator">
@@ -37,7 +44,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="bill in sortedBills">
+            <tr v-for="bill in sortedBills" :class="bill.IsDead ? 'bill-table__dead-bill' : ''">
                 <td class="bill-table__bill-star">
                     <a v-if="isTracked(bill.Id)" @click.prevent="stopTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
                         <span class="visually-hidden">Stop watching {{bill.Name}}</span>
@@ -53,7 +60,14 @@
                     </a>
                 </td>
                 <td class="bill-table__bill-name">{{bill.Name}}</td>
-                <td class="bill-table__bill-title">{{bill.Title}}
+                <td class="bill-table__bill-title">{{bill.Title}}</td>
+                <td>
+                    <span v-if="bill.IsDead">
+                        Dead
+                    </span>
+                    <span v-else>
+                        Alive
+                    </span>
                 </td>
                 <td class="bill-table__bill-actions">
                     <div v-if="bill.actions[0]">
@@ -115,6 +129,10 @@
                         case "Name": // sort by bill name
                             aValue = a["Link"];
                             bValue = b["Link"];
+                            break;
+                        case "IsDead":
+                            aValue += a["Link"]
+                            bValue += b["Link"]
                             break;
                         case "actions": // sort by event date, then by bill name
                             if (aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list

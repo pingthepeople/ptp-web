@@ -19,6 +19,7 @@
                 <div class="bill__name-and-title">
                     <h3 class="bill__name">{{ b.Name }}</h3>
                     <p class="bill__title">{{ b.Title }}</p>
+                    <div v-if="b.IsDead" class="bill__dead-tag">Dead</div>
                 </div>
 
                 <div class="bill__tags" v-if="b.committees.length">Committee:
