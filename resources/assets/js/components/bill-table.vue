@@ -44,7 +44,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="bill in sortedBills" :class="bill.IsDead ? 'bill-table__dead-bill' : ''">
+            <tr v-for="bill in sortedBills" :class="bill.IsDead==1 ? 'bill-table__dead-bill' : ''">
                 <td class="bill-table__bill-star">
                     <a v-if="isTracked(bill.Id)" @click.prevent="stopTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
                         <span class="visually-hidden">Stop watching {{bill.Name}}</span>
@@ -62,7 +62,7 @@
                 <td class="bill-table__bill-name">{{bill.Name}}</td>
                 <td class="bill-table__bill-title">{{bill.Title}}</td>
                 <td>
-                    <span v-if="bill.IsDead">
+                    <span v-if="bill.IsDead==1">
                         Dead
                     </span>
                     <span v-else>
