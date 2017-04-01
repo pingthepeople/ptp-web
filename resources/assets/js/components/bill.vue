@@ -19,7 +19,12 @@
                 <div class="bill__name-and-title">
                     <h3 class="bill__name">{{ b.Name }}</h3>
                     <p class="bill__title">{{ b.Title }}</p>
-                    <div v-if="b.IsDead==1" class="bill__dead-tag">Dead</div>
+                    <tooltip v-if="b.IsDead==1" class="bill__dead">
+                        <div slot="tooltip-trigger" class="bill__dead-tag">Dead</div>
+                        <div slot="tooltip-content">
+                            All bills must achieve certain milestones within specific deadlines throughout the legislative process in order to remain active.
+                        </div>
+                    </tooltip>
                 </div>
 
                 <div class="bill__tags" v-if="b.committees.length">Committee:
