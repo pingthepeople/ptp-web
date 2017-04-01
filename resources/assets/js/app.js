@@ -11,6 +11,7 @@ Vue.component('my-bills', require('./components/my-bills.vue'));
 Vue.component('bill-list', require('./components/bill-list.vue'));
 Vue.component('bill', require('./components/bill.vue'));
 Vue.component('watchlist-link', require('./components/watchlist-link.vue'));
+Vue.component('tooltip', require('./components/utilities/tooltip.vue'));
 
 import store from './store'
 

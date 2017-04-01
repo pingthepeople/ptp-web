@@ -42,13 +42,16 @@
             white-space: nowrap;
             font-weight: bold;
         }
-        .bill__dead-tag {
-            color: #fff;
-            background: $text-color;
-            display: inline-block;
-            padding: 0 .7em;
+        .bill__dead {
             margin-top: -.4em;
-            border-radius: 2px;
+
+            .bill__dead-tag {
+                color: #fff;
+                background: $text-color;
+                display: inline-block;
+                padding: 0 .7em;
+                border-radius: 2px;
+            }
         }
 
         .bill__tags {
