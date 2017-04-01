@@ -62,12 +62,19 @@
                 <td class="bill-table__bill-name">{{bill.Name}}</td>
                 <td class="bill-table__bill-title">{{bill.Title}}</td>
                 <td>
-                    <span v-if="bill.IsDead==1">
-                        Dead
-                    </span>
-                    <span v-else>
-                        Alive
-                    </span>
+                    <tooltip>
+                        <div slot="tooltip-trigger">
+                            <span v-if="bill.IsDead==1">
+                                Dead
+                            </span>
+                                    <span v-else>
+                                Alive
+                            </span>
+                        </div>
+                        <div slot="tooltip-content">
+                            All bills must achieve certain milestones within specific deadlines throughout the legislative process in order to remain active.
+                        </div>
+                    </tooltip>
                 </td>
                 <td class="bill-table__bill-actions">
                     <div v-if="bill.actions[0]">
