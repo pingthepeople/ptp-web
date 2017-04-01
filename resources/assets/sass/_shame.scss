@@ -68,6 +68,7 @@ img {
         width: 400px;
         margin-top: 10px;
         padding: 10px;
+        z-index: 1;
 
         background: darken($text-color, 10%);
         border-radius: 3px;
