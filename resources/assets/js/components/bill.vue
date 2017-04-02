@@ -19,6 +19,12 @@
                 <div class="bill__name-and-title">
                     <h3 class="bill__name">{{ b.Name }}</h3>
                     <p class="bill__title">{{ b.Title }}</p>
+                    <tooltip v-if="b.IsDead==1" class="bill__dead">
+                        <div slot="tooltip-trigger" class="bill__dead-tag">Dead</div>
+                        <div slot="tooltip-content">
+                            This bill either failed a vote or missed a deadline for a reading or hearing. It is no longer being considered as a distinct piece of legislation.
+                        </div>
+                    </tooltip>
                 </div>
 
                 <div class="bill__tags" v-if="b.committees.length">Committee:

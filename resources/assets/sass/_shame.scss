@@ -55,6 +55,54 @@ img {
     color: #fff;
 }
 
+.tooltip {
+    position: relative;
+
+    .tooltip__trigger {
+        display: inline-block;
+    }
+    .tooltip__content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        width: 400px;
+        margin-top: 10px;
+        padding: 10px;
+        z-index: 1;
+
+        background: darken($text-color, 10%);
+        border-radius: 3px;
+        color: #fff;
+        box-shadow: 2px 2px 6px rgba(0,0,0,.2);
+    }
+    .tooltip__content:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 4px;
+        border: 6px solid transparent;
+        border-bottom-color: darken($text-color, 10%);
+        border-top: none;
+        top: -10px;
+        left: 10px;
+    }
+    .tooltip__trigger:hover + .tooltip__content,
+    .tooltip__trigger:focus + .tooltip__content,
+    .tooltip__trigger.is-lingering + .tooltip__content,
+    .tooltip__content:hover,
+    .tooltip__content:focus {
+        display: block;
+    }
+}
+
+
+.tooltip__trigger,
+.tooltip__trigger:hover,
+.tooltip__trigger:focus {
+    color: inherit;
+    text-decoration: inherit;
+}
 
 
 .section-title {
