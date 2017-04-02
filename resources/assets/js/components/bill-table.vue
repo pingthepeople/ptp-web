@@ -67,12 +67,9 @@
                             <span v-if="bill.IsDead==1">
                                 Dead
                             </span>
-                                    <span v-else>
-                                Alive
-                            </span>
                         </div>
                         <div slot="tooltip-content">
-                            All bills must achieve certain milestones within specific deadlines throughout the legislative process in order to remain active.
+                            'Dead' bills have either failed a vote or missed a deadline for a reading or hearing. They are no longer being considered as distinct pieces of legislation. 
                         </div>
                     </tooltip>
                 </td>
@@ -138,6 +135,8 @@
                             bValue = b["Link"];
                             break;
                         case "IsDead":
+                            if (aValue.length === 0) { return 1; } // always move "None" to the bottom of the list
+                            if (bValue.length === 0) { return -1; }
                             aValue += a["Link"]
                             bValue += b["Link"]
                             break;

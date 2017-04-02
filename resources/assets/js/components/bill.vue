@@ -22,7 +22,7 @@
                     <tooltip v-if="b.IsDead==1" class="bill__dead">
                         <div slot="tooltip-trigger" class="bill__dead-tag">Dead</div>
                         <div slot="tooltip-content">
-                            All bills must achieve certain milestones within specific deadlines throughout the legislative process in order to remain active.
+                            This bill either failed a vote or missed a deadline for a reading or hearing. It is no longer being considered as a distinct piece of legislation.
                         </div>
                     </tooltip>
                 </div>
