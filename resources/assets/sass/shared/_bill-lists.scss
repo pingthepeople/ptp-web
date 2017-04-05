@@ -12,6 +12,10 @@
         margin-bottom: 10px;
         display: flex;
 
+        a {
+            color: inherit;
+        }
+
         .bill__star {
             position: absolute;
             left: -30px;
@@ -36,10 +40,6 @@
             margin: 0 20px;
             font-size: 1.75rem;
             line-height: 1em;
-
-            a {
-                text-decoration: none;
-            }
         }
         .bill__name {
             margin: 0;
