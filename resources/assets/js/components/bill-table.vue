@@ -59,8 +59,16 @@
                         </svg>
                     </a>
                 </td>
-                <td class="bill-table__bill-name">{{bill.Name}}</td>
-                <td class="bill-table__bill-title">{{bill.Title}}</td>
+                <td class="bill-table__bill-name">
+                    <a :href="'http://iga.in.gov/legislative'+bill.Link" tabindex="-1">
+                        {{bill.Name}}
+                    </a>
+                </td>
+                <td class="bill-table__bill-title">
+                    <a :href="'http://iga.in.gov/legislative'+bill.Link">
+                        {{bill.Title}}
+                    </a>
+                </td>
                 <td>
                     <tooltip>
                         <div slot="tooltip-trigger">

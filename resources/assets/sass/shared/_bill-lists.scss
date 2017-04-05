@@ -31,11 +31,15 @@
         }
 
         .bill__name,
-        .bill__title{
+        .bill__title {
             display: inline-block;
             margin: 0 20px;
             font-size: 1.75rem;
             line-height: 1em;
+
+            a {
+                text-decoration: none;
+            }
         }
         .bill__name {
             margin: 0;
