@@ -35,7 +35,7 @@ class Committee extends Model
     /**
      * @var array
      */
-    protected $appends = ['id', 'Chamber'];
+    protected $appends = ['id', 'Chamber', 'IgaSiteLink'];
 
     /**
      *
@@ -74,5 +74,12 @@ class Committee extends Model
     public function getChamberAttribute() {
         $types = config('enums.Chamber');
         return $types[$this->attributes['Chamber']];
+    }
+
+    public function getIgaSiteLinkAttribute() {
+        // derive committee path from API Link attribute
+        $committee = str_replace("/committee_", "/", $this->Link);
+
+        return env('IGA_SITE_ROOT', 'http://iga.in.gov')."/legislative/$committee";
     }
 }

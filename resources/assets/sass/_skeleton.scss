@@ -158,9 +158,12 @@ p {
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
-    color: #1EAEDB; }
-a:hover {
-    color: #0FA0CE; }
+    text-decoration: none;
+    color: $link-color; }
+a:hover,
+a:focus {
+    text-decoration: underline;
+    color: darken($link-color, 20%); }
 
 
 /* Buttons
@@ -220,6 +223,7 @@ button:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
+    text-decoration: none;
     color: #333;
     border-color: #888;
     outline: 0; }

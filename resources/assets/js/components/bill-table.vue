@@ -59,8 +59,14 @@
                         </svg>
                     </a>
                 </td>
-                <td class="bill-table__bill-name">{{bill.Name}}</td>
-                <td class="bill-table__bill-title">{{bill.Title}}</td>
+                <td class="bill-table__bill-name">
+                    <a :href="bill.IgaSiteLink" target="_blank">
+                        {{bill.Name}}
+                    </a>
+                </td>
+                <td class="bill-table__bill-title">
+                    {{bill.Title}}
+                </td>
                 <td>
                     <tooltip>
                         <div slot="tooltip-trigger">
