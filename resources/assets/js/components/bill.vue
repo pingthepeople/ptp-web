@@ -18,7 +18,7 @@
                 </div>
                 <div class="bill__name-and-title">
                     <h3 class="bill__name">
-                        <a :href="b.IgaSiteLink" tabindex="-1">
+                        <a :href="b.IgaSiteLink">
                             {{ b.Name }}
                         </a>
                     </h3>
