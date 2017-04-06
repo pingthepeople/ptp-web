@@ -37,7 +37,7 @@
 
                 <div class="bill__tags" v-if="b.committees.length">Committee:
                     <span class="bill__tag" v-for="(committee, index) in b.committees">
-                        <a :href="'http://iga.in.gov/legislative' + committee.Link">
+                        <a :href="committee.IgaSiteLink">
                             ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}
                         </a>
                         <span v-if="index!=b.committees.length-1">,&nbsp;</span>

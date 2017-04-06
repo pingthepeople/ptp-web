@@ -132,7 +132,7 @@ class Bill extends Model
 
     // wow this is complicated
     public function getIgaSiteLinkAttribute() {
-        $year = $this->session ? $this->session()->first()->Name : date('Y');
+        $year = $this->session()->first() ? $this->session()->first()->Name : date('Y');
         $legislationType = 'bills';
         $chamber = 'lobby';
         // use title to determine bill/resolution type
