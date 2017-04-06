@@ -104,6 +104,10 @@
 .bill-table {
     width: 100%;
 
+    a {
+        color: inherit;
+    }
+
     thead {
         td {
             color: $text-color;

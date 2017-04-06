@@ -65,9 +65,7 @@
                     </a>
                 </td>
                 <td class="bill-table__bill-title">
-                    <a :href="bill.IgaSiteLink">
-                        {{bill.Title}}
-                    </a>
+                    {{bill.Title}}
                 </td>
                 <td>
                     <tooltip>

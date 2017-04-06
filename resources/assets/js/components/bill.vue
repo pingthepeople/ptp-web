@@ -23,9 +23,7 @@
                         </a>
                     </h3>
                     <p class="bill__title">
-                        <a :href="b.IgaSiteLink">
-                            {{ b.Title }}
-                        </a>
+                        {{ b.Title }}
                     </p>
                     <tooltip v-if="b.IsDead==1" class="bill__dead">
                         <div slot="tooltip-trigger" class="bill__dead-tag">Dead</div>
