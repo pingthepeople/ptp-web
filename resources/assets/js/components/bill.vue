@@ -18,7 +18,7 @@
                 </div>
                 <div class="bill__name-and-title">
                     <h3 class="bill__name">
-                        <a :href="b.IgaSiteLink">
+                        <a :href="b.IgaSiteLink" target="_blank">
                             {{ b.Name }}
                         </a>
                     </h3>
@@ -35,7 +35,7 @@
 
                 <div class="bill__tags" v-if="b.committees.length">Committee:
                     <span class="bill__tag" v-for="(committee, index) in b.committees">
-                        <a :href="committee.IgaSiteLink">
+                        <a :href="committee.IgaSiteLink" target="_blank">
                             ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}
                         </a>
                         <span v-if="index!=b.committees.length-1">,&nbsp;</span>

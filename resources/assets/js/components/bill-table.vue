@@ -60,7 +60,7 @@
                     </a>
                 </td>
                 <td class="bill-table__bill-name">
-                    <a :href="bill.IgaSiteLink">
+                    <a :href="bill.IgaSiteLink" target="_blank">
                         {{bill.Name}}
                     </a>
                 </td>
