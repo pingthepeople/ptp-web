@@ -18,12 +18,12 @@
                 </div>
                 <div class="bill__name-and-title">
                     <h3 class="bill__name">
-                        <a :href="'http://iga.in.gov/legislative'+b.Link" tabindex="-1">
+                        <a :href="b.IgaSiteLink" tabindex="-1">
                             {{ b.Name }}
                         </a>
                     </h3>
                     <p class="bill__title">
-                        <a :href="'http://iga.in.gov/legislative'+b.Link">
+                        <a :href="b.IgaSiteLink">
                             {{ b.Title }}
                         </a>
                     </p>

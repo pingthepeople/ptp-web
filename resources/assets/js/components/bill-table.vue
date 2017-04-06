@@ -60,12 +60,12 @@
                     </a>
                 </td>
                 <td class="bill-table__bill-name">
-                    <a :href="'http://iga.in.gov/legislative'+bill.Link" tabindex="-1">
+                    <a :href="bill.IgaSiteLink" tabindex="-1">
                         {{bill.Name}}
                     </a>
                 </td>
                 <td class="bill-table__bill-title">
-                    <a :href="'http://iga.in.gov/legislative'+bill.Link">
+                    <a :href="bill.IgaSiteLink">
                         {{bill.Title}}
                     </a>
                 </td>

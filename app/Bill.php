@@ -39,7 +39,8 @@ class Bill extends Model
     protected $appends = [
         'id',
         'Chamber',
-        'Name'
+        'Name',
+        'IgaSiteLink'
     ];
 
     /**
@@ -127,6 +128,49 @@ class Bill extends Model
         $number = intval(substr($name, 2)); // casting to an intval removes leading zeroes
 
         return "$chamber $number";
+    }
+
+    // wow this is complicated
+    public function getIgaSiteLinkAttribute() {
+        $year = $this->session ? $this->session()->first()->Name : date('Y');
+        $legislationType = 'bills';
+        $chamber = 'lobby';
+        // use title to determine bill/resolution type
+        $name = $this->attributes['Name'];
+        if(substr($name, 0, 2) == "HB") {
+            $chamber = 'house';
+        }
+        if(substr($name, 0, 2) == "SB") {
+            $chamber = 'senate';
+        }
+        if(substr($name, 0, 2) == "HR") {
+            $legislationType = 'resolutions';
+            $chamber = 'house/simple';
+        }
+        if(substr($name, 0, 2) == "HC") {
+            $legislationType = 'resolutions';
+            $chamber = 'house/concurrent';
+        }
+        if(substr($name, 0, 2) == "HJ") {
+            $legislationType = 'resolutions';
+            $chamber = 'house/joint';
+        }
+        if(substr($name, 0, 2) == "SR") {
+            $legislationType = 'resolutions';
+            $chamber = 'senate/simple';
+        }
+        if(substr($name, 0, 2) == "SC") {
+            $legislationType = 'resolutions';
+            $chamber = 'senate/concurrent';
+        }
+        if(substr($name, 0, 2) == "SJ") {
+            $legislationType = 'resolutions';
+            $chamber = 'senate/joint';
+        }
+
+        $billNumber = intval(substr($name, 2));
+
+        return env('IGA_SITE_ROOT', 'http://iga.in.gov')."/legislative/$year/$legislationType/$chamber/$billNumber";
     }
 
     public function toRowArray() {
