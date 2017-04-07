@@ -80,6 +80,6 @@ class Committee extends Model
         // derive committee path from API Link attribute
         $committee = str_replace("/committee_", "/", $this->Link);
 
-        return env('IGA_SITE_ROOT', 'http://iga.in.gov')."/legislative/$committee";
+        return env('IGA_SITE_ROOT', 'http://iga.in.gov')."/legislative$committee";
     }
 }
