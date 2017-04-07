@@ -12,6 +12,10 @@
         margin-bottom: 10px;
         display: flex;
 
+        a {
+            color: inherit;
+        }
+
         .bill__star {
             position: absolute;
             left: -30px;
@@ -31,7 +35,7 @@
         }
 
         .bill__name,
-        .bill__title{
+        .bill__title {
             display: inline-block;
             margin: 0 20px;
             font-size: 1.75rem;
@@ -99,6 +103,10 @@
 
 .bill-table {
     width: 100%;
+
+    a {
+        color: inherit;
+    }
 
     thead {
         td {

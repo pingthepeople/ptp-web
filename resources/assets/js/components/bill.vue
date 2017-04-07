@@ -17,8 +17,14 @@
                     </a>
                 </div>
                 <div class="bill__name-and-title">
-                    <h3 class="bill__name">{{ b.Name }}</h3>
-                    <p class="bill__title">{{ b.Title }}</p>
+                    <h3 class="bill__name">
+                        <a :href="b.IgaSiteLink" target="_blank">
+                            {{ b.Name }}
+                        </a>
+                    </h3>
+                    <p class="bill__title">
+                        {{ b.Title }}
+                    </p>
                     <tooltip v-if="b.IsDead==1" class="bill__dead">
                         <div slot="tooltip-trigger" class="bill__dead-tag">Dead</div>
                         <div slot="tooltip-content">
@@ -29,8 +35,11 @@
 
                 <div class="bill__tags" v-if="b.committees.length">Committee:
                     <span class="bill__tag" v-for="(committee, index) in b.committees">
-                                ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}<span v-if="index!=b.committees.length-1">,&nbsp;</span>
-                            </span>
+                        <a :href="committee.IgaSiteLink" target="_blank">
+                            ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}
+                        </a>
+                        <span v-if="index!=b.committees.length-1">,&nbsp;</span>
+                    </span>
                 </div>
                 <div class="bill__tags" v-if="b.subjects.length">Subject:
                     <span class="bill__tag" v-for="(subject, index) in b.subjects">
