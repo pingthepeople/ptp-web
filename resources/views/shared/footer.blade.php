@@ -1,4 +1,4 @@
-<footer class="footer" style="padding-top:3em">
+<footer class="site__footer">
     <div class="container">
         <div class="row">
             <div class="twelve columns">

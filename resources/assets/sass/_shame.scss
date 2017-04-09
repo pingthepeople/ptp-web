@@ -20,6 +20,18 @@ img {
     margin: 0 auto;
 }
 
+.site__wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.site__content {
+    flex: 1;
+}
+.site__footer {
+    padding-top: 3em;
+}
+
 .button--plain {
     display: inline-block;
     height: auto;
