@@ -18,6 +18,11 @@
                             </ul>
                         </div>
                     @endif
+                    @if(session('success-message'))
+                        <div class="alert alert-success">
+                            {{session('success-message')}}
+                        </div>
+                    @endif
 
                     {{csrf_field()}}
                     <label for="name">Name</label>

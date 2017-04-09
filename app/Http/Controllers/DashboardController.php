@@ -97,7 +97,7 @@ class DashboardController extends Controller
         $user->Mobile = $mobile;
         $user->DigestType = $request->input('DigestType');
         $user->save();
-        return redirect('/account');
+        return redirect('/account')->with('success-message', 'Account settings saved');
     }
 
     /**
