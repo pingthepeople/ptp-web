@@ -16,4 +16,8 @@ class GuestController extends Controller
     public function support() {
         return view ('support');
     }
+
+    public function thankyou() {
+        return view ('thankyou');
+    }
 }
