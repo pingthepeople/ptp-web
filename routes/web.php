@@ -22,6 +22,7 @@ Route::get('/my-bills.csv', 'SpreadsheetExportController@myBillsToCsv');
 
 Route::get('/logout', 'DashboardController@logout');
 Route::get('/login', 'GuestController@guest');
+Route::get('/support', 'GuestController@support');
 Route::get('/account', 'DashboardController@account');
 Route::post('/account/save', 'DashboardController@saveAccount');
 
