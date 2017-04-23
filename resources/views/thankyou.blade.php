@@ -4,8 +4,10 @@
 
 @section('content')
 
+@include('shared.guest-header')
+
 <div class="container" >
-    <div class="main">
+    <div class="primo-content">
     
         <h1 class="section-title">Thank you!</h1>
 
