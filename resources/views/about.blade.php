@@ -4,9 +4,11 @@
 
 @section('content')
 
-<div class="container" >
-    <div class="main">
-    
+@include('shared.guest-header')
+
+<div class="container">
+    <div class="primo-content">
+
         <h1 class="section-title">About</h1>
 
         <p>
