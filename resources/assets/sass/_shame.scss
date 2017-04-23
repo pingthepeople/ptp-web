@@ -10,6 +10,9 @@ img {
 .u-flex {
     display: flex;
 }
+.u-flex-1 {
+    flex: 1;
+}
 .u-right {
     margin-left: auto;
 }
@@ -212,6 +215,17 @@ fieldset {
     }
 }
 
+.primo-content {
+    max-width: 750px;
+
+    p {
+        font-size: 1.3em;
+    }
+}
+
+.m-sm-top {
+    margin-top: 10px;
+}
 
 .visually-hidden { /*https://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html*/
     position: absolute !important;
