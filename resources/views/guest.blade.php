@@ -4,6 +4,8 @@
 
 @section('content')
     <div class="hero">
+        @include('shared.guest-header')
+
         <div class="content">
 
             <p class="hero__tagline">

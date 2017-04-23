@@ -30,7 +30,7 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .container {
     position: relative;
-    width: 100%;
+    width: 96%;
     max-width: 960px;
     margin: 0 auto;
     padding: 0 20px;
@@ -44,14 +44,11 @@
 /* For devices larger than 400px */
 @media (min-width: 400px) {
     .container {
-        width: 85%;
         padding: 0; }
 }
 
 /* For devices larger than 550px */
 @media (min-width: 550px) {
-    .container {
-        width: 80%; }
     .column,
     .columns {
         margin-left: 4%; }
