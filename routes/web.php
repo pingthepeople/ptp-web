@@ -24,6 +24,7 @@ Route::get('/logout', 'DashboardController@logout');
 Route::get('/login', 'GuestController@guest');
 Route::get('/support', 'GuestController@support');
 Route::get('/thankyou', 'GuestController@thankyou');
+Route::get('/about', 'GuestController@about');
 Route::get('/account', 'DashboardController@account');
 Route::post('/account/save', 'DashboardController@saveAccount');
 
