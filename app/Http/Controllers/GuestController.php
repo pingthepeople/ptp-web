@@ -14,6 +14,11 @@ class GuestController extends Controller
         return view('guest');
     }
 
+    public function privacy()
+    {
+        return view('privacy');
+    }
+
     public function support()
     {
         return view ('support');

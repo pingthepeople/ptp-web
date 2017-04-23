@@ -21,7 +21,12 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T54QVZX"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+    <div class="site__wrapper">
+        <div class="site__content">
+            @yield('content')
+        </div>
 
-@yield('content')
+        @include('shared.footer')
+    </div>
 </body>
 </html>
