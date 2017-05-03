@@ -24,16 +24,16 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T54QVZX"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-    <div id="vue-root">
+    <div id="vue-root" class="site__wrapper">
         @include('shared.header')
 
-        <div class="container" >
+        <div class="site__content container">
             <div class="main">
                 @yield('content')
             </div>
         </div>
 
-        @include('shared.footer')       
+        @include('shared.footer')
     </div>
     <script src="{{mix('js/app.js')}}"></script>
 </body>

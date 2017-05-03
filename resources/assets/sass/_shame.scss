@@ -10,14 +10,29 @@ img {
 .u-flex {
     display: flex;
 }
+.u-flex-1 {
+    flex: 1;
+}
 .u-right {
     margin-left: auto;
 }
 
 .content {
     width: 96%;
-    max-width: 900px;
+    max-width: 960px;
     margin: 0 auto;
+}
+
+.site__wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.site__content {
+    flex: 1;
+}
+.site__footer {
+    padding-top: 3em;
 }
 
 .button--plain {
@@ -200,6 +215,22 @@ fieldset {
     }
 }
 
+.primo-content {
+    max-width: 750px;
+
+    p, li {
+        font-size: 1.3em;
+    }
+}
+
+.http-error-page {
+    text-align: center;
+    padding: 3em 0;
+}
+
+.m-sm-top {
+    margin-top: 10px;
+}
 
 .visually-hidden { /*https://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html*/
     position: absolute !important;
