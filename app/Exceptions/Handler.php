@@ -60,7 +60,13 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if(env('APP_DEBUG', false)==false) {
-            if (!$this->isHttpException($exception)) $exception = new HttpException(500);
+            // for any exception other than HttpException, AuthenticationException, and ValidationException,
+            // return an HttpException to display an error page
+            if (!($exception instanceof HttpException)
+                && !($exception instanceof AuthenticationException)
+                && !($exception instanceof ValidationException)) {
+                    $exception = new HttpException(500);
+            }
         }
 
         return parent::render($request, $exception);
