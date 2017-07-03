@@ -1,30 +1,32 @@
-<header class="header">
+<header class="header" role="banner">
     <div class="container">
         <div class="row">
             <div class="twelve columns header__inner">
                 <div class="header__primary">
+                    <a href="{{url('/')}}" class="header__logo">
+                        <span class="header__logo-graphic">
+                            <img src="{{asset('images/logo.png')}}" alt="">
+                        </span>
+                        <span class="header__logo-words">Ping The People</span>
+                    </a>
+                </div>
+                <div class="header__secondary">
                     <nav class="main-nav">
-                        <div class="logo">
-                            <a href="{{url('/')}}">Ping the People</a>
-                        </div>
                         <ul>
                             <li {{ (Request::is('/') ? 'class=is-active' : '') }}>
-                                <a href="{{url('/')}}">My Watchlist</a>
+                                <a href="{{url('/')}}">My watch list</a>
                             </li>
                             <li {{ (Request::is('all-bills') ? 'class=is-active' : '') }}>
-                                <a href="{{url('/all-bills')}}">All Legislation</a>
+                                <a href="{{url('/all-bills')}}">All legislation</a>
+                            </li>
+                            <li {{ (Request::is('account') ? 'class=is-active' : '') }}>
+                                <a href="{{url('/account')}}">Settings</a>
+                            </li>
+                            <li {{ (Request::is('logout') ? 'class=is-active' : '') }}>
+                                <a href="{{ url('/logout') }}">Logout</a>
                             </li>
                         </ul>
                     </nav>
-                </div>
-                <div class="header__secondary">
-                    @if (Auth::check())
-                        <div class="user">
-                            Hello, <a href="{{url('/account')}}" {{ (Request::is('account') ? 'class=is-active' : '') }}>{{ $user->Name }}</a>
-                        </div>
-
-                        <a href="{{ url('/logout') }}">Logout</a>
-                    @endif
                 </div>
             </div>
         </div>

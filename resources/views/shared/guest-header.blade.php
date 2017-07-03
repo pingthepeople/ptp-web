@@ -1,8 +1,8 @@
-<header class="guest-header">
+<header class="guest-header" role="banner">
     <div class="container guest-header__content">
         <a href="{{url('/')}}" class="guest-header__logo">
             <span class="guest-header__logo-graphic">
-                <img src="{{asset('images/logo.png')}}">
+                <img src="{{asset('images/logo.png')}}" alt="">
             </span>
             <span class="guest-header__logo-words">Ping The People</span>
         </a>

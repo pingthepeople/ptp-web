@@ -1,19 +1,51 @@
-$headerBg: #2c3e50;
-
 .header {
     margin-bottom: 1em;
-    background: $headerBg;
-    border-bottom: 1px solid darken($headerBg, 50%);
-    color: #ecf0f1;
+    color: $text-primary;
+
+    .header__logo {
+        color: inherit;
+        display: flex;
+        &:hover,
+        &:focus {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        &-graphic {
+            display: block;
+            margin-right: 10px;
+
+            img {
+                display: inline-block;
+                height: 30px;
+            }
+        }
+        &-words {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: bold;
+        }
+    }
 
     .header__inner {
         padding: 5px 0;
         display: flex;
 
+        .header__primary {
+
+        }
+
+        .header__secondary {
+            margin-left: auto;
+            margin-top: .2em;
+        }
+    }
+
+    .main-nav {
         a {
             padding-bottom: 5px;
             text-decoration: none;
-            color: #ecf0f1;
+            color: inherit;
         }
         a.is-active,
         a:hover,
@@ -22,52 +54,31 @@ $headerBg: #2c3e50;
             border-bottom: 2px solid #fff;
         }
 
-        .header__primary {
+        > ul {
+            display: inline-block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
 
-        }
-
-        .main-nav {
-            .logo {
+            > li {
                 display: inline-block;
-                font-size: 2rem;
-            }
+                margin: 0 0 0 1.5em;
+                font-size: 1.8rem;
 
-            > ul {
-                display: inline-block;
-                list-style: none;
-                margin: 0;
-                padding: 0;
-
-                > li {
+                > a {
                     display: inline-block;
-                    margin: 0 0 0 1.5em;
-
-                    > a {
-                        display: inline-block;
-                        padding-bottom: 5px;
-                        margin-bottom: 5px;
-                        border-bottom: 2px solid transparent;
-                    }
-
-
+                    padding-bottom: 5px;
+                    margin-bottom: 5px;
+                    border-bottom: 2px solid transparent;
                 }
-                > .is-active > a,
-                > li > a:hover,
-                > li > a:focus {
-                    border-bottom-color: #fff;
-                }
+
+
             }
-        }
-
-        .header__secondary {
-            margin-left: auto;
-            margin-top: .2em;
-
-            .user {
-                display: inline-block;
-                margin-right: 10px;
-                padding-right: 10px;
-                border-right: 1px solid darken($headerBg, 50%);
+            > .is-active > a,
+            > li > a:hover,
+            > li > a:focus {
+                color: $primary-color;
+                border-bottom-color: $primary-color;
             }
         }
     }

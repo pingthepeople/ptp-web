@@ -23,7 +23,7 @@
             cursor: pointer;
 
             .star polygon {
-                fill: $secondary-text;
+                fill: $text-secondary;
             }
             .star.is-tracked polygon {
                 fill: $primary-color;
@@ -60,7 +60,7 @@
 
         .bill__tags {
             font-size: 1.25rem;
-            color: $secondary-text;
+            color: $text-secondary;
         }
 
         .bill__actions {
@@ -96,7 +96,7 @@
 .bill-list__loading {
     margin: 2em 0;
     text-align: center;
-    color: $secondary-text;
+    color: $text-secondary;
     font-style: italic;
 }
 
@@ -144,7 +144,7 @@
         padding: 5px 0;
 
         .star polygon {
-            fill: $secondary-text;
+            fill: $text-secondary;
         }
         .star.is-tracked polygon {
             fill: $primary-color;
@@ -158,7 +158,7 @@
     .bill-table__cell-body,
     .bill-table__action-details {
         font-size: 1.25rem;
-        color: $secondary-text;
+        color: $text-secondary;
     }
     .bill-table__bill-name {
         width: 60px;
