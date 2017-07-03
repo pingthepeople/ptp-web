@@ -37,7 +37,7 @@ class DashboardController extends Controller
             return redirect('/start');
         }
         
-        return view('default', compact('user'));
+        return view('my-watch-list', compact('user'));
     }
 
     /**

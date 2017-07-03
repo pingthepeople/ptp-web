@@ -16,8 +16,8 @@
                             <li {{ (Request::is('/') ? 'class=is-active' : '') }}>
                                 <a href="{{url('/')}}">My watch list</a>
                             </li>
-                            <li {{ (Request::is('all-bills') ? 'class=is-active' : '') }}>
-                                <a href="{{url('/all-bills')}}">All legislation</a>
+                            <li {{ (Request::is('bills') ? 'class=is-active' : '') }}>
+                                <a href="{{url('/bills')}}">All legislation</a>
                             </li>
                             <li {{ (Request::is('account') ? 'class=is-active' : '') }}>
                                 <a href="{{url('/account')}}">Settings</a>
