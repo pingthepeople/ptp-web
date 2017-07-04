@@ -1,0 +1,49 @@
+.content {
+    width: 96%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.site__wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.site__content {
+    flex: 1;
+}
+.site__footer {
+    padding-top: 3em;
+}
+
+.primo-content {
+    max-width: 750px;
+
+    p, li {
+        font-size: 1.3em;
+    }
+}
+
+.section-title {
+    margin-bottom: .5em;
+    font-size: 2em;
+}
+
+
+.http-error-page {
+    text-align: center;
+    padding: 3em 0;
+}
+
+
+.account {
+    margin-top: 2em;
+
+    label {
+        margin-top: 1em;
+    }
+
+    .account__submit {
+        margin-top: 1em
+    }
+}

@@ -1,0 +1,39 @@
+.button--plain {
+    display: inline-block;
+    height: auto;
+    line-height: normal;
+    letter-spacing: normal;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    font-weight: normal;
+    text-transform: none;
+    color: $link-color;
+}
+
+.button--fb {
+    background: #3B5998;
+    border-color: transparent;
+    color: #fff;
+}
+.button--fb:hover,
+.button--fb:focus {
+    background: darken(#3B5998, 10%);
+    color: #fff;
+}
+.button--google {
+    background: #dd4b39;
+    border-color: transparent;
+    color: #fff;
+}
+.button--google:hover,
+.button--google:focus {
+    background: darken(#dd4b39, 10%);
+    color: #fff;
+}
+.button--inline {
+    display: inline-block;
+    margin: 0;
+    padding: 2px 8px 3px;
+}
