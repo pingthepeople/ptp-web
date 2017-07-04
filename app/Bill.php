@@ -39,7 +39,7 @@ class Bill extends Model
     protected $appends = [
         'id',
         'Chamber',
-        'Name',
+        'DisplayName',
         'IgaSiteLink'
     ];
 
@@ -118,7 +118,7 @@ class Bill extends Model
         return $types[$this->attributes['Chamber']];
     }
 
-    public function getNameAttribute() {
+    public function getDisplayNameAttribute() {
         // names are stored without a space after their SB/HB prefix, and with leading zeroes on bill numbers
         // e.g. SB0025, HB0189
 
