@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/start', 'DashboardController@start');
 Route::get('/', 'DashboardController@myBills');
 Route::get('/bills', 'DashboardController@allBills');
+    Route::post('/track', 'DashboardController@trackBill');
     Route::get('/bills/{id}', 'DashboardController@singleBill');
 
 Route::get('/my-bills.csv', 'SpreadsheetExportController@myBillsToCsv');

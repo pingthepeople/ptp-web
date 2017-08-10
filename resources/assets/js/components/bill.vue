@@ -17,14 +17,14 @@
                     </a>
                 </div>
                 <div class="bill__name-and-title">
-                    <h3 class="bill__name">
-                        <a :href="b.IgaSiteLink" target="_blank">
-                            {{ b.Name }}
-                        </a>
-                    </h3>
-                    <p class="bill__title">
-                        {{ b.Title }}
-                    </p>
+                    <a :href="'/bills/' + b.Name">
+                        <h3 class="bill__name">
+                            {{ b.DisplayName }}
+                        </h3>
+                        <p class="bill__title">
+                            {{ b.Title }}
+                        </p>
+                    </a>
                     <tooltip v-if="b.IsDead==1" class="bill__dead">
                         <div slot="tooltip-trigger" class="bill__dead-tag">Dead</div>
                         <div slot="tooltip-content">
