@@ -24,7 +24,9 @@ class TrackingApiController extends Controller
             return null;
         }
 
-        return response()->json($user->track($bills));
+        $response = $user->track($bills);
+
+        return response()->json($response);
     }
 
     public function stopTracking(Request $request) {
@@ -43,7 +45,9 @@ class TrackingApiController extends Controller
             return null;
         }
 
-        return response()->json($user->track($bills, false));
+        $response = $user->track($bills, false);
+
+        return response()->json($response);
     }
 
     public function toggleEmailSubscription(Request $request, $id) {

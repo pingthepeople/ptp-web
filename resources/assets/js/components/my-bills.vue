@@ -9,7 +9,7 @@
         <div class="filters">
             <form class="filters__search search" @submit.prevent="filterBillHandler">
                 <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, committee, subject...">
-                <input class="search__submit" type="submit" value="Search">
+                <input class="search__submit button" type="submit" value="Search">
             </form>
 
             <div class="filters__message" v-if="filteredBills.length">
@@ -53,7 +53,7 @@
                     this.isFilterApplied = true
                     let query = this.q.toLowerCase();
                     var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1;
-                    return this.bills.filter( bill => 
+                    return this.bills.filter( bill =>
                         containsQuery(bill.Name)
                         || (bill.subjects.some (element => containsQuery(element.Name)))
                         || (bill.committees.some (element => containsQuery(element.Name)))

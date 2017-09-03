@@ -2,32 +2,57 @@
 // Body
 $body-bg: #f5f8fa;
 
-$primary-color: #206dea;
+// Layout
+$content-width: 960px;
+$content-width--narrow: 700px;
+
+// Brand colors
+$brand-blue: #206dea;;
+$brand-green: #2bd3aa;
+$brand-red: #dd374b;
+$brand-primary: $brand-blue;
+
+$primary-color: $brand-primary;
 $link-color: $primary-color;
-$secondary-text: #777;
+$text-primary: #222;
+$text-secondary: #777;
 
 // Borders
-$laravel-border-color: darken($body-bg, 10%);
-$list-group-border: $laravel-border-color;
-$navbar-default-border: $laravel-border-color;
-$panel-default-border: $laravel-border-color;
-$panel-inner-border: $laravel-border-color;
+$border-color: #ddd;
 
-// Brands
-$brand-primary: #206dea;
+
+// Message levels
 $brand-info: #3498db;
 $brand-success: #2ab27b;
 $brand-warning: #cbb956;
 $brand-danger: #bf5329;
 
-$border-color: #ddd;
-
 // Typography
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-$font-family-sans-serif: "Raleway", sans-serif;
-$font-size-base: 14px;
+$font-family: "Raleway", sans-serif;
+$font-size-base: 16px;
 $line-height-base: 1.6;
-$text-color: #636b6f;
+$text-color: #1a1d1e;
+
+// Typescale
+$fs1: 3.157rem;
+$fs2: 2.369rem;
+$fs3: 1.777rem;
+$fs4: 1.333rem;
+$fs5: 1rem;
+$fs6: 0.75rem;
+
+// Radii
+$radius: 4px;
+
+// Spacing
+$spacing-unit: .5rem;        // 8px
+$xxs: $spacing-unit/2;       // 4px
+$xs: $spacing-unit;          // 8px
+$sm: $spacing-unit * 2;      // 16px Base
+$md: $spacing-unit * 3;      // 24px
+$lg: $spacing-unit * 4;      // 32px
+$xl: $spacing-unit * 5;      // 40px
+$xxl: $spacing-unit * 8;     // 64px
 
 // Navbar
 $navbar-default-bg: #fff;

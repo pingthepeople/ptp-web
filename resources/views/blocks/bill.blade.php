@@ -7,13 +7,15 @@
             </header>
             <div class="bill__actions">
                 @if($bill->isTrackedByCurrentUser)
-                    <form action="/track-bill/{{$bill->Id}}" method="post">
+                    <form action="/track" method="post">
                         {{csrf_field()}}
+                        <input type="hidden" name="bill" value="{{$bill->Id}}">
                         <button class="button button--small">Stop tracking</button>
                     </form>
                 @else
-                    <form action="/track-bill/{{$bill->Id}}" method="post">
+                    <form action="/track" method="post">
                         {{csrf_field()}}
+                        <input type="hidden" name="bill" value="{{$bill->Id}}">
                         <button class="button button--small">Track this bill</button>
                     </form>
                 @endif

@@ -27,23 +27,37 @@ class Bill extends Model
     public $timestamps = false;
 
     /**
+     * properties that can be assigned via ->update(), etc.
      * @var array
      */
     protected $fillable = [
-        'Name','Link','Title', 'Description','Authors', 'Chamber', 'ActionType'
+        'Name',
+        'Link',
+        'Title',
+        'Description',
+        'Authors',
+        'Chamber',
+        'ActionType'
     ];
 
     /**
+     * Properties appended to the serialized model
      * @var array
      */
     protected $appends = [
         'id',
         'Chamber',
-        'Name',
-        'IgaSiteLink'
+        'DisplayName',
+        'IgaSiteLink',
+
+        /* stubbed out relationships */
+        'Authors',
+        'CoAuthors',
+        'Sponsors'
     ];
 
     /**
+     * The relations to eager load on every query.
      * @var array
      */
     protected $with = [
@@ -57,8 +71,6 @@ class Bill extends Model
     protected static function boot()
     {
         parent::boot();
-
-        //static::addGlobalScope(new CurrentSessionScope);
     }
 
     /**
@@ -118,7 +130,7 @@ class Bill extends Model
         return $types[$this->attributes['Chamber']];
     }
 
-    public function getNameAttribute() {
+    public function getDisplayNameAttribute() {
         // names are stored without a space after their SB/HB prefix, and with leading zeroes on bill numbers
         // e.g. SB0025, HB0189
 
@@ -184,5 +196,71 @@ class Bill extends Model
             $this->Chamber,
             $subjects
         ];
+    }
+
+    /*
+     * stubbed out Authors relationship
+     * TODO many-to-many relationship to Legislator model
+     */
+    public function getAuthorsAttribute() {
+        // TODO this is dummy data, get rid of it!
+        return collect([
+            [
+                'Name'=>'Meg Murry',
+                'Slug'=>'meg-murry',
+                'Chamber'=>2,
+                'District'=>'IN15'
+            ]
+        ]);
+    }
+
+    /*
+     * stubbed out Coauthors relationship
+     * TODO many-to-many relationship to Legislator model
+     */
+    public function getCoAuthorsAttribute() {
+        // TODO this is dummy data, get rid of it!
+        return collect([
+            [
+                'Name'=>'Charles Wallace',
+                'Slug'=>'charles-wallace',
+                'Chamber'=>2,
+                'District'=>'IN19'
+            ],
+            [
+                'Name'=>"Calvin O'Keefe",
+                'Slug'=>'calvin-okeefe',
+                'Chamber'=>2,
+                'District'=>'IN02'
+            ]
+        ]);
+    }
+
+    /*
+     * stubbed out Sponsors relationship
+     * TODO many-to-many relationship to Legislator model
+     */
+    public function getSponsorsAttribute() {
+        // TODO this is dummy data, get rid of it!
+        return collect([
+            [
+                'Name'=>'Thing One',
+                'Slug'=>'thing-one',
+                'Chamber'=>2,
+                'District'=>'IN15'
+            ],
+            [
+                'Name'=>'Thing Two',
+                'Slug'=>'thing-two',
+                'Chamber'=>2,
+                'District'=>'IN15'
+            ],
+            [
+                'Name'=>'Cat in the Hat',
+                'Slug'=>'cat-in-the-hat',
+                'Chamber'=>2,
+                'District'=>'IN15'
+            ]
+        ]);
     }
 }

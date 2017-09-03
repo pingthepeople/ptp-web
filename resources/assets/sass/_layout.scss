@@ -1,0 +1,54 @@
+.content-wrapper {
+    width: 96%;
+    max-width: $content-width;
+    margin: 0 auto;
+}
+.content-wrapper--narrow {
+    max-width: $content-width--narrow;
+    margin: 0 auto;
+}
+
+.site__wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.site__content {
+    flex: 1;
+}
+.site__footer {
+    padding-top: $lg;
+}
+
+.primo-content {
+    max-width: 750px;
+
+    p, li {
+        font-size: $fs4;
+    }
+}
+
+.section-title {
+    margin-bottom: $xs;
+    font-size: $fs2;
+}
+
+
+.http-error-page {
+    text-align: center;
+    padding: $xl 0;
+}
+
+
+.account {
+    margin-top: $lg;
+
+    label {
+        display: block;
+        margin-top: $md;
+    }
+
+    .account__submit {
+        margin-top: $sm;
+    }
+}

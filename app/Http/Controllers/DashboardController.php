@@ -36,8 +36,8 @@ class DashboardController extends Controller
         if($user->bills->count() == 0) {
             return redirect('/start');
         }
-        
-        return view('default', compact('user'));
+
+        return view('my-watch-list', compact('user'));
     }
 
     /**
@@ -48,7 +48,23 @@ class DashboardController extends Controller
         return view('all-bills', compact('user'));
     }
 
-    public function trackBill(Request $request, $id) {
+    public function singleBill($name) {
+        $bill = Bill::where('Name', '=', $name)->firstOrFail();
+        $bill = $bill->toArray();
+
+        if(Auth::check()) {
+            $user = Auth::user();
+            $bill['isTracked'] = $user->trackedBills->map(function($pivot) {return $pivot->BillId;})->contains($bill['Id']);
+        } else {
+            $user = null;
+        }
+
+        return view('single-bill', compact(['user', 'bill']));
+    }
+
+    public function trackBill(Request $request) {
+        $id = $request->input('id', 0);
+
         $bill = Bill::findOrFail($id);
         $user = Auth::user();
 
