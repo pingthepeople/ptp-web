@@ -1,3 +1,26 @@
+.button {
+    font-size: $fs5;
+    padding: $xs $sm;
+    border-radius: $radius;
+    border: 1px solid $border-color;
+    color: $text-color;
+    background: transparent;
+}
+.button:hover,
+.button:focus {
+    text-decoration: none;
+    background: $brand-blue;
+    color: #fff;
+}
+.button--large {
+    font-size: $fs4;
+    padding: $sm $md;
+}
+.button--small {
+    font-size: $fs5;
+    padding: $xxs $sm;
+}
+
 .button--plain {
     display: inline-block;
     height: auto;
@@ -36,4 +59,16 @@
     display: inline-block;
     margin: 0;
     padding: 2px 8px 3px;
+}
+
+.button--star {
+    padding: 0;
+    border: none;
+}
+
+.button--unbutton {
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: transparent;
 }

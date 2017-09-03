@@ -1,5 +1,4 @@
 .header {
-    margin-bottom: 1em;
     color: $text-primary;
 
     .header__logo {
@@ -13,7 +12,7 @@
 
         &-graphic {
             display: block;
-            margin-right: 10px;
+            margin-right: $xs;
 
             img {
                 display: inline-block;
@@ -22,13 +21,13 @@
         }
         &-words {
             display: block;
-            font-size: 2.2rem;
+            font-size: $fs4;
             font-weight: bold;
         }
     }
 
     .header__inner {
-        padding: 5px 0;
+        margin: $sm 0;
         display: flex;
 
         .header__primary {
@@ -37,11 +36,12 @@
 
         .header__secondary {
             margin-left: auto;
-            margin-top: .2em;
         }
     }
 
     .main-nav {
+        margin-top: $xxs;
+
         a {
             padding-bottom: 5px;
             text-decoration: none;
@@ -50,7 +50,6 @@
         a.is-active,
         a:hover,
         a:focus {
-            padding-bottom: 5px;
             border-bottom: 2px solid #fff;
         }
 
@@ -62,13 +61,12 @@
 
             > li {
                 display: inline-block;
-                margin: 0 0 0 1.5em;
-                font-size: 1.8rem;
+                margin-left: $md;
+                font-size: $fs5;
 
                 > a {
                     display: inline-block;
-                    padding-bottom: 5px;
-                    margin-bottom: 5px;
+                    padding-bottom: $xxs;
                     border-bottom: 2px solid transparent;
                 }
 

@@ -48,14 +48,14 @@
                 <td class="bill-table__bill-star">
                     <a v-if="isTracked(bill.Id)" @click.prevent="stopTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
                         <span class="visually-hidden">Stop watching {{bill.Name}}</span>
-                        <svg height="35" width="33" class="star is-tracked">
-                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="star star--on">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                         </svg>
                     </a>
                     <a v-else @click.prevent="startTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
                         <span class="visually-hidden">Watch {{bill.Name}}</span>
-                        <svg height="35" width="33" class="star">
-                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="star star--off">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                         </svg>
                     </a>
                 </td>
@@ -75,7 +75,7 @@
                             </span>
                         </div>
                         <div slot="tooltip-content">
-                            'Dead' bills have either failed a vote or missed a deadline for a reading or hearing. They are no longer being considered as distinct pieces of legislation. 
+                            'Dead' bills have either failed a vote or missed a deadline for a reading or hearing. They are no longer being considered as distinct pieces of legislation.
                         </div>
                     </tooltip>
                 </td>
@@ -95,7 +95,7 @@
                         <div class="bill-table__action-details">{{formatDate(bill.scheduled_actions[0].Date)}}<br>
                             <div v-if="bill.scheduled_actions[0].Start">
                                 {{formatTime(bill.scheduled_actions[0].Start)}} - {{formatTime(bill.scheduled_actions[0].End)}}<br>
-                            </div>                            
+                            </div>
                             {{bill.scheduled_actions[0].Location}}
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                             if (aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
                             if (bProperty.length === 0) { return -1; }
                             aValue = aProperty[0].Date + a["Link"]
-                            bValue = bProperty[0].Date + b["Link"] 
+                            bValue = bProperty[0].Date + b["Link"]
                             break;
                         case "scheduled_actions": // sort by event date + start time, then by bill name
                             if (aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
@@ -162,8 +162,8 @@
                             /* NOP. Use existing default values. */
                             break;
                     }
-                    
-                    return this.sortAsc 
+
+                    return this.sortAsc
                         ? aValue < bValue ? -1 : (aValue > bValue ? 1 : 0)
                         : aValue > bValue ? -1 : (aValue < bValue ? 1 : 0)
                 })

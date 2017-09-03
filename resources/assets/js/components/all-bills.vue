@@ -5,15 +5,12 @@
             <div class="filters">
                 <form class="filters__search search" @submit.prevent="filterBillHandler">
                     <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, committee, subject...">
-                    <input class="search__submit" type="submit" value="Search">
+                    <input class="search__submit button" type="submit" value="Search">
                 </form>
 
                 <div class="filters__message" v-if="filteredBills.length">
                     <div v-if="isFilterApplied">
-                        Here {{filteredBills.length | pluralizeIs}} the {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} that match your search. <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
-                    </div>
-                    <div v-else-if="!isLoading">
-                        Here are all {{bills.length}} pieces of legislation
+                        Here {{filteredBills.length | pluralizeIs}} the {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} that {{filteredBills.length | pluralizeMatch}} your search. <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
                     </div>
                 </div>
             </div>
@@ -67,6 +64,9 @@
             },
             pluralizeBill(value) {
                 return value == 1 ? "item" : "items";
+            },
+            pluralizeMatch(value) {
+                return value == 1 ? "matches" : "match";
             }
         },
         methods: {
@@ -75,7 +75,7 @@
                     this.isFilterApplied = true
                     let query = this.q.toLowerCase();
                     var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1;
-                    return this.bills.filter( bill => 
+                    return this.bills.filter( bill =>
                         containsQuery(bill.Name)
                         || (bill.subjects.some (element => containsQuery(element.Name)))
                         || (bill.committees.some (element => containsQuery(element.Name)))

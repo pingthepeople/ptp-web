@@ -19,6 +19,9 @@
         color: #fff;
         box-shadow: 2px 2px 6px rgba(0,0,0,.2);
     }
+    .tooltip__content--align-right {
+        right: 0;
+    }
     .tooltip__content:after {
         content: '';
         display: block;
@@ -30,6 +33,10 @@
         border-top: none;
         top: -10px;
         left: 10px;
+    }
+    .tooltip__content--align-right:after {
+        left: auto;
+        right: 10px;
     }
     .tooltip__trigger:hover + .tooltip__content,
     .tooltip__trigger:focus + .tooltip__content,

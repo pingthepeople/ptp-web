@@ -25,7 +25,7 @@
     <div id="vue-root" class="site__wrapper">
         @include('shared.header')
 
-        <div class="site__content container">
+        <div class="site__content content-wrapper">
             <div class="main">
                 @yield('content')
             </div>

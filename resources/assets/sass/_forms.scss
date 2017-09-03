@@ -1,8 +1,14 @@
 input[type=text],
 input[type=email],
 input[type=tel],
+input[type=password],
+input[type=search],
 textarea {
     width: 100%;
+    margin: 0;
+    padding: $xs;
+    border-radius: 3px;
+    border: 1px solid $border-color;
 }
 
 fieldset {

@@ -29,13 +29,22 @@ class Committee extends Model
      * @var array
      */
     protected $fillable = [
-        'Name','Link', 'Chamber'
+        'Name',
+        'Link',
+        'Chamber'
     ];
 
     /**
      * @var array
      */
-    protected $appends = ['id', 'Chamber', 'IgaSiteLink'];
+    protected $appends = [
+        'id',
+        'Chamber',
+        'IgaSiteLink',
+
+        /* stubbed out relationships */
+        'Members'
+    ];
 
     /**
      *
@@ -43,8 +52,6 @@ class Committee extends Model
     protected static function boot()
     {
         parent::boot();
-
-        //static::addGlobalScope(new CurrentSessionScope);
     }
 
     /**
@@ -81,5 +88,26 @@ class Committee extends Model
         $committee = str_replace("/committee_", "/", $this->Link);
 
         return env('IGA_SITE_ROOT', 'http://iga.in.gov')."/legislative$committee";
+    }
+
+    /*
+     * stubbed out Members relationship
+     * TODO many-to-many relationship to Legislator model
+     */
+    public function getMembersAttribute() {
+        return collect([
+            [
+                'Name'=>'Jane Doe',
+                'Slug'=>'jane-doe',
+                'Chamber'=>1,
+                'District'=>'IN09'
+            ],
+            [
+                'Name'=>'Rick Deckard',
+                'Slug'=>'rick-deckard',
+                'Chamber'=>1,
+                'District'=>'IN05'
+            ]
+        ]);
     }
 }

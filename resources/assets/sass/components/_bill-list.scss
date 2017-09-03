@@ -1,76 +1,93 @@
 .bill-list {
-    margin: 2em 0;
+    margin: $md 0;
+
+    .bill-list__bills {
+        margin-top: $xxl;
+    }
 
     .bill {
-        margin-bottom: 15px;
-        padding-bottom: 15px;
+        padding-bottom: $sm;
+        margin-bottom: $sm;
         border-bottom: 1px solid $border-color;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
         .bill__header {
             position: relative;
-            margin-bottom: 10px;
+            margin-bottom: $sm;
             display: flex;
 
-            a {
-                color: inherit;
-            }
+            .bill__actions {
+                text-align: right;
+                max-width: 200px;
 
-            .bill__star {
-                position: absolute;
-                left: -30px;
-                top: -4px;
-                cursor: pointer;
-
-                .star polygon {
-                    fill: $text-secondary;
+                .bill__star {
+                    display: inline-block;
+                    cursor: pointer;
                 }
-                .star.is-tracked polygon {
-                    fill: $primary-color;
+                .bill__star-copy {
+                    font-size: $fs6;
                 }
             }
+
 
             .bill__name-and-title {
                 display: flex;
+
+                a:hover .bill__name,
+                a:hover .bill__title {
+                    text-decoration: underline;
+                }
             }
 
             .bill__name,
             .bill__title {
                 display: inline-block;
-                margin: 0 20px;
-                font-size: 1.75rem;
-                line-height: 1em;
+                margin: 0 $md;
+                font-size: $fs3;
+                line-height: 1;
             }
             .bill__name {
                 margin: 0;
                 white-space: nowrap;
                 font-weight: bold;
             }
+
             .bill__dead {
-                margin-top: -.4em;
+                margin-top: 2px;
 
                 .bill__dead-tag {
+                    display: inline-block;
+                    padding: 0 $xxs;
                     color: #fff;
                     background: $text-color;
-                    display: inline-block;
-                    padding: 0 .7em;
                     border-radius: 2px;
                 }
             }
 
-            .bill__tags {
-                font-size: 1.25rem;
-                color: $text-secondary;
-            }
-
             .bill__actions {
                 margin-left: auto;
+            }
+
+
+        }
+
+        .bill__meta {
+            display: flex;
+            margin-bottom: $sm;
+
+            .info {
+                margin-right: $md;
             }
         }
 
         .bill__notification-controls {
             .bill__notification-options {
                 label {
-                    margin-right: 25px;
+                    margin-right: $md;
                     font-weight: normal;
 
                     input[type=checkbox] {
@@ -81,14 +98,17 @@
         }
 
         .bill__description-toggle {
-            margin-top: 1em;
-            color: #000;
+            display: block;
+            margin: $md auto 0;
+            color: lighten($text-color, 40%);
         }
     }
 
     .bill--tracked {
-        .bill__header {
-            color: #3498db;
+        .bill__inner {
+            border-left: $xxs solid $brand-blue;
+            padding-left: $sm;
+            margin-left: -($sm+$xxs);
         }
     }
 }
@@ -103,15 +123,14 @@
 
 .bill-table {
     width: 100%;
+    margin-top: $md;
 
     a {
         color: inherit;
     }
 
     thead {
-        td {
-            color: $text-color;
-        }
+
         td.sortable {
             cursor: pointer;
         }
@@ -124,40 +143,29 @@
         float: right;
     }
 
-    .bill-table__dead-bill {
-        color: $text-color;
-    }
+
 
     td {
-        padding: 5px 10px;
+        padding: $xs;
         vertical-align: top;
         border: 1px solid $border-color;
         border-color: $border-color lighten($border-color, 7%)
     }
     td:first-child {
-        padding: 5px 10px;
+        padding-left: 0;
     }
 
     td.bill-table__bill-star {
         border: none;
-        max-width: 30px;
-        padding: 5px 0;
-
-        .star polygon {
-            fill: $text-secondary;
-        }
-        .star.is-tracked polygon {
-            fill: $primary-color;
-        }
     }
 
     .bill-table__cell-header,
     .bill-table__action-type {
-        font-size: 1em;
+        font-size: $fs5;
     }
     .bill-table__cell-body,
     .bill-table__action-details {
-        font-size: 1.25rem;
+        font-size: $fs5;
         color: $text-secondary;
     }
     .bill-table__bill-name {
@@ -181,17 +189,18 @@
 
 
 .filters {
-    margin-bottom: 20px;
+    margin-bottom: $sm;
 
+    .filters__message {
+        margin-top: $xxs;
+    }
 }
 
 .search {
     display: flex;
 
-
     .search__input {
         width: 100%;
         height: auto;
-        margin-right: 10px;
     }
 }
