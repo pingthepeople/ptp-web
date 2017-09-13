@@ -55,6 +55,16 @@
     background: darken(#dd4b39, 10%);
     color: #fff;
 }
+.button--anon {
+    background: $brand-green;
+    border-color: transparent;
+    color: #fff;
+}
+.button--anon:hover,
+.button--anon:focus {
+    background: darken($brand-green, 10%);
+    color: #fff;
+}
 .button--inline {
     display: inline-block;
     margin: 0;

@@ -19,8 +19,8 @@ class SocialAuthController extends Controller
         $facebookUser = Socialite::driver('facebook')->user();
         $email = $facebookUser->getEmail();
 
-        if(User::where('AuthProviderEmail', $email)->exists()) {
-            $user = User::where('AuthProviderEmail', $email)->first();
+        $user = User::where('AuthProviderEmail', $email)->first();
+        if($user) {
             Auth::login($user);
             return redirect('/')->with('status', 'Login successful');
         } else {
@@ -44,8 +44,8 @@ class SocialAuthController extends Controller
         $googleUser = Socialite::driver('google')->user();
         $email = $googleUser->getEmail();
 
-        if(User::where('AuthProviderEmail', $email)->exists()) {
-            $user = User::where('AuthProviderEmail', $email)->first();
+        $user = User::where('AuthProviderEmail', $email)->first();
+        if($user) {
             Auth::login($user);
             return redirect('/')->with('status', 'Login successful');
         } else {
@@ -58,6 +58,28 @@ class SocialAuthController extends Controller
                 Auth::login($newUser);
                 return redirect('/')->with('status', 'New user created');
             }
+        }
+    }
+
+    public function anonymousRedirectAndCallback() {
+        if(env('APP_ENV', 'prod')==='local') {
+            $user = User::where('AuthProviderEmail', 'anonymous')->first();
+            if($user) {
+                Auth::login($user);
+                return redirect('/');
+            } else {
+                $newUser = User::create([
+                    'Email' => 'anonymous',
+                    'AuthProviderEmail' => 'anonymous',
+                    'Name' => 'Dana Scully'
+                ]);
+                if($newUser) {
+                    Auth::login($newUser);
+                    return redirect('/');
+                }
+            }
+        } else {
+            return redirect('/404');
         }
     }
 }

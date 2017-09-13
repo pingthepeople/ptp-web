@@ -20,6 +20,10 @@
                 <a class="button button--large button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
 
                 <a class="button button--large button--google" href="{{url('/login-via-google')}}">Log in with Google</a>
+
+                @if(env('APP_ENV')==='local')
+                    <a class="button button--large button--anon" href="{{url('/login-anonymously')}}">Log in anonymously</a>
+                @endif
             </div>
         </div>
     </div>
