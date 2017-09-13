@@ -2,41 +2,50 @@
     <div>
         <h1 class="section-title">All Legislation</h1>
         <div>
-            <div class="filters">
-                <form class="filters__search search" @submit.prevent="filterBillHandler">
-                    <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, committee, subject...">
-                    <input class="search__submit button" type="submit" value="Search">
-                </form>
+            <div v-if="isLoading" class="bill-list__loading">Loading legislation...</div>
+            <div v-else-if="billsToDisplay.length">
+                <div class="filters">
+                    <form class="filters__search search" @submit.prevent="filterBillHandler">
+                        <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, committee, subject...">
+                        <input class="search__submit button" type="submit" value="Search">
+                    </form>
 
-                <div class="filters__message" v-if="filteredBills.length">
-                    <div v-if="isFilterApplied">
-                        Here {{filteredBills.length | pluralizeIs}} the {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} that {{filteredBills.length | pluralizeMatch}} your search. <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
+                    <div class="filters__message" v-if="filteredBills.length">
+                        <div v-if="isFilterApplied">
+                            Here {{filteredBills.length | pluralizeIs}} the {{filteredBills.length}} {{filteredBills.length | pluralizeBill}} that {{filteredBills.length | pluralizeMatch}} your search. <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
+                        </div>
                     </div>
                 </div>
+
+                <ul v-if="nPages>1" class="pager">
+                    <li class="pager__item" v-for="page in nPages">
+                        <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
+                            {{page}}
+                        </a>
+                    </li>
+                </ul>
+
+                <bill-list :bills="billsToDisplay"></bill-list>
+
+                <div class="filters__no-result" v-if="isFilterApplied && !filteredBills.length">
+                    Your search did not return any results.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
+                </div>
+
+                <ul v-if="nPages>1" class="pager">
+                    <li class="pager__item" v-for="page in nPages">
+                        <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
+                            {{page}}
+                        </a>
+                    </li>
+                </ul>
             </div>
-
-            <ul v-if="nPages>1" class="pager">
-                <li class="pager__item" v-for="page in nPages">
-                    <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
-                        {{page}}
-                    </a>
-                </li>
-            </ul>
-
-            <bill-list v-if="billsToDisplay.length" :bills="billsToDisplay"></bill-list>
-
-            <div v-if="isLoading" class="bill-list__loading">Loading all legislation...</div>
-
-            <ul v-if="nPages>1" class="pager">
-                <li class="pager__item" v-for="page in nPages">
-                    <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
-                        {{page}}
-                    </a>
-                </li>
-            </ul>
-
-            <div class="filters__no-result" v-if="isFilterApplied && !filteredBills.length">
-                Your search did not return any results.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
+            <div v-else class="bill-list__no-bills">
+                <p class="bill-list__no-bills-text">There are no bills available yet for this session</p>
+                
+                <!-- <label class="bill-list__notify-when-available" for="text-me-when-bills-are-available">
+                    <input type="checkbox" id="text-me-when-bills-are-available">
+                    Notify me when bills become available
+                </label> -->
             </div>
         </div>
     </div>

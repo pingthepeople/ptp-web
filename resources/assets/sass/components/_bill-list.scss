@@ -111,6 +111,23 @@
             margin-left: -($sm+$xxs);
         }
     }
+
+    .bill-list__no-bills {
+        margin-top: $xl;
+        padding: $xl $lg;
+        background: rgba(255,255,255,.4);
+        text-align: center;
+        border-radius: $radius;
+        box-shadow: inset 0 0 8px 0 rgba(0,0,0,.1);
+        border: 1px solid $border-color;
+    }
+        .bill-list__no-bills-text {
+            margin-top: 0;
+            font-size: $fs4;
+        }
+        .bill-list__notify-me-when-available {
+            font-size: $fs4;
+        }
 }
 
 .bill-list__loading {
