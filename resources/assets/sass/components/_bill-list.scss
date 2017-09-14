@@ -124,6 +124,7 @@
         .bill-list__no-bills-text {
             margin-top: 0;
             font-size: $fs4;
+            color: lighten($text-color, 40%);
         }
         .bill-list__notify-me-when-available {
             font-size: $fs4;
