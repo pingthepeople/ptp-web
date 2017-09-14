@@ -26,7 +26,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'Name', 'Email', 'AuthProviderEmail', 'Mobile', 'DigestType'
+        'Name',
+        'Email',
+        'AuthProviderEmail',
+        'Mobile',
+        'DigestType',
+        'RepresentativeId',
+        'SenatorId'
     ];
 
     /**
@@ -84,5 +90,15 @@ class User extends Authenticatable
             $bill = Bill::where('Name',$param)->first();
             return $this->track($bill->Id);
         }
+    }
+
+    /*
+    * representative and senator
+    */
+    public function representative() {
+        return $this->hasOne(Legislator::class, 'Id', 'RepresentativeId');
+    }
+    public function senator() {
+        return $this->hasOne(Legislator::class, 'Id', 'SenatorId');
     }
 }

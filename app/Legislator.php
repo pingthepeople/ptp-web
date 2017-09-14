@@ -30,7 +30,8 @@ class Legislator extends Model
         'Chamber',
         'Party',
         'District',
-        'Image'
+        'Image',
+        'SessionId'
     ];
 
     /**
