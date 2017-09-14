@@ -38,7 +38,7 @@ $factory->define(App\Action::class, function(Faker\Generator $faker) {
         'Link' => '/bill-actions/s_list_bill.'.$faker->numberBetween(1500000,2700000),
         'Description' => $faker->words(rand(4,6), true),
         'Date' => $faker->date('Y-m-d h:m:s.000'),
-        'Chamber' => $faker->numberBetween(1,2),
+        'Chamber' => $bill->Chamber,
         'ActionType' => $faker->numberBetween(0, 4),
         'BillId' => $bill->Id
     ];
@@ -56,7 +56,7 @@ $factory->define(App\ScheduledAction::class, function(Faker\Generator $faker) {
         'Start' => $faker->time(),
         'End' => $faker->time(),
         'Location' => "Room ".rand(100,800),
-        'Chamber' => $faker->numberBetween(1,2),
+        'Chamber' => $bill->Chamber,
         'ActionType' => $faker->numberBetween(0, 4),
         'BillId' => $bill->Id
     ];
@@ -72,13 +72,14 @@ $factory->define(App\Bill::class, function(Faker\Generator $faker) {
         $session = Session::first();
     }
 
-    $name = 'XB'.$faker->numberBetween(1000,9999);
+    $chamber = $faker->numberBetween(1,2);
+    $name = ($chamber==1?'HB':'SB').$faker->numberBetween(1000,9999);
     return [
         'Name' => $name,
         'Link' => "/".$session->Name."/bills/".$name,
         'Title' => $faker->words($faker->numberBetween(2,4), true),
         'Description' => $faker->sentences($faker->numberBetween(2,40), true),
-        'Chamber' => $faker->numberBetween(1,2),
+        'Chamber' => $chamber,
         'SessionId' => $session->Id,
     ];
 });

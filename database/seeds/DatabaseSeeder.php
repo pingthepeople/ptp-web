@@ -15,7 +15,16 @@ class DatabaseSeeder extends Seeder
 
         factory(App\Legislator::class, 20)->create();
 
-        factory(App\Bill::class, 2000)->create()->each(function($bill) {
+        factory(App\Committee::class, 20)->create()->each(function($committee) {
+            $members = App\Legislator::inRandomOrder()->take(rand(4,8))->get();
+            for ($i=0; $i < $members->count(); $i++) {
+                $committee->members()->attach($members[$i]->id);
+            }
+        });
+
+        factory(App\Subject::class, 60)->create();
+
+        factory(App\Bill::class, 200)->create()->each(function($bill, $index) {
             $legislators = App\Legislator::inRandomOrder()->get();
             // give each bill 1-2 Authors
             $authors = $legislators->splice(0, rand(1,2));
@@ -36,6 +45,18 @@ class DatabaseSeeder extends Seeder
             $coauthors = $legislators->splice(0, rand(4,6));
             for ($i=0; $i < $coauthors->count(); $i++) {
                 $bill->cosponsors()->attach($coauthors[$i]->id, ['BillPosition'=>4]);
+            }
+
+            // give each bill 1-2 committees
+            $committees = App\Committee::inRandomOrder()->take(rand(1,2))->get();
+            for ($i=0; $i < $committees->count(); $i++) {
+                $bill->committees()->attach($committees[$i]);
+            }
+
+            // give each bill 1-6 subjects
+            $subjects = App\Subject::inRandomOrder()->take(rand(1,6))->get();
+            for ($i=0; $i < $subjects->count(); $i++) {
+                $bill->subjects()->attach($subjects[$i]);
             }
         });
     }
