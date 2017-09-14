@@ -41,6 +41,28 @@
                     <label for="allBills"><input type="radio" name="DigestType" id="allBills" value="2" {{$user->DigestType==2 ? 'checked' : ''}}> Send me a roundup of all legislation.</label>
                 </fieldset>
 
+                <label for="representative">House representative</label>
+                <select id="representative" name="representative">
+                    <option value=0>-- not set --</option>
+                    @foreach($representatives as $person)
+                        <option
+                            {{ ($user->RepresentativeId == $person->Id) ? 'selected' : '' }}
+                            value="{{$person->Id}}">
+                            ({{ rand(0,1) ? 'R' : 'D' }}) {{$person->Name}}</option>
+                    @endforeach
+                </select>
+
+                <label for="senator">Senator</label>
+                <select id="senator" name="senator">
+                    <option value=0>-- not set --</option>
+                    @foreach($senators as $person)
+                        <option
+                            {{ ($user->SenatorId == $person->Id) ? 'selected' : '' }}
+                            value="{{$person->Id}}">
+                            ({{ rand(0,1) ? 'R' : 'D' }}) {{$person->Name}}</option>
+                    @endforeach
+                </select>
+
                 <div class="account__submit">
                     <input type="submit">
                 </div>

@@ -69,8 +69,8 @@ class SocialAuthController extends Controller
                 return redirect('/');
             } else {
                 $newUser = User::create([
-                    'Email' => 'anonymous',
-                    'AuthProviderEmail' => 'anonymous',
+                    'Email' => 'anonymous@gmail.com',
+                    'AuthProviderEmail' => 'anonymous@gmail.com',
                     'Name' => 'Dana Scully'
                 ]);
                 if($newUser) {

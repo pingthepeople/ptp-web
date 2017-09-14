@@ -35,7 +35,6 @@ class Bill extends Model
         'Link',
         'Title',
         'Description',
-        'Authors',
         'Chamber',
         'ActionType'
     ];
@@ -49,11 +48,6 @@ class Bill extends Model
         'Chamber',
         'DisplayName',
         'IgaSiteLink',
-
-        /* stubbed out relationships */
-        'Authors',
-        'CoAuthors',
-        'Sponsors'
     ];
 
     /**
@@ -62,7 +56,11 @@ class Bill extends Model
      */
     protected $with = [
         "subjects",
-        "committees"
+        "committees",
+        "authors",
+        "coauthors",
+        "sponsors",
+        "cosponsors"
     ];
 
     /**
@@ -199,68 +197,18 @@ class Bill extends Model
     }
 
     /*
-     * stubbed out Authors relationship
-     * TODO many-to-many relationship to Legislator model
+     * Authors, Coauthors, etc.
      */
-    public function getAuthorsAttribute() {
-        // TODO this is dummy data, get rid of it!
-        return collect([
-            [
-                'Name'=>'Meg Murry',
-                'Slug'=>'meg-murry',
-                'Chamber'=>2,
-                'District'=>'IN15'
-            ]
-        ]);
+    public function authors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 1);
     }
-
-    /*
-     * stubbed out Coauthors relationship
-     * TODO many-to-many relationship to Legislator model
-     */
-    public function getCoAuthorsAttribute() {
-        // TODO this is dummy data, get rid of it!
-        return collect([
-            [
-                'Name'=>'Charles Wallace',
-                'Slug'=>'charles-wallace',
-                'Chamber'=>2,
-                'District'=>'IN19'
-            ],
-            [
-                'Name'=>"Calvin O'Keefe",
-                'Slug'=>'calvin-okeefe',
-                'Chamber'=>2,
-                'District'=>'IN02'
-            ]
-        ]);
+    public function coauthors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 2);
     }
-
-    /*
-     * stubbed out Sponsors relationship
-     * TODO many-to-many relationship to Legislator model
-     */
-    public function getSponsorsAttribute() {
-        // TODO this is dummy data, get rid of it!
-        return collect([
-            [
-                'Name'=>'Thing One',
-                'Slug'=>'thing-one',
-                'Chamber'=>2,
-                'District'=>'IN15'
-            ],
-            [
-                'Name'=>'Thing Two',
-                'Slug'=>'thing-two',
-                'Chamber'=>2,
-                'District'=>'IN15'
-            ],
-            [
-                'Name'=>'Cat in the Hat',
-                'Slug'=>'cat-in-the-hat',
-                'Chamber'=>2,
-                'District'=>'IN15'
-            ]
-        ]);
+    public function sponsors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 3);
+    }
+    public function cosponsors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 4);
     }
 }

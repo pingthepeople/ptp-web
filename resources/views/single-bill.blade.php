@@ -59,10 +59,10 @@
             </div>
         </div>
         <div class="bill__info">
-            @if(count($bill['Authors']))
+            @if(count($bill['authors']))
                 <div class="info">
                     <div class="info__label">
-                        @if(count($bill['Authors'])==1)
+                        @if(count($bill['authors'])==1)
                             Author
                         @else
                             Authors
@@ -70,15 +70,15 @@
                     </div>
                     <div class="info__body">
                         {{--this is so ugly but whitespace around the comma is bad --}}
-                        @foreach($bill['Authors'] as $author)@if(!$loop->first),@endif
+                        @foreach($bill['authors'] as $author)@if(!$loop->first),@endif
                             <a href="#{{$author['Slug']}}">{{$author['Name']}}</a>@endforeach
                     </div>
                 </div>
             @endif
-            @if(count($bill['CoAuthors']))
+            @if(count($bill['coauthors']))
                 <div class="info">
                     <div class="info__label">
-                        @if(count($bill['CoAuthors'])==1)
+                        @if(count($bill['coauthors'])==1)
                             CoAuthor
                         @else
                             CoAuthors
@@ -86,15 +86,17 @@
                     </div>
                     <div class="info__body">
                         {{--this is so ugly but whitespace around the comma is bad --}}
-                        @foreach($bill['CoAuthors'] as $author)@if(!$loop->first),@endif
+                        @foreach($bill['coauthors'] as $author)@if(!$loop->first),@endif
                             <a href="#{{$author['Slug']}}">{{$author['Name']}}</a>@endforeach
                     </div>
                 </div>
             @endif
-            @if(count($bill['Sponsors']))
+        </div>
+        <div class="bill__info">
+            @if(count($bill['sponsors']))
                 <div class="info">
                     <div class="info__label">
-                        @if(count($bill['Sponsors'])==1)
+                        @if(count($bill['sponsors'])==1)
                             Sponsor
                         @else
                             Sponsors
@@ -102,7 +104,23 @@
                     </div>
                     <div class="info__body">
                         {{--this is so ugly but comma placement is important   vvv --}}
-                        @foreach($bill['Sponsors'] as $author)@if(!$loop->first),@endif
+                        @foreach($bill['sponsors'] as $author)@if(!$loop->first),@endif
+                            <a href="#{{$author['Slug']}}">{{$author['Name']}}</a>@endforeach
+                    </div>
+                </div>
+            @endif
+            @if(count($bill['cosponsors']))
+                <div class="info">
+                    <div class="info__label">
+                        @if(count($bill['cosponsors'])==1)
+                            CoSponsor
+                        @else
+                            CoSponsors
+                        @endif
+                    </div>
+                    <div class="info__body">
+                        {{--this is so ugly but comma placement is important   vvv --}}
+                        @foreach($bill['cosponsors'] as $author)@if(!$loop->first),@endif
                             <a href="#{{$author['Slug']}}">{{$author['Name']}}</a>@endforeach
                     </div>
                 </div>

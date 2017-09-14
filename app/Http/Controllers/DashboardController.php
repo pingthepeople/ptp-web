@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Bill;
+use App\Legislator;
+use App\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,18 +25,13 @@ class DashboardController extends Controller
         }
     }
 
-    public function start() {
-        $user = Auth::user();
-        return view('start', compact('user'));
-    }
-
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function myBills() {
         $user = Auth::user();
         if($user->bills->count() == 0) {
-            return redirect('/start');
+            return redirect('/bills?welcome=true');
         }
 
         return view('my-watch-list', compact('user'));
@@ -43,13 +40,17 @@ class DashboardController extends Controller
     /**
      *
      */
-    public function allBills() {
+    public function allBills(Request $request) {
         $user = Auth::user();
-        return view('all-bills', compact('user'));
+        $showWelcome = $request->get('welcome');
+        return view('all-bills', compact('user', 'showWelcome'));
     }
 
     public function singleBill($name) {
-        $bill = Bill::where('Name', '=', $name)->firstOrFail();
+        $bill = Bill::
+                    where('Name', '=', $name)
+                    ->with('authors', 'coauthors', 'sponsors', 'cosponsors')
+                    ->firstOrFail();
         $bill = $bill->toArray();
 
         if(Auth::check()) {
@@ -83,9 +84,13 @@ class DashboardController extends Controller
             return redirect('/login');
         }
 
-        $user = Auth::user();
+        $user = Auth::user()->with('representative', 'senator')->first();
+        $session = Session::current()->first();
+        $legislators = Legislator::where('SessionId', '=', $session->id)->get();
+        $representatives = $legislators->filter(function($l) {return $l->Chamber=='House';});
+        $senators = $legislators->filter(function($l) {return $l->Chamber=='Senate';});
 
-        return view('account', compact('user'));
+        return view('account', compact('user', 'representatives', 'senators'));
     }
 
     public function saveAccount(Request $request) {
@@ -112,6 +117,8 @@ class DashboardController extends Controller
         $user->Email = $request->input('Email');
         $user->Mobile = $mobile;
         $user->DigestType = $request->input('DigestType');
+        $user->RepresentativeId = $request->input('representative') ? $request->input('representative') : null;
+        $user->SenatorId = $request->input('senator') ? $request->input('senator') : null;
         $user->save();
         return redirect('/account')->with('success-message', 'Account settings saved');
     }
