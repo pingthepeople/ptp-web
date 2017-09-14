@@ -23,18 +23,13 @@ class DashboardController extends Controller
         }
     }
 
-    public function start() {
-        $user = Auth::user();
-        return view('start', compact('user'));
-    }
-
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function myBills() {
         $user = Auth::user();
         if($user->bills->count() == 0) {
-            return redirect('/start');
+            return redirect('/bills?welcome=true');
         }
 
         return view('my-watch-list', compact('user'));
@@ -43,9 +38,10 @@ class DashboardController extends Controller
     /**
      *
      */
-    public function allBills() {
+    public function allBills(Request $request) {
         $user = Auth::user();
-        return view('all-bills', compact('user'));
+        $showWelcome = $request->get('welcome');
+        return view('all-bills', compact('user', 'showWelcome'));
     }
 
     public function singleBill($name) {
