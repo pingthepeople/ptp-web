@@ -15,6 +15,9 @@
 use App\Bill;
 use App\Session;
 
+/*
+* User factory
+*/
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
@@ -25,6 +28,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+/*
+* Action factory
+* for past actions
+*/
 $factory->define(App\Action::class, function(Faker\Generator $faker) {
     $bill = Bill::inRandomOrder()->first();
     return [
@@ -37,6 +44,10 @@ $factory->define(App\Action::class, function(Faker\Generator $faker) {
     ];
 });
 
+/*
+* ScheduledAction factory
+* for future actions
+*/
 $factory->define(App\ScheduledAction::class, function(Faker\Generator $faker) {
     $bill = Bill::inRandomOrder()->first();
     return [
@@ -51,8 +62,11 @@ $factory->define(App\ScheduledAction::class, function(Faker\Generator $faker) {
     ];
 });
 
+/*
+* Bill factory
+*/
 $factory->define(App\Bill::class, function(Faker\Generator $faker) {
-    $session = Session::first();
+    $session = Session::inRandomOrder()->first();
     if(!$session) {
         factory('App\Session')->create();
         $session = Session::first();
@@ -64,12 +78,31 @@ $factory->define(App\Bill::class, function(Faker\Generator $faker) {
         'Link' => "/".$session->Name."/bills/".$name,
         'Title' => $faker->words($faker->numberBetween(2,4), true),
         'Description' => $faker->sentences($faker->numberBetween(2,40), true),
-        'Authors' => strtolower($faker->lastName),
         'Chamber' => $faker->numberBetween(1,2),
         'SessionId' => $session->Id,
     ];
 });
 
+/*
+* Legislator factory
+*/
+$factory->define(App\Legislator::class, function(Faker\Generator $faker) {
+    $session = App\Session::inRandomOrder()->first();
+    return [
+        'FirstName' => $faker->FirstName,
+        'LastNAme' => $faker->LastName,
+        'Chamber' => $faker->numberBetween(1,2),
+        'Party' => $faker->numberBetween(1,2),
+        'District' => $faker->numberBetween(1,40),
+        'Link' => $faker->url,
+        'Image' => $faker->ImageUrl,
+        'SessionId' => $session->Id
+    ];
+});
+
+/*
+* Committee factory
+*/
 $factory->define(App\Committee::class, function(Faker\Generator $faker) {
     $session = Session::first();
     if(!$session) {
@@ -85,9 +118,12 @@ $factory->define(App\Committee::class, function(Faker\Generator $faker) {
     ];
 });
 
+/*
+* Session factory
+*/
 $factory->define(App\Session::class, function(Faker\Generator $faker) {
     $now = \Carbon\Carbon::now();
-    $currentSession = Session::where('Name', $now->year);
+    $currentSession = Session::where('Name', $now->year)->first();
     if(!$currentSession) {
         $year = $now->year;
     } else {
@@ -100,6 +136,9 @@ $factory->define(App\Session::class, function(Faker\Generator $faker) {
     ];
 });
 
+/*
+* Subject factory
+*/
 $factory->define(App\Subject::class, function(Faker\Generator $faker) {
     $session = Session::first();
     if(!$session) {
