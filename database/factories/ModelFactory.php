@@ -78,7 +78,7 @@ $factory->define(App\Bill::class, function(Faker\Generator $faker) {
         'Name' => $name,
         'Link' => "/".$session->Name."/bills/".$name,
         'Title' => $faker->words($faker->numberBetween(2,4), true),
-        'Description' => $faker->sentences($faker->numberBetween(2,40), true),
+        'Description' => $faker->sentences($faker->numberBetween(2,22), true),
         'Chamber' => $chamber,
         'SessionId' => $session->Id,
     ];
