@@ -2,8 +2,8 @@
     <div>
         <h1 class="section-title">All Legislation</h1>
         <div>
-            <div v-if="isLoading" class="bill-list__loading">Loading legislation...</div>
-            <div v-else-if="billsToDisplay.length">
+            <div v-if="isLoadingInitialChunk" class="bill-list__loading">Loading legislation...</div>
+            <div v-else-if="bills.length">
                 <div class="filters">
                     <form class="filters__search search" @submit.prevent="filterBillHandler">
                         <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, committee, subject...">
@@ -18,9 +18,19 @@
                 </div>
 
                 <ul v-if="nPages>1" class="pager">
+                    <li class="pager__item">
+                        <a class="pager__link" @click.prevent="pageTo(currentPage)" href="javascript:void(0)">
+                            Previous
+                        </a>
+                    </li>
                     <li class="pager__item" v-for="page in nPages">
                         <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                             {{page}}
+                        </a>
+                    </li>
+                    <li class="pager__item">
+                        <a class="pager__link" @click.prevent="pageTo(currentPage+2)" href="javascript:void(0)">
+                            Next
                         </a>
                     </li>
                 </ul>
@@ -41,7 +51,7 @@
             </div>
             <div v-else class="bill-list__no-bills">
                 <p class="bill-list__no-bills-text">There are no bills available yet for this session</p>
-                
+
                 <!-- <label class="bill-list__notify-when-available" for="text-me-when-bills-are-available">
                     <input type="checkbox" id="text-me-when-bills-are-available">
                     Notify me when bills become available
@@ -52,8 +62,10 @@
 </template>
 
 <script type="text/babel">
-    const moment = require('moment');
-    const pageSize = 50;
+    const moment = require('moment')
+    const pageSize = 50
+    const billLoader = require('../bill-loader.js');
+    const mapGetters = require('vuex').mapGetters
 
     module.exports = {
         components: {
@@ -63,27 +75,34 @@
             billsToDisplay() {
                 return this.filteredBills.slice(0+(this.currentPage*pageSize), pageSize+(this.currentPage*pageSize))
             },
-            nPages() {
-                return Math.ceil(this.filteredBills.length / pageSize);
+        },
+        data() {
+            return {
+                currentSession: moment().year(),
+                currentPage: 0,
+                nPages: 0,
+                filteredBills: [],
+                q: '',
+                isFilterApplied: false,
             }
         },
         filters: {
             pluralizeIs(value) {
-                return value == 1 ? "is" : "are";
+                return value == 1 ? "is" : "are"
             },
             pluralizeBill(value) {
-                return value == 1 ? "item" : "items";
+                return value == 1 ? "item" : "items"
             },
             pluralizeMatch(value) {
-                return value == 1 ? "matches" : "match";
+                return value == 1 ? "matches" : "match"
             }
         },
         methods: {
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    let query = this.q.toLowerCase();
-                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1;
+                    let query = this.q.toLowerCase()
+                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1
                     return this.bills.filter( bill =>
                         containsQuery(bill.Name)
                         || (bill.subjects.some (element => containsQuery(element.Name)))
@@ -96,41 +115,36 @@
                 }
             },
             filterBillHandler() {
-                this.filteredBills = this.getFilteredBills();
-                if(this.currentPage > this.nPages) {
+                this.filteredBills = this.getFilteredBills()
+                if(this.currentPage > this.nPages-1) {
                     this.currentPage = this.nPages-1
                 }
             },
             clearSearch() {
-                this.q = "";
-                this.filteredBills = this.bills;
-                this.isFilterApplied = false;
+                this.q = ""
+                this.filteredBills = this.bills
+                this.isFilterApplied = false
             },
             pageTo(page) {
                 this.currentPage = page-1
-                this.filteredBills = this.getFilteredBills();
+                if(this.currentPage < 0) {
+                    this.currentPage = 0
+                }
+                if(this.currentPage > this.nPages-1) {
+                    this.currentPage = this.nPages-1
+                }
+                this.filteredBills = this.getFilteredBills()
             }
         },
-        mounted() {
-            // load all bills
-            this.$http.get('/api/bills').then(res => {
-                this.bills = res.body.bills;
-                this.$store.dispatch('storeUser', res.body.user);
-                this.filteredBills = this.getFilteredBills();
-                this.isLoading = false;
-            }, res => {
-                console.log(res)
-            })
-        },
-        data() {
-            return {
-                q: '',
-                isFilterApplied: false,
-                isLoading: true,
-                bills: [],
-                filteredBills: [],
-                currentSession: moment().year(),
-                currentPage: 0,
+        mixins: [billLoader],
+        watch: {
+            filteredBills(bills) {
+                if(this.staticPageCount) {
+                    this.nPages = this.staticPageCount
+                } else {
+                    this.nPages = Math.ceil(bills.length/pageSize)
+                }
+
             }
         }
     }
