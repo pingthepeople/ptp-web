@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
 
         factory(App\Subject::class, 60)->create();
 
-        factory(App\Bill::class, 2000)->create()->each(function($bill, $index) {
-            $legislators = App\Legislator::inRandomOrder()->get();
+        factory(App\Bill::class, 1500)->create()->each(function($bill, $index) {
+            $legislators = App\Legislator::inRandomOrder()->take(20)->get();
             // give each bill 1-2 Authors
             $authors = $legislators->splice(0, rand(1,2));
             for ($i=0; $i < $authors->count(); $i++) {
@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             }
 
             // give each bill 1-6 subjects
-            $subjects = App\Subject::inRandomOrder()->take(rand(1,6))->get();
+            $subjects = App\Subject::inRandomOrder()->take(rand(1,3))->get();
             for ($i=0; $i < $subjects->count(); $i++) {
                 $bill->subjects()->attach($subjects[$i]);
             }
