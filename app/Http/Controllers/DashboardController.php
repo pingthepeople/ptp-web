@@ -47,10 +47,9 @@ class DashboardController extends Controller
     }
 
     public function singleBill($name) {
-        $bill = Bill::
-                    where('Name', '=', $name)
-                    ->with('authors', 'coauthors', 'sponsors', 'cosponsors')
-                    ->firstOrFail();
+        $bill = Bill::where('Name', '=', $name)
+                    ->firstOrFail()
+                    ->makeVisible(['authors', 'coauthors', 'sponsors', 'cosponsors']);
         $bill = $bill->toArray();
 
         if(Auth::check()) {
