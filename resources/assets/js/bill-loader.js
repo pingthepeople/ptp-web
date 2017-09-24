@@ -115,8 +115,8 @@ module.exports = {
     },
     mounted() {
         this.loadBills(() => {
-            if(this.filteredBills && typeof this.getFilteredBills === "function") {
-                this.filteredBills = this.getFilteredBills()
+            if(typeof this.billsLoadedHandler === "function") {
+                this.billsLoadedHandler()
             }
         })
 

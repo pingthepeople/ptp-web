@@ -61,6 +61,9 @@
             }
         },
         methods: {
+            billsLoadedHandler() {
+                this.filteredBills = this.getFilteredBills()
+            },
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
