@@ -48,6 +48,10 @@ class Bill extends Model
         'Chamber',
         'DisplayName',
         'IgaSiteLink',
+        "authorIds",
+        "coauthorIds",
+        "sponsorIds",
+        "cosponsorIds"
     ];
 
     /**
@@ -57,6 +61,17 @@ class Bill extends Model
     protected $with = [
         "subjects",
         "committees",
+        "session",
+        "authors",
+        "coauthors",
+        "sponsors",
+        "cosponsors"
+    ];
+
+    /**
+     * hide some relations from serialization
+     */
+    protected $hidden = [
         "authors",
         "coauthors",
         "sponsors",
@@ -96,7 +111,7 @@ class Bill extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function session() {
-        return $this->belongsTo(Session::class);
+        return $this->belongsTo(Session::class, 'SessionId', 'Id');
     }
 
     /**
@@ -142,7 +157,7 @@ class Bill extends Model
 
     // wow this is complicated
     public function getIgaSiteLinkAttribute() {
-        $year = $this->session()->first() ? $this->session()->first()->Name : date('Y');
+        $year = $this->session ? $this->session->Name : date('Y');
         $legislationType = 'bills';
         $chamber = 'lobby';
         // use title to determine bill/resolution type
@@ -210,5 +225,18 @@ class Bill extends Model
     }
     public function cosponsors() {
         return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 4);
+    }
+
+    public function getAuthorIdsAttribute() {
+        return $this->authors->map(function($x){ return $x->Id; });
+    }
+    public function getCoauthorIdsAttribute() {
+        return $this->coauthors->map(function($x){ return $x->Id; });
+    }
+    public function getSponsorIdsAttribute() {
+        return $this->sponsors->map(function($x){ return $x->Id; });
+    }
+    public function getCosponsorIdsAttribute() {
+        return $this->cosponsors->map(function($x){ return $x->Id; });
     }
 }
