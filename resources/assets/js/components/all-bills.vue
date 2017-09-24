@@ -66,7 +66,7 @@
     const pageSize = 50
     const billLoader = require('../bill-loader.js');
     const mapGetters = require('vuex').mapGetters
-    const getQueryVariable = require('../utilities').getQueryVariable
+    const {getQueryVariable, updateQueryVariable} = require('../utilities')
 
     module.exports = {
         components: {
@@ -109,7 +109,7 @@
                 this.$nextTick(()=>{
                     let pageFromUrl = parseInt(getQueryVariable('page'))
                     if(pageFromUrl) {
-                        this.pageTo(pageFromUrl)
+                        this.pageTo(pageFromUrl, true)
                     }
                 })
             },
@@ -140,18 +140,33 @@
                 this.filteredBills = this.bills
                 this.isFilterApplied = false
             },
-            pageTo(page) {
+            pageTo(page, suppressHistory) {
                 if(this.nPages) {
                     this.currentPage = page-1
                     if(this.currentPage < 0) {
                         this.currentPage = 0
+                        return
                     }
                     if(this.currentPage > this.nPages-1) {
                         this.currentPage = this.nPages-1
+                        return
+                    }
+
+                    if(suppressHistory!==true) {
+                        updateQueryVariable('page', this.currentPage+1)
                     }
                 }
             }
         },
-        mixins: [billLoader]
+        mixins: [billLoader],
+        mounted() {
+            window.onpopstate = (history) => {
+                if(history.state && history.state.page) {
+                    this.pageTo(history.state.page, true)
+                } else {
+                    this.pageTo(0)
+                }
+            }
+        }
     }
 </script>
