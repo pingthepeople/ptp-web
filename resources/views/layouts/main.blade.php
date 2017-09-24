@@ -33,6 +33,11 @@
 
         @include('shared.footer')
     </div>
+    @if($user)
+        <script>
+            var user = {!! json_encode($user) !!}
+        </script>
+    @endif
     <script src="{{mix('js/app.js')}}"></script>
 </body>
 </html>
