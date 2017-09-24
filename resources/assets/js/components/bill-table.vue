@@ -44,7 +44,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="bill in myBills" :class="bill.IsDead==1 ? 'bill-table__dead-bill' : ''">
+            <tr v-for="bill in bills" :class="bill.IsDead==1 ? 'bill-table__dead-bill' : ''">
                 <td class="bill-table__bill-star">
                     <a v-if="isTracked(bill.Id)" @click.prevent="stopTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
                         <span class="visually-hidden">Stop watching {{bill.Name}}</span>
@@ -126,7 +126,7 @@
             bill: require('./bill.vue'),
         },
         computed: {
-            ...mapGetters(["user", "myBills"])
+            ...mapGetters(["user"])
         },
         data() {
             return {
@@ -193,5 +193,6 @@
             },
             ...mapActions(['applyBillSort'])
         },
+        props: ['bills']
     }
 </script>
