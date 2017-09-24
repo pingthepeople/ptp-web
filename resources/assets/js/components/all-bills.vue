@@ -17,13 +17,13 @@
                     </div>
                 </div>
 
-                <ul v-if="nPages>1" class="pager">
+                <ul v-if="nPagesToDisplay>1" class="pager">
                     <li class="pager__item">
                         <a class="pager__link" @click.prevent="pageTo(currentPage)" href="javascript:void(0)">
                             Previous
                         </a>
                     </li>
-                    <li class="pager__item" v-for="page in nPages">
+                    <li class="pager__item" v-for="page in nPagesToDisplay">
                         <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                             {{page}}
                         </a>
@@ -66,6 +66,7 @@
     const pageSize = 50
     const billLoader = require('../bill-loader.js');
     const mapGetters = require('vuex').mapGetters
+    const getQueryVariable = require('../utilities').getQueryVariable
 
     module.exports = {
         components: {
@@ -75,12 +76,17 @@
             billsToDisplay() {
                 return this.filteredBills.slice(0+(this.currentPage*pageSize), pageSize+(this.currentPage*pageSize))
             },
+            nPages() {
+                return Math.ceil(this.filteredBills.length/pageSize)
+            },
+            nPagesToDisplay() {
+                return this.staticPageCount ? this.staticPageCount : this.nPages
+            }
         },
         data() {
             return {
                 currentSession: moment().year(),
                 currentPage: 0,
-                nPages: 0,
                 filteredBills: [],
                 q: '',
                 isFilterApplied: false,
@@ -98,6 +104,15 @@
             }
         },
         methods: {
+            billsLoadedHandler() {
+                this.filteredBills = this.getFilteredBills()
+                this.$nextTick(()=>{
+                    let pageFromUrl = parseInt(getQueryVariable('page'))
+                    if(pageFromUrl) {
+                        this.pageTo(pageFromUrl)
+                    }
+                })
+            },
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
@@ -126,26 +141,17 @@
                 this.isFilterApplied = false
             },
             pageTo(page) {
-                this.currentPage = page-1
-                if(this.currentPage < 0) {
-                    this.currentPage = 0
+                if(this.nPages) {
+                    this.currentPage = page-1
+                    if(this.currentPage < 0) {
+                        this.currentPage = 0
+                    }
+                    if(this.currentPage > this.nPages-1) {
+                        this.currentPage = this.nPages-1
+                    }
                 }
-                if(this.currentPage > this.nPages-1) {
-                    this.currentPage = this.nPages-1
-                }
-                this.filteredBills = this.getFilteredBills()
             }
         },
-        mixins: [billLoader],
-        watch: {
-            filteredBills(bills) {
-                if(this.staticPageCount) {
-                    this.nPages = this.staticPageCount
-                } else {
-                    this.nPages = Math.ceil(bills.length/pageSize)
-                }
-
-            }
-        }
+        mixins: [billLoader]
     }
 </script>
