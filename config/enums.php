@@ -37,6 +37,6 @@
             1 => "Author",
             2 => "CoAuthor",
             3 => "Sponsor",
-            4 => "CoSponso"
+            4 => "CoSponsor"
         ]
     ];

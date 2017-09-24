@@ -15,7 +15,7 @@ class AddLegislatorCommitteeTable extends Migration
     {
         Schema::create('LegislatorCommittee', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('Created')->useCurrent();
+            $table->date('Created')->useCurrent()->nullable();
             $table->integer('LegislatorId')->unsigned()->nullable();
             $table->foreign('LegislatorId')->references('Id')->on('Legislator');
             $table->integer('CommitteeId')->unsigned()->nullable();

@@ -41,9 +41,6 @@ class Committee extends Model
         'id',
         'Chamber',
         'IgaSiteLink',
-
-        /* stubbed out relationships */
-        'Members'
     ];
 
     /**
@@ -69,6 +66,13 @@ class Committee extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function members() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorCommittee', 'CommitteeId', 'LegislatorId');
+    }
+
+    /**
      * @return mixed
      */
     public function getIdAttribute() {
@@ -88,26 +92,5 @@ class Committee extends Model
         $committee = str_replace("/committee_", "/", $this->Link);
 
         return env('IGA_SITE_ROOT', 'http://iga.in.gov')."/legislative$committee";
-    }
-
-    /*
-     * stubbed out Members relationship
-     * TODO many-to-many relationship to Legislator model
-     */
-    public function getMembersAttribute() {
-        return collect([
-            [
-                'Name'=>'Jane Doe',
-                'Slug'=>'jane-doe',
-                'Chamber'=>1,
-                'District'=>'IN09'
-            ],
-            [
-                'Name'=>'Rick Deckard',
-                'Slug'=>'rick-deckard',
-                'Chamber'=>1,
-                'District'=>'IN05'
-            ]
-        ]);
     }
 }

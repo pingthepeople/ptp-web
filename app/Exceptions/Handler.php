@@ -14,10 +14,12 @@ class Handler extends ExceptionHandler
     {
         parent::__construct($container);
 
-        $this->_telemetryClient = new \ApplicationInsights\Telemetry_Client();
-        // there's probably a better way to get the instrumentation key than calling out to the environment.'
-        $instrumentationKey = env('APPINSIGHTS_INSTRUMENTATIONKEY');
-        $this->_telemetryClient->getContext()->setInstrumentationKey($instrumentationKey);
+        if(env('DISABLE_APPINSIGHTS', false)!==true) {
+            $this->_telemetryClient = new \ApplicationInsights\Telemetry_Client();
+            // there's probably a better way to get the instrumentation key than calling out to the environment.'
+            $instrumentationKey = env('APPINSIGHTS_INSTRUMENTATIONKEY');
+            $this->_telemetryClient->getContext()->setInstrumentationKey($instrumentationKey);
+        }
     }
 
     /**
@@ -44,8 +46,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        $this->_telemetryClient->trackException($exception);
-        $this->_telemetryClient->flush();
+        if(env('DISABLE_APPINSIGHTS', false)!==true) {
+            $this->_telemetryClient->trackException($exception);
+            $this->_telemetryClient->flush();
+        }
 
         parent::report($exception);
     }

@@ -15,11 +15,12 @@ class AddLegislatorBillTable extends Migration
     {
         Schema::create('LegislatorBill', function (Blueprint $table) {
             $table->increments('Id');
-            $table->date('Created')->useCurrent();
+            $table->date('Created')->useCurrent()->nullable();
             $table->integer('LegislatorId')->unsigned()->nullable();
             $table->foreign('LegislatorId')->references('Id')->on('Legislator');
             $table->integer('BillId')->unsigned()->nullable();
             $table->foreign('BillId')->references('Id')->on('Bill');
+            $table->tinyInteger('BillPosition')->nullable();
         });
     }
 

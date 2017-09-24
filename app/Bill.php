@@ -35,7 +35,6 @@ class Bill extends Model
         'Link',
         'Title',
         'Description',
-        'Authors',
         'Chamber',
         'ActionType'
     ];
@@ -49,11 +48,10 @@ class Bill extends Model
         'Chamber',
         'DisplayName',
         'IgaSiteLink',
-
-        /* stubbed out relationships */
-        'Authors',
-        'CoAuthors',
-        'Sponsors'
+        "authorIds",
+        "coauthorIds",
+        "sponsorIds",
+        "cosponsorIds"
     ];
 
     /**
@@ -62,7 +60,22 @@ class Bill extends Model
      */
     protected $with = [
         "subjects",
-        "committees"
+        "committees",
+        "session",
+        "authors",
+        "coauthors",
+        "sponsors",
+        "cosponsors"
+    ];
+
+    /**
+     * hide some relations from serialization
+     */
+    protected $hidden = [
+        "authors",
+        "coauthors",
+        "sponsors",
+        "cosponsors"
     ];
 
     /**
@@ -98,7 +111,7 @@ class Bill extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function session() {
-        return $this->belongsTo(Session::class);
+        return $this->belongsTo(Session::class, 'SessionId', 'Id');
     }
 
     /**
@@ -144,7 +157,7 @@ class Bill extends Model
 
     // wow this is complicated
     public function getIgaSiteLinkAttribute() {
-        $year = $this->session()->first() ? $this->session()->first()->Name : date('Y');
+        $year = $this->session ? $this->session->Name : date('Y');
         $legislationType = 'bills';
         $chamber = 'lobby';
         // use title to determine bill/resolution type
@@ -199,68 +212,31 @@ class Bill extends Model
     }
 
     /*
-     * stubbed out Authors relationship
-     * TODO many-to-many relationship to Legislator model
+     * Authors, Coauthors, etc.
      */
-    public function getAuthorsAttribute() {
-        // TODO this is dummy data, get rid of it!
-        return collect([
-            [
-                'Name'=>'Meg Murry',
-                'Slug'=>'meg-murry',
-                'Chamber'=>2,
-                'District'=>'IN15'
-            ]
-        ]);
+    public function authors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 1);
+    }
+    public function coauthors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 2);
+    }
+    public function sponsors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 3);
+    }
+    public function cosponsors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 4);
     }
 
-    /*
-     * stubbed out Coauthors relationship
-     * TODO many-to-many relationship to Legislator model
-     */
-    public function getCoAuthorsAttribute() {
-        // TODO this is dummy data, get rid of it!
-        return collect([
-            [
-                'Name'=>'Charles Wallace',
-                'Slug'=>'charles-wallace',
-                'Chamber'=>2,
-                'District'=>'IN19'
-            ],
-            [
-                'Name'=>"Calvin O'Keefe",
-                'Slug'=>'calvin-okeefe',
-                'Chamber'=>2,
-                'District'=>'IN02'
-            ]
-        ]);
+    public function getAuthorIdsAttribute() {
+        return $this->authors->map(function($x){ return $x->Id; });
     }
-
-    /*
-     * stubbed out Sponsors relationship
-     * TODO many-to-many relationship to Legislator model
-     */
-    public function getSponsorsAttribute() {
-        // TODO this is dummy data, get rid of it!
-        return collect([
-            [
-                'Name'=>'Thing One',
-                'Slug'=>'thing-one',
-                'Chamber'=>2,
-                'District'=>'IN15'
-            ],
-            [
-                'Name'=>'Thing Two',
-                'Slug'=>'thing-two',
-                'Chamber'=>2,
-                'District'=>'IN15'
-            ],
-            [
-                'Name'=>'Cat in the Hat',
-                'Slug'=>'cat-in-the-hat',
-                'Chamber'=>2,
-                'District'=>'IN15'
-            ]
-        ]);
+    public function getCoauthorIdsAttribute() {
+        return $this->coauthors->map(function($x){ return $x->Id; });
+    }
+    public function getSponsorIdsAttribute() {
+        return $this->sponsors->map(function($x){ return $x->Id; });
+    }
+    public function getCosponsorIdsAttribute() {
+        return $this->cosponsors->map(function($x){ return $x->Id; });
     }
 }

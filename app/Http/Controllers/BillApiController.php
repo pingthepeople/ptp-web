@@ -24,56 +24,53 @@ class BillApiController extends Controller
      * @param Request $request
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function all(Request $request)
+    public function bills(Request $request)
     {
-        if(Cache::has('bills')) {
-            $bills = json_decode(Cache::get('bills'));
+        $this->validate($request, [
+            'page' => 'nullable|integer',
+            'q' => 'nullable|string'
+        ]);
+
+        $cacheKey = 'bills';
+        $page = 0;
+        $q = null;
+
+        if($request->input('page')) {
+            $page = $request->input('page');
+            $cacheKey .= '--page-'.$page;
+        }
+        if($request->input('q')) {
+            $q = $request->input('q');
+            $cacheKey .= "--q-$q";
+        }
+
+        if(Cache::has($cacheKey) && 0) {
+            $bills = json_decode(Cache::get($cacheKey));
+        } else {
+            $bills = Bill::paginate(50);
+            Cache::put($cacheKey, $bills->toJson(), 600);
+        }
+
+        $pager = json_decode($bills->toJson(), true);
+        $bills = $pager['data'];
+        unset($pager['data']);
+
+        return response()->json([
+            'bills' => $bills,
+            'pager' => $pager,
+        ]);
+    }
+
+    public function all() {
+        if(Cache::has('bills--all')) {
+            $bills = json_decode(Cache::get('bills--all'));
         } else {
             $bills = Bill::all();
-            Cache::put('bills', $bills->toJson(), 600);
+            Cache::put('bills--all', $bills->toJson(), 600);
         }
 
         return response()->json([
             'bills' => $bills,
-            'user' => Auth::user()
-        ]);
-    }
-
-    public function initialChunk() {
-        if(Cache::has('bills--initial')) {
-            $bills = json_decode(Cache::get('bills--initial'));
-        } else {
-            $bills = Bill::take(10)->get();
-            Cache::put('bills--initial', $bills->toJson(), 600);
-        }
-
-        return response()->json([
-            'bills' => $bills,
-            'user' => Auth::user()
-        ]);
-    }
-
-    public function remainingChunk() {
-        if(Cache::has('bills--remaining')) {
-            $bills = json_decode(Cache::get('bills--remaining'));
-        } else {
-            $bills = Bill::skip(10)->take(5000)->get();
-            Cache::put('bills--remaining', $bills->toJson(), 600);
-        }
-
-        return response()->json([
-            'bills' => $bills,
-        ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function mine() {
-        $user = Auth::user();
-        return response()->json([
-            'bills' => $user->bills,
-            'user' => $user
         ]);
     }
 }
