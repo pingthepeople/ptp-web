@@ -83,7 +83,8 @@ class DashboardController extends Controller
             return redirect('/login');
         }
 
-        $user = Auth::user()->with('representative', 'senator')->first();
+        $user = Auth::user();
+        $user->load(['representative', 'senator']);
         $session = Session::current()->first();
         $legislators = Legislator::where('SessionId', '=', $session->id)->get();
         $representatives = $legislators->filter(function($l) {return $l->Chamber=='House';});
