@@ -1,0 +1,21 @@
+.account {
+    display: flex;
+    margin-top: $lg;
+
+    h2 {
+        font-size: $fs4;
+    }
+
+    label {
+        display: block;
+        
+    }
+
+    .account__notifications {
+        flex: 2;
+        margin-right: $xxl;
+    }
+    .account__legislators {
+        flex: 1;
+    }
+}

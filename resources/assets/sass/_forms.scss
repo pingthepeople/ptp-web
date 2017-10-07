@@ -11,6 +11,14 @@ textarea {
     border: 1px solid $border-color;
 }
 
+label {
+    margin-top: $sm;
+}
+input[type=submit] {
+    @extend .button;
+    margin-top: $sm;
+}
+
 fieldset {
     margin-top: 1em;
 
