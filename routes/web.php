@@ -27,8 +27,10 @@ Route::get('/privacy', 'GuestController@privacy');
 Route::get('/support', 'GuestController@support');
 Route::get('/thank-you', 'GuestController@thankyou');
 Route::get('/about', 'GuestController@about');
-Route::get('/account', 'DashboardController@account');
-Route::post('/account/save', 'DashboardController@saveAccount');
+
+Route::get('/account', 'AccountController@account');
+Route::post('/account/save', 'AccountController@saveAccount');
+Route::post('/account/find-my-legislator', 'AccountController@findMyLegislator');
 
 Route::get('/login-via-facebook', 'SocialAuthController@redirect');
 Route::get('/facebook-callback', 'SocialAuthController@callback');

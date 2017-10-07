@@ -19,7 +19,11 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/bills', 'BillApiController@bills');
 Route::get('/all-bills', 'BillApiController@all');
+
 Route::post('/track', 'TrackingApiController@track');
 Route::post('/stop-tracking', 'TrackingApiController@stopTracking');
 Route::post('/bills/{id}/toggle-email-subscription/', 'TrackingApiController@toggleEmailSubscription');
 Route::post('/bills/{id}/toggle-sms-subscription/', 'TrackingApiController@toggleSmsSubscription');
+
+Route::post('/account', 'AccountApiController@save');
+Route::get('/account/find-my-legislator', 'AccountApiController@findMyLegislator');
