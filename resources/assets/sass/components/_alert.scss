@@ -13,11 +13,13 @@
 
     ul {
         margin: 0 0 -10px 0;
-        padding: 0 0 0 20px;
-        list-style-position: outside;
+        padding: 0;
+        list-style: none;
 
         li {
             margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 2px solid;
         }
     }
 }

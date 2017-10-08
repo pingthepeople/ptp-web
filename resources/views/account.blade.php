@@ -5,25 +5,24 @@
 @section('content')
     <div class="content-wrapper">
         <h1 class="section-title">Account settings for {{$user->Name}}</h1>
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if(session('success-message'))
+            <div class="alert alert-success">
+                {{session('success-message')}}
+            </div>
+        @endif
         <div class="account">
             <div class="account__notifications">
                 <h2 class="">Notifications</h2>
                 <form action="/account/save" method="post">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if(session('success-message'))
-                        <div class="alert alert-success">
-                            {{session('success-message')}}
-                        </div>
-                    @endif
-
                     {{csrf_field()}}
                     <label for="email">Email Address for Alerts</label>
                     <input type="email" value="{{$user->Email}}" id="email" name="Email">
@@ -53,11 +52,11 @@
                 <form action="/account/find-my-legislator" method="post">
                     {{csrf_field()}}
                     <label for="address">Address</label>
-                    <input type="text" id="address" name="address" value="100 Main St">
+                    <input type="text" id="address" name="address">
                     <label for="city">City</label>
-                    <input type="text" id="city" name="city" value="Bloomington">
+                    <input type="text" id="city" name="city">
                     <label for="zip">Zip code</label>
-                    <input type="text" id="zip" name="zip" value="47403">
+                    <input type="text" id="zip" name="zip">
 
                     <input type="submit" value="Look up">
                 </form>
