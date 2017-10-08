@@ -26,4 +26,7 @@ Route::post('/bills/{id}/toggle-email-subscription/', 'TrackingApiController@tog
 Route::post('/bills/{id}/toggle-sms-subscription/', 'TrackingApiController@toggleSmsSubscription');
 
 Route::post('/account', 'AccountApiController@save');
-Route::get('/account/find-my-legislator', 'AccountApiController@findMyLegislator');
+Route::post('/account/find-my-legislator', 'AccountApiController@findMyLegislator');
+if(env('APP_ENV','prod')==='local') {
+    Route::post('/mocked/find-my-legislator', 'MockApiController@findMyLegislator');
+}

@@ -31,6 +31,9 @@ Route::get('/about', 'GuestController@about');
 Route::get('/account', 'AccountController@account');
 Route::post('/account/save', 'AccountController@saveAccount');
 Route::post('/account/find-my-legislator', 'AccountController@findMyLegislator');
+if(env('APP_ENV','prod')==='local') {
+    Route::post('/mocked/find-my-legislator', 'MockApiController@findMyLegislator');
+}
 
 Route::get('/login-via-facebook', 'SocialAuthController@redirect');
 Route::get('/facebook-callback', 'SocialAuthController@callback');
