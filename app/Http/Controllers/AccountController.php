@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\Legislator;
 use App\Session;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
 
 /**
  * Class DashboardController
@@ -38,14 +40,13 @@ class AccountController extends Controller
             'DigestType' => 'digits_between:0,2',
         ]);
 
-        $mobile = '';
         if($request->input('Mobile')) {
             // phone number will contain 10 or 11 digits
             $mobile = preg_replace("/[^0-9]/", "", $request->input('Mobile'));
             if(strlen($mobile) == 10) {
-                $mobile = "+1$mobile";
+                $request->merge(['Mobile'=>"+1$mobile"]);
             } else {
-                $mobile = "+$mobile";
+                $request->merge(['Mobile'=>"+$mobile"]);
             }
         }
 
@@ -60,10 +61,36 @@ class AccountController extends Controller
         $client = new Client();
         $params = $request->only(['address', 'city', 'zip']);
         $params['code'] = env('FIND_LEGISLATOR_SECRET');
-        $result = $client->post(env('FIND_LEGISLATOR_URL'), [
-            'form_params' => $params
-        ]);
 
-        dd($result);
+        try {
+            $response = $client->post(env('FIND_LEGISLATOR_URL'), [
+                'json' => $params
+            ]);
+        } catch (RequestException $e) {
+            if(env('APP_ENV', 'prod')==='local') {
+                dump(Psr7\str($e->getRequest()));
+                if ($e->hasResponse()) {
+                    dump(Psr7\str($e->getResponse()));
+                }
+                die();
+            }
+        }
+
+        $body = $response->getBody();
+        $result = json_decode($body->getContents(), true);
+
+        if(isset($result['RepresentativeId']) && isset($result['SenatorId'])) {
+            $user = Auth::user();
+            $user->update($result);
+            $user->save();
+
+            $messageType = 'success-message';
+            $messageBody = "Your legislators have been saved";
+        } else {
+            $messageType = 'errors';
+            $messageBody = collect(["Sorry, we couldn't find your legislators"]);
+        }
+
+        return redirect("/account")->with($messageType, $messageBody);
     }
 }
