@@ -46,6 +46,8 @@ class User extends Authenticatable
 
     protected $with = ['trackedBills'];
 
+    protected $append = ['hasSetLegislators'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -100,5 +102,9 @@ class User extends Authenticatable
     }
     public function senator() {
         return $this->hasOne(Legislator::class, 'Id', 'SenatorId');
+    }
+
+    public function getHasSetLegislatorsAttribute() {
+        return !empty($this->attributes['RepresentativeId']) && !empty($this->attributes['SenatorId']);
     }
 }
