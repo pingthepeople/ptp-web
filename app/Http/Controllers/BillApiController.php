@@ -32,8 +32,8 @@ class BillApiController extends Controller
                 $etag = 'expired';
             } else {
                 $session = Session::current();
-                $bills = $session->bills;
-                $billsJson = $bills->toJson();
+                $bills = $session->bills->sortBy('Name')->values()->all();
+                $billsJson = json_encode($bills);
                 $etag = md5($billsJson);
                 Cache::forever('bills', $billsJson);
                 Cache::forever('bills__etag', $etag);
