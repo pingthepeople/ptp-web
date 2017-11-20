@@ -144,6 +144,7 @@
                 this.q = ""
                 this.filteredBills = this.bills
                 this.isFilterApplied = false
+                this.pageTo(0)
                 updateQueryVariable('q', '')
             },
             pageTo(page, suppressHistory) {
