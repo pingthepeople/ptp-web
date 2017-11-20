@@ -2,7 +2,7 @@
     <table class="bill-table">
         <thead>
             <tr>
-                <td class="bill-table__bill-star"></td>
+                <td class="bill-table__bill-toggle"></td>
                 <td @click="changeSort('Name')" :class="'sortable' +(sortCol=='Name' ? ' is-sorted' : '')">
                     Bill
                     <span v-if="sortCol=='Name'" class="sort-indicator">
@@ -45,23 +45,17 @@
         </thead>
         <tbody>
             <tr v-for="bill in bills" :class="bill.IsDead==1 ? 'bill-table__dead-bill' : ''">
-                <td class="bill-table__bill-star">
-                    <a v-if="isTracked(bill.Id)" @click.prevent="stopTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
-                        <span class="visually-hidden">Stop watching {{bill.Name}}</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="star star--on">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
-                    </a>
-                    <a v-else @click.prevent="startTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
-                        <span class="visually-hidden">Watch {{bill.Name}}</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="star star--off">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
-                    </a>
+                <td>
+                    <button :class="'switch switch--small '+(isTracked(bill.Id) ? 'is-on' : '')" @click.prevent="toggleTrackingHandler(bill.Id)">
+                        <span v-if="isTracked(bill.Id)" class="u-sr-only">Stop tracking {{bill.DisplayName}}</span>
+                        <span v-else class="u-sr-only">Start tracking {{bill.DisplayName}}</span>
+                        <span aria-hidden="true">Tracking <strong>{{isTracked(bill.Id) ? 'on' : 'off'}}</strong></span>
+                    </button>
+                </td>
                 </td>
                 <td class="bill-table__bill-name">
                     <a :href="bill.IgaSiteLink" target="_blank">
-                        {{bill.Name}}
+                        {{bill.DisplayName}}
                     </a>
                 </td>
                 <td class="bill-table__bill-title">
@@ -148,7 +142,13 @@
             formatTime(timeToFormat) {
                 return moment('01/01/0001 ' + timeToFormat, 'MM/DD/YYYY HH:mm:ss').format('h:mma')
             },
-
+            toggleTrackingHandler(id) {
+                if(this.isTracked(id)) {
+                    this.stopTrackingHandler(id);
+                } else {
+                    this.startTrackingHandler(id);
+                }
+            },
             startTrackingHandler(billId) {
                 // update the global store to reflect tracking the bill...
                 this.$store.dispatch('trackBill', billId)

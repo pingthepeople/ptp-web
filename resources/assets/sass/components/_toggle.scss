@@ -48,7 +48,28 @@ $gray: #ccc;
 
 .switch.is-on:after {
     background-color: $brand-primary;
-    -webkit-transform: translateX(40px);
-    -ms-transform: translateX(40px);
     transform: translateX(40px);
+}
+
+
+// small version
+.switch--small {
+    min-width: 45px;
+    padding-bottom: 17px;
+    padding-right: 2px;
+}
+
+.switch--small:before {
+    width: 33px;
+    height: 13px;
+    border-width: 2px;
+}
+.switch--small:after {
+    height: 11px;
+    width: 11px;
+    bottom: 3px;
+    right: 23px;
+}
+.switch--small.is-on:after {
+    transform: translateX(19px);
 }
