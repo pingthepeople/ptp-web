@@ -51,7 +51,7 @@
                     <button :class="'switch '+(isTracked ? 'is-on' : '')" @click.prevent="toggleTrackingHandler">
                         <span v-if="isTracked" class="u-sr-only">Stop tracking {{bill.DisplayName}}</span>
                         <span v-else class="u-sr-only">Start tracking {{bill.DisplayName}}</span>
-                        <span aria-hidden="true">Track <strong>{{bill.DisplayName}}</strong></span>
+                        <span aria-hidden="true">Tracking <strong>{{isTracked ? 'on' : 'off'}}</strong></span>
                     </button>
                 </div>
             </header>

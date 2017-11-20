@@ -18,12 +18,12 @@
                         @if($bill['isTracked'])
                             <button type="submit" class="switch is-on">
                                 <span class="u-sr-only">Stop tracking {{$bill['DisplayName']}}</span>
-                                <span aria-hidden="true">Track <strong>{{$bill['DisplayName']}}</strong></span>
+                                <span aria-hidden="true">Track <strong>on</strong></span>
                             </button>
                         @else
                             <button type="submit" class="switch">
                                 <span v-else class="u-sr-only">Start tracking {{$bill['DisplayName']}}</span>
-                                <span aria-hidden="true">Track <strong>{{$bill['DisplayName']}}</strong></span>
+                                <span aria-hidden="true">Tracking <strong>off</strong></span>
                             </button>
                         @endif
                     </form>
