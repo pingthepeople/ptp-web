@@ -2,7 +2,7 @@
     <div>
         <h1 class="section-title">All Legislation</h1>
         <div>
-            <div v-if="isLoadingInitialChunk" class="bill-list__loading">Loading legislation...</div>
+            <div v-if="isLoading" class="bill-list__loading">Loading legislation...</div>
             <div v-else-if="bills.length">
                 <div class="filters">
                     <form class="filters__search search" @submit.prevent="filterBillHandler">
@@ -17,13 +17,13 @@
                     </div>
                 </div>
 
-                <ul v-if="nPagesToDisplay>1" class="pager">
+                <ul v-if="nPages>1" class="pager">
                     <li class="pager__item">
                         <a class="pager__link" @click.prevent="pageTo(currentPage)" href="javascript:void(0)">
                             Previous
                         </a>
                     </li>
-                    <li class="pager__item" v-for="page in nPagesToDisplay">
+                    <li class="pager__item" v-for="page in nPages">
                         <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                             {{page}}
                         </a>
@@ -78,14 +78,10 @@
             },
             nPages() {
                 return Math.ceil(this.filteredBills.length/pageSize)
-            },
-            nPagesToDisplay() {
-                return this.staticPageCount ? this.staticPageCount : this.nPages
             }
         },
         data() {
             return {
-                currentSession: moment().year(),
                 currentPage: 0,
                 filteredBills: [],
                 q: '',

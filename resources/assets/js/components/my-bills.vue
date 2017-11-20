@@ -43,7 +43,6 @@
         },
         data() {
             return {
-                currentSession: moment().year(),
                 filteredBills: [],
                 q: '',
                 isFilterApplied: false,
