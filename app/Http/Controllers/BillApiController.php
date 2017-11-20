@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bill;
+use App\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -30,7 +31,8 @@ class BillApiController extends Controller
                 $bills = [];
                 $etag = 'expired';
             } else {
-                $bills = Bill::all();
+                $session = Session::current();
+                $bills = $session->bills;
                 $billsJson = $bills->toJson();
                 $etag = md5($billsJson);
                 Cache::forever('bills', $billsJson);
