@@ -107,6 +107,11 @@
                     if(pageFromUrl) {
                         this.pageTo(pageFromUrl, true)
                     }
+                    let qFromUrl = getQueryVariable('q')
+                    if(qFromUrl) {
+                        this.q = qFromUrl
+                        this.filterBillHandler(true)
+                    }
                 })
             },
             getFilteredBills() {
@@ -125,16 +130,21 @@
                     return this.bills
                 }
             },
-            filterBillHandler() {
+            filterBillHandler(supressHistory) {
                 this.filteredBills = this.getFilteredBills()
                 if(this.currentPage > this.nPages-1) {
                     this.currentPage = this.nPages-1
+                }
+
+                if(supressHistory!==true) {
+                    updateQueryVariable('q', this.q)
                 }
             },
             clearSearch() {
                 this.q = ""
                 this.filteredBills = this.bills
                 this.isFilterApplied = false
+                updateQueryVariable('q', '')
             },
             pageTo(page, suppressHistory) {
                 if(this.nPages) {
@@ -161,6 +171,13 @@
                     this.pageTo(history.state.page, true)
                 } else {
                     this.pageTo(0)
+                }
+                if(history.state && history.state.q) {
+                    this.q = history.state.q
+                    this.filterBillHandler(true)
+                } else {
+                    this.q = ''
+                    this.filterBillHandler()
                 }
             }
         }
