@@ -215,16 +215,16 @@ class Bill extends Model
      * Authors, Coauthors, etc.
      */
     public function authors() {
-        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 1);
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('Position', '=', 1);
     }
     public function coauthors() {
-        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 2);
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('Position', '=', 2);
     }
     public function sponsors() {
-        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 3);
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('Position', '=', 3);
     }
     public function cosponsors() {
-        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('BillPosition', '=', 4);
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('Position', '=', 4);
     }
 
     public function getAuthorIdsAttribute() {
