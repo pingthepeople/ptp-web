@@ -44,8 +44,7 @@ class Session extends Model
      */
     public function scopeCurrent($builder)
     {
-        $now = Carbon::now();
-        return $builder->where('Name', $now->year)->first();
+        return $builder->where('Active', true)->first();
     }
 
     /**
@@ -53,7 +52,7 @@ class Session extends Model
      */
     public function bills()
     {
-        return $this->hasMany(Bill::class);
+        return $this->hasMany(Bill::class, 'SessionId');
     }
 
     /**

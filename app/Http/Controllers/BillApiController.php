@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Bill;
+use App\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 
 /**
  * Class BillApiController
@@ -20,57 +22,26 @@ class BillApiController extends Controller
         }
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function bills(Request $request)
-    {
-        $this->validate($request, [
-            'page' => 'nullable|integer',
-            'q' => 'nullable|string'
-        ]);
-
-        $cacheKey = 'bills';
-        $page = 0;
-        $q = null;
-
-        if($request->input('page')) {
-            $page = $request->input('page');
-            $cacheKey .= '--page-'.$page;
-        }
-        if($request->input('q')) {
-            $q = $request->input('q');
-            $cacheKey .= "--q-$q";
-        }
-
-        if(Cache::has($cacheKey) && 0) {
-            $bills = json_decode(Cache::get($cacheKey));
+    public function all(Request $request) {
+        if(Cache::has('bills') && Cache::has('bills__etag')) {
+            $bills = json_decode(Cache::get('bills'));
+            $etag = Cache::get('bills__etag');
         } else {
-            $bills = Bill::paginate(50);
-            Cache::put($cacheKey, $bills->toJson(), 600);
-        }
-
-        $pager = json_decode($bills->toJson(), true);
-        $bills = $pager['data'];
-        unset($pager['data']);
-
-        return response()->json([
-            'bills' => $bills,
-            'pager' => $pager,
-        ]);
-    }
-
-    public function all() {
-        if(Cache::has('bills--all')) {
-            $bills = json_decode(Cache::get('bills--all'));
-        } else {
-            $bills = Bill::all();
-            Cache::put('bills--all', $bills->toJson(), 600);
+            if($request->method() == 'HEAD') {
+                $bills = [];
+                $etag = 'expired';
+            } else {
+                $session = Session::current();
+                $bills = $session->bills->sortBy('Name')->values()->all();
+                $billsJson = json_encode($bills);
+                $etag = md5($billsJson);
+                Cache::forever('bills', $billsJson);
+                Cache::forever('bills__etag', $etag);
+            }
         }
 
         return response()->json([
-            'bills' => $bills,
-        ]);
+            'bills' => $bills
+        ])->setEtag($etag);
     }
 }

@@ -1,0 +1,75 @@
+$gray: #ccc;
+
+.switch {
+    min-width: 90px;
+    padding: 0;
+    padding-bottom: 34px;
+    padding-right: 4px;
+    font-size: $fs6;
+    position: relative;
+    border: none;
+    text-align: right;
+}
+
+.switch:before {
+    position: absolute;
+    content: "";
+    cursor: pointer;
+    bottom: 0;
+    right: 0;
+    width: 66px;
+    height: 26px;
+    border: 3px solid $gray;
+    border-radius: 34px;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+}
+
+.switch:after {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    right: 45px;
+    bottom: 5px;
+    background-color: $gray;
+    border-radius: 50%;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+}
+
+.switch.is-on:before {
+    border-color: $brand-primary;
+}
+
+.switch:focus:before {
+    box-shadow: 0 0 1px $brand-primary;
+}
+
+.switch.is-on:after {
+    background-color: $brand-primary;
+    transform: translateX(40px);
+}
+
+
+// small version
+.switch--small {
+    min-width: 45px;
+    padding-bottom: 17px;
+    padding-right: 2px;
+}
+
+.switch--small:before {
+    width: 33px;
+    height: 13px;
+    border-width: 2px;
+}
+.switch--small:after {
+    height: 11px;
+    width: 11px;
+    bottom: 3px;
+    right: 23px;
+}
+.switch--small.is-on:after {
+    transform: translateX(19px);
+}

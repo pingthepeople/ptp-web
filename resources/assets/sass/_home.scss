@@ -1,5 +1,13 @@
 .welcome {
     max-width: 600px;
+
+    li {
+        margin-bottom: $xs;
+    }
+
+    .welcome__tracking-icon {
+        vertical-align: middle;
+    }
 }
 
 .hero,

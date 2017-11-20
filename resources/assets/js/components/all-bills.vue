@@ -2,7 +2,7 @@
     <div>
         <h1 class="section-title">All Legislation</h1>
         <div>
-            <div v-if="isLoadingInitialChunk" class="bill-list__loading">Loading legislation...</div>
+            <div v-if="isLoading" class="bill-list__loading">Loading legislation...</div>
             <div v-else-if="bills.length">
                 <div class="filters">
                     <form class="filters__search search" @submit.prevent="filterBillHandler">
@@ -17,13 +17,13 @@
                     </div>
                 </div>
 
-                <ul v-if="nPagesToDisplay>1" class="pager">
+                <ul v-if="nPages>1" class="pager">
                     <li class="pager__item">
                         <a class="pager__link" @click.prevent="pageTo(currentPage)" href="javascript:void(0)">
                             Previous
                         </a>
                     </li>
-                    <li class="pager__item" v-for="page in nPagesToDisplay">
+                    <li class="pager__item" v-for="page in nPages">
                         <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
                             {{page}}
                         </a>
@@ -78,14 +78,10 @@
             },
             nPages() {
                 return Math.ceil(this.filteredBills.length/pageSize)
-            },
-            nPagesToDisplay() {
-                return this.staticPageCount ? this.staticPageCount : this.nPages
             }
         },
         data() {
             return {
-                currentSession: moment().year(),
                 currentPage: 0,
                 filteredBills: [],
                 q: '',
@@ -111,6 +107,11 @@
                     if(pageFromUrl) {
                         this.pageTo(pageFromUrl, true)
                     }
+                    let qFromUrl = getQueryVariable('q')
+                    if(qFromUrl) {
+                        this.q = qFromUrl
+                        this.filterBillHandler(true)
+                    }
                 })
             },
             getFilteredBills() {
@@ -129,16 +130,22 @@
                     return this.bills
                 }
             },
-            filterBillHandler() {
+            filterBillHandler(supressHistory) {
                 this.filteredBills = this.getFilteredBills()
                 if(this.currentPage > this.nPages-1) {
                     this.currentPage = this.nPages-1
+                }
+
+                if(supressHistory!==true) {
+                    updateQueryVariable('q', this.q)
                 }
             },
             clearSearch() {
                 this.q = ""
                 this.filteredBills = this.bills
                 this.isFilterApplied = false
+                this.pageTo(0)
+                updateQueryVariable('q', '')
             },
             pageTo(page, suppressHistory) {
                 if(this.nPages) {
@@ -165,6 +172,13 @@
                     this.pageTo(history.state.page, true)
                 } else {
                     this.pageTo(0)
+                }
+                if(history.state && history.state.q) {
+                    this.q = history.state.q
+                    this.filterBillHandler(true)
+                } else {
+                    this.q = ''
+                    this.filterBillHandler()
                 }
             }
         }

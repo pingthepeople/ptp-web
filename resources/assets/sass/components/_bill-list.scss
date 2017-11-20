@@ -77,7 +77,7 @@
 
         .bill__meta {
             display: flex;
-            margin-bottom: $sm;
+            margin-top: $xs;
 
             .info {
                 margin-right: $md;
@@ -170,11 +170,12 @@
         border-color: $border-color lighten($border-color, 7%)
     }
     td:first-child {
-        padding-left: 0;
+        padding-top: 0;
     }
 
-    td.bill-table__bill-star {
-        border: none;
+    td.bill-table__bill-toggle {
+        text-align: right;
+        width: 85px;
     }
 
     .bill-table__cell-header,
@@ -187,7 +188,7 @@
         color: $text-secondary;
     }
     .bill-table__bill-name {
-        width: 60px;
+        width: 100px;
     }
     .bill-table__bill-actions {
         width: 180px;

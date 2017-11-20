@@ -4,15 +4,15 @@
             <header class="bill__header">
                 <div class="bill__header-meta">
                     <div class="bill__name-and-title">
-                        <a :href="'/bills/' + b.Name">
+                        <a :href="'/bills/' + bill.Name">
                             <h3 class="bill__name">
-                                {{ b.DisplayName }}
+                                {{ bill.DisplayName }}
                             </h3>
                             <p class="bill__title">
-                                {{ b.Title }}
+                                {{ bill.Title }}
                             </p>
                         </a>
-                        <tooltip v-if="b.IsDead==1" class="bill__dead">
+                        <tooltip v-if="bill.IsDead==1" class="bill__dead">
                             <div slot="tooltip-trigger" class="bill__dead-tag">Dead</div>
                             <div slot="tooltip-content">
                                 This bill either failed a vote or missed a deadline for a reading or hearing. It is no longer being considered as a distinct piece of legislation.
@@ -22,60 +22,51 @@
                     <div v-if="isTracked" class="bill__is-tracked" aria-hidden="true">
                         You are tracking this legislation
                     </div>
+                    <div class="bill__meta">
+                        <div class="info" v-if="bill.committees.length">
+                            <div class="info__label">
+                                {{bill.committees.length | pluralizeCommittees}}
+                            </div>
+                            <div class="info__body">
+                                <span v-for="(committee, index) in bill.committees">
+                                    <a :href="committee.IgaSiteLink" target="_blank">
+                                        ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}</a><span v-if="index!=bill.committees.length-1">,&nbsp;</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="info" v-if="bill.subjects.length">
+                            <div class="info__label">
+                                {{bill.subjects.length | pluralizeSubjects}}
+                            </div>
+                            <div class="info__body">
+                                <span v-for="(subject, index) in bill.subjects">
+                                    <a :href="subject.Link" target="_blank">
+                                        {{subject.Name}}</a><span v-if="index!=bill.subjects.length-1">,&nbsp;</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="bill__actions">
-                    <div class="bill__star">
-                        <button v-if="isTracked" @click.prevent="stopTrackingHandler" class="button--unbutton">
-                            <span class="visually-hidden">Stop tracking {{this.b.Name}}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="star star--on">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                            </svg>
-                        </button>
-                        <button v-else @click.prevent="startTrackingHandler" class="button--unbutton">
-                            <span class="visually-hidden">Track {{this.b.Name}}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="star star--off">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                            </svg>
-                        </button>
-                    </div>
+                    <button :class="'switch '+(isTracked ? 'is-on' : '')" @click.prevent="toggleTrackingHandler">
+                        <span v-if="isTracked" class="u-sr-only">Stop tracking {{bill.DisplayName}}</span>
+                        <span v-else class="u-sr-only">Start tracking {{bill.DisplayName}}</span>
+                        <span aria-hidden="true">Tracking <strong>{{isTracked ? 'on' : 'off'}}</strong></span>
+                    </button>
                 </div>
             </header>
-            <div class="bill__meta">
-                <div class="info" v-if="b.committees.length">
-                    <div class="info__label">
-                        {{b.committees.length | pluralizeCommittees}}
-                    </div>
-                    <div class="info__body">
-                        <span v-for="(committee, index) in b.committees">
-                            <a :href="committee.IgaSiteLink" target="_blank">
-                                ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}</a><span v-if="index!=b.committees.length-1">,&nbsp;</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="info" v-if="b.subjects.length">
-                    <div class="info__label">
-                        {{b.subjects.length | pluralizeSubjects}}
-                    </div>
-                    <div class="info__body">
-                        <span v-for="(subject, index) in b.subjects">
-                            <a :href="subject.Link" target="_blank">
-                                {{subject.Name}}</a><span v-if="index!=b.subjects.length-1">,&nbsp;</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
             <div class="info">
                 <div class='info__label'>
                     Description
                 </div>
                 <transition name="description-swap">
                     <div v-if="isShowingFullDescription" class="info__body info__body--long">
-                        <div>{{ this.b.Description }}</div>
+                        <div>{{ this.bill.Description }}</div>
                         <button @click.prevent="isShowingFullDescription=false" class="bill__description-toggle button--plain">Hide description</button>
                     </div>
                     <div v-else class="info__body info__body--long">
-                        <div>{{ this.b.Description | truncate }}</div>
-                        <button v-if="this.b.Description.length > 250" @click.prevent="isShowingFullDescription=true" class="bill__description-toggle button--plain">Show full description</button>
+                        <div>{{ this.bill.Description | truncate }}</div>
+                        <button v-if="this.bill.Description.length > 250" @click.prevent="isShowingFullDescription=true" class="bill__description-toggle button--plain">Show full description</button>
                     </div>
                 </transition>
             </div>
@@ -126,6 +117,13 @@
             }
         },
         methods: {
+            toggleTrackingHandler() {
+                if(this.isTracked) {
+                    this.stopTrackingHandler();
+                } else {
+                    this.startTrackingHandler();
+                }
+            },
             startTrackingHandler() {
                 // update the global store to reflect tracking the bill...
                 this.$store.dispatch('trackBill', this.bill.Id)
