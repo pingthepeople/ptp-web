@@ -53,6 +53,7 @@ class DashboardController extends Controller
         if(!$bill) {
             abort(404);
         }
+        $bill->load(['authors', 'coauthors', 'sponsors', 'cosponsors']);
         $bill = $bill->toArray();
 
         if(Auth::check()) {
