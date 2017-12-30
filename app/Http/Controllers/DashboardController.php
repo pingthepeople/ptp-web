@@ -47,7 +47,8 @@ class DashboardController extends Controller
     }
 
     public function singleBill($name) {
-        $bill = Bill::where('Name', '=', $name)
+        $session = Session::current();
+        $bill = $session->bills->where('Name', '=', $name)
                     ->firstOrFail()
                     ->makeVisible(['authors', 'coauthors', 'sponsors', 'cosponsors']);
         $bill = $bill->toArray();
