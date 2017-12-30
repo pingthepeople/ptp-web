@@ -86,6 +86,6 @@ return [
     |
     */
 
-    'prefix' => env('REDIS_PREFIX', 'test')+'-',
+    'prefix' => env('REDIS_PREFIX', 'test'),
 
 ];
