@@ -63,7 +63,7 @@ class SocialAuthController extends Controller
 
     public function anonymousRedirectAndCallback() {
         if(env('APP_ENV', 'prod')==='local') {
-            $user = User::where('AuthProviderEmail', 'anonymous')->first();
+            $user = User::where('AuthProviderEmail', 'anonymous@gmail.com')->first();
             if($user) {
                 Auth::login($user);
                 return redirect('/');
