@@ -29,8 +29,7 @@
                             </div>
                             <div class="info__body">
                                 <span v-for="(committee, index) in bill.committees">
-                                    <a :href="committee.IgaSiteLink" target="_blank">
-                                        ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}</a><span v-if="index!=bill.committees.length-1">,&nbsp;</span>
+                                    ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}<span v-if="index!=bill.committees.length-1">,&nbsp;</span>
                                 </span>
                             </div>
                         </div>
@@ -40,8 +39,7 @@
                             </div>
                             <div class="info__body">
                                 <span v-for="(subject, index) in bill.subjects">
-                                    <a :href="subject.Link" target="_blank">
-                                        {{subject.Name}}</a><span v-if="index!=bill.subjects.length-1">,&nbsp;</span>
+                                    {{subject.Name}}<span v-if="index!=bill.subjects.length-1">,&nbsp;</span>
                                 </span>
                             </div>
                         </div>
