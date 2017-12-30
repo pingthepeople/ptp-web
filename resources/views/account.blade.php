@@ -72,7 +72,7 @@
                             <option
                                 {{ ($user->RepresentativeId == $person->Id) ? 'selected' : '' }}
                                 value="{{$person->Id}}">
-                                ({{ rand(0,1) ? 'R' : 'D' }}) {{$person->Name}}</option>
+                                {{$person->Name}}</option>
                         @endforeach
                     </select>
 
@@ -83,11 +83,13 @@
                             <option
                                 {{ ($user->SenatorId == $person->Id) ? 'selected' : '' }}
                                 value="{{$person->Id}}">
-                                ({{ rand(0,1) ? 'R' : 'D' }}) {{$person->Name}}</option>
+                                {{$person->Name}}</option>
                         @endforeach
                     </select>
 
-                    <input type="submit" value="Save legislators">
+                    <div>
+                        <input type="submit" value="Save legislators">
+                    </div>
                 </form>
             </div>
         </div>
