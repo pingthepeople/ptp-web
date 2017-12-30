@@ -58,6 +58,12 @@ class AccountController extends Controller
     }
 
     public function findMyLegislator(Request $request) {
+        $this->validate($request, [
+            'address' => 'required',
+            'city' => 'required',
+            'zip' => 'required|numeric'
+        ]);
+
         $client = new Client();
         $params = $request->only(['address', 'city', 'zip']);
         $params['code'] = env('FIND_LEGISLATOR_SECRET');
@@ -79,9 +85,12 @@ class AccountController extends Controller
         $body = $response->getBody();
         $result = json_decode($body->getContents(), true);
 
-        if(isset($result['RepresentativeId']) && isset($result['SenatorId'])) {
+        if(isset($result['Representative']) && isset($result['Senator'])) {
             $user = Auth::user();
-            $user->update($result);
+            $user->update([
+                'RepresentativeId' => $result['Representative']['Id'],
+                'SenatorId' => $result['Senator']['Id'],
+            ]);
             $user->save();
 
             $messageType = 'success-message';
