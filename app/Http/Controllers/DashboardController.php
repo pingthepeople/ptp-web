@@ -49,8 +49,10 @@ class DashboardController extends Controller
     public function singleBill($name) {
         $session = Session::current();
         $bill = $session->bills->where('Name', '=', $name)
-                    ->firstOrFail()
-                    ->makeVisible(['authors', 'coauthors', 'sponsors', 'cosponsors']);
+                    ->first();
+        if(!$bill) {
+            abort(404);
+        }
         $bill = $bill->toArray();
 
         if(Auth::check()) {
