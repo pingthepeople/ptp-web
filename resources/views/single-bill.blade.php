@@ -137,7 +137,7 @@
                             @if(!$loop->first)
                                 <span class="just-a-comma">,</span>
                             @endif
-                            <a href="#{{$committee['Link']}}">{{$committee['Name']}}</a>
+                            {{$committee['Name']}}
                         @endforeach
                     </div>
                 </div>
