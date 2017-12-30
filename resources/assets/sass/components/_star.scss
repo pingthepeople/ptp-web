@@ -1,0 +1,11 @@
+.star {
+    display: block;
+}
+
+.star--on {
+    color: $brand-blue;
+}
+
+.star--off {
+    fill: transparent;
+}

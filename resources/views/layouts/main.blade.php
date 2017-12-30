@@ -15,8 +15,6 @@
 
     <link href="{{mix('css/app.css')}}" rel="stylesheet" type="text/css">
 
-
-
     <title>@yield('title')</title>
 </head>
 <body>
@@ -27,7 +25,7 @@
     <div id="vue-root" class="site__wrapper">
         @include('shared.header')
 
-        <div class="site__content container">
+        <div class="site__content content-wrapper">
             <div class="main">
                 @yield('content')
             </div>
@@ -35,6 +33,11 @@
 
         @include('shared.footer')
     </div>
+    @if($user)
+        <script>
+            var user = {!! json_encode($user) !!}
+        </script>
+    @endif
     <script src="{{mix('js/app.js')}}"></script>
 </body>
 </html>

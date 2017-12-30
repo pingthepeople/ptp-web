@@ -27,28 +27,55 @@ class Bill extends Model
     public $timestamps = false;
 
     /**
+     * properties that can be assigned via ->update(), etc.
      * @var array
      */
     protected $fillable = [
-        'Name','Link','Title', 'Description','Authors', 'Chamber', 'ActionType'
+        'Name',
+        'Link',
+        'Title',
+        'Description',
+        'Chamber',
+        'ActionType'
     ];
 
     /**
+     * Properties appended to the serialized model
      * @var array
      */
     protected $appends = [
         'id',
         'Chamber',
-        'Name',
-        'IgaSiteLink'
+        'DisplayName',
+        'IgaSiteLink',
+        "authorIds",
+        "coauthorIds",
+        "sponsorIds",
+        "cosponsorIds"
     ];
 
     /**
+     * The relations to eager load on every query.
      * @var array
      */
     protected $with = [
         "subjects",
-        "committees"
+        "committees",
+        "session",
+        "authors",
+        "coauthors",
+        "sponsors",
+        "cosponsors"
+    ];
+
+    /**
+     * hide some relations from serialization
+     */
+    protected $hidden = [
+        "authors",
+        "coauthors",
+        "sponsors",
+        "cosponsors"
     ];
 
     /**
@@ -57,8 +84,6 @@ class Bill extends Model
     protected static function boot()
     {
         parent::boot();
-
-        //static::addGlobalScope(new CurrentSessionScope);
     }
 
     /**
@@ -86,7 +111,7 @@ class Bill extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function session() {
-        return $this->belongsTo(Session::class);
+        return $this->belongsTo(Session::class, 'SessionId', 'Id');
     }
 
     /**
@@ -118,7 +143,7 @@ class Bill extends Model
         return $types[$this->attributes['Chamber']];
     }
 
-    public function getNameAttribute() {
+    public function getDisplayNameAttribute() {
         // names are stored without a space after their SB/HB prefix, and with leading zeroes on bill numbers
         // e.g. SB0025, HB0189
 
@@ -132,7 +157,7 @@ class Bill extends Model
 
     // wow this is complicated
     public function getIgaSiteLinkAttribute() {
-        $year = $this->session()->first() ? $this->session()->first()->Name : date('Y');
+        $year = $this->session ? $this->session->Name : date('Y');
         $legislationType = 'bills';
         $chamber = 'lobby';
         // use title to determine bill/resolution type
@@ -184,5 +209,34 @@ class Bill extends Model
             $this->Chamber,
             $subjects
         ];
+    }
+
+    /*
+     * Authors, Coauthors, etc.
+     */
+    public function authors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('Position', '=', 1);
+    }
+    public function coauthors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('Position', '=', 2);
+    }
+    public function sponsors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('Position', '=', 3);
+    }
+    public function cosponsors() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorBill', 'BillId', 'LegislatorId')->wherePivot('Position', '=', 4);
+    }
+
+    public function getAuthorIdsAttribute() {
+        return $this->authors->map(function($x){ return $x->Id; });
+    }
+    public function getCoauthorIdsAttribute() {
+        return $this->coauthors->map(function($x){ return $x->Id; });
+    }
+    public function getSponsorIdsAttribute() {
+        return $this->sponsors->map(function($x){ return $x->Id; });
+    }
+    public function getCosponsorIdsAttribute() {
+        return $this->cosponsors->map(function($x){ return $x->Id; });
     }
 }

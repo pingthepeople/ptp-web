@@ -29,13 +29,19 @@ class Committee extends Model
      * @var array
      */
     protected $fillable = [
-        'Name','Link', 'Chamber'
+        'Name',
+        'Link',
+        'Chamber'
     ];
 
     /**
      * @var array
      */
-    protected $appends = ['id', 'Chamber', 'IgaSiteLink'];
+    protected $appends = [
+        'id',
+        'Chamber',
+        'IgaSiteLink',
+    ];
 
     /**
      *
@@ -43,8 +49,6 @@ class Committee extends Model
     protected static function boot()
     {
         parent::boot();
-
-        //static::addGlobalScope(new CurrentSessionScope);
     }
 
     /**
@@ -59,6 +63,13 @@ class Committee extends Model
      */
     public function session() {
         return $this->belongsTo(Session::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function members() {
+        return $this->belongsToMany(Legislator::class, 'LegislatorCommittee', 'CommitteeId', 'LegislatorId');
     }
 
     /**

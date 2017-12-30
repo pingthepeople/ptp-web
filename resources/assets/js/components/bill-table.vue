@@ -2,7 +2,7 @@
     <table class="bill-table">
         <thead>
             <tr>
-                <td class="bill-table__bill-star"></td>
+                <td class="bill-table__bill-toggle"></td>
                 <td @click="changeSort('Name')" :class="'sortable' +(sortCol=='Name' ? ' is-sorted' : '')">
                     Bill
                     <span v-if="sortCol=='Name'" class="sort-indicator">
@@ -44,24 +44,18 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="bill in sortedBills" :class="bill.IsDead==1 ? 'bill-table__dead-bill' : ''">
-                <td class="bill-table__bill-star">
-                    <a v-if="isTracked(bill.Id)" @click.prevent="stopTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
-                        <span class="visually-hidden">Stop watching {{bill.Name}}</span>
-                        <svg height="35" width="33" class="star is-tracked">
-                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
-                        </svg>
-                    </a>
-                    <a v-else @click.prevent="startTrackingHandler(bill.Id)" class="" href="javascript:void(0)">
-                        <span class="visually-hidden">Watch {{bill.Name}}</span>
-                        <svg height="35" width="33" class="star">
-                            <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
-                        </svg>
-                    </a>
+            <tr v-for="bill in bills" :class="bill.IsDead==1 ? 'bill-table__dead-bill' : ''">
+                <td>
+                    <button :class="'switch switch--small '+(isTracked(bill.Id) ? 'is-on' : '')" @click.prevent="toggleTrackingHandler(bill.Id)">
+                        <span v-if="isTracked(bill.Id)" class="u-sr-only">Stop tracking {{bill.DisplayName}}</span>
+                        <span v-else class="u-sr-only">Start tracking {{bill.DisplayName}}</span>
+                        <span aria-hidden="true">Tracking <strong>{{isTracked(bill.Id) ? 'on' : 'off'}}</strong></span>
+                    </button>
+                </td>
                 </td>
                 <td class="bill-table__bill-name">
                     <a :href="bill.IgaSiteLink" target="_blank">
-                        {{bill.Name}}
+                        {{bill.DisplayName}}
                     </a>
                 </td>
                 <td class="bill-table__bill-title">
@@ -75,12 +69,12 @@
                             </span>
                         </div>
                         <div slot="tooltip-content">
-                            'Dead' bills have either failed a vote or missed a deadline for a reading or hearing. They are no longer being considered as distinct pieces of legislation. 
+                            'Dead' bills have either failed a vote or missed a deadline for a reading or hearing. They are no longer being considered as distinct pieces of legislation.
                         </div>
                     </tooltip>
                 </td>
                 <td class="bill-table__bill-actions">
-                    <div v-if="bill.actions[0]">
+                    <div v-if="bill.actions && bill.actions[0]">
                         <div class="bill-table__action-type">({{bill.actions[0].Chamber.substr(0,1)}}) {{bill.actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">
                             {{bill.actions[0].Description}}<br>
@@ -90,12 +84,12 @@
                     <div v-else>None</div>
                 </td>
                 <td class="bill-table__bill-actions">
-                    <div v-if="bill.scheduled_actions[0]">
+                    <div v-if="bill.scheduled_actions && bill.scheduled_actions[0]">
                         <div class="bill-table__action-type">({{bill.scheduled_actions[0].Chamber.substr(0,1)}}) {{bill.scheduled_actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">{{formatDate(bill.scheduled_actions[0].Date)}}<br>
                             <div v-if="bill.scheduled_actions[0].Start">
                                 {{formatTime(bill.scheduled_actions[0].Start)}} - {{formatTime(bill.scheduled_actions[0].End)}}<br>
-                            </div>                            
+                            </div>
                             {{bill.scheduled_actions[0].Location}}
                         </div>
                     </div>
@@ -105,10 +99,10 @@
                 </td>
                 <td class="bill-table__alert-controls">
                     <label :for="bill.Id+'email'">
-                        Email <input :id="bill.Id+'email'" name="email" type="checkbox" :checked="bill.pivot.ReceiveAlertEmail==1" @change="toggleEmailHandler(bill.Id)">
+                        Email <input :id="bill.Id+'email'" name="email" type="checkbox" :checked="isTrackedByEmail(bill.Id)" @change="toggleEmailHandler(bill.Id)">
                     </label>
                     <label :for="bill.Id+'sms'">
-                        SMS <input :id="bill.Id+'sms'" name="sms" type="checkbox" :checked="bill.pivot.ReceiveAlertSms==1" @change="toggleSmsHandler(bill.Id)">
+                        SMS <input :id="bill.Id+'sms'" name="sms" type="checkbox" :checked="isTrackedBySms(bill.Id)" @change="toggleSmsHandler(bill.Id)">
                     </label>
                 </td>
             </tr>
@@ -117,57 +111,16 @@
 </template>
 
 <script type="text/babel">
-    let moment = require('moment')
+    const moment = require('moment')
+    const mapActions = require("vuex").mapActions
+    const mapGetters = require("vuex").mapGetters
 
     module.exports = {
         components: {
             bill: require('./bill.vue'),
         },
         computed: {
-            user() {
-                return this.$store.getters.user
-            },
-            sortedBills() {
-                return this.bills.sort( (a,b) => {
-
-                    let aProperty = a[this.sortCol]
-                    let bProperty = b[this.sortCol]
-                    let aValue = aProperty
-                    let bValue = bProperty
-
-                    switch (this.sortCol) {
-                        case "Name": // sort by bill name
-                            aValue = a["Link"];
-                            bValue = b["Link"];
-                            break;
-                        case "IsDead":
-                            if (aValue.length === 0) { return 1; } // always move "None" to the bottom of the list
-                            if (bValue.length === 0) { return -1; }
-                            aValue += a["Link"]
-                            bValue += b["Link"]
-                            break;
-                        case "actions": // sort by event date, then by bill name
-                            if (aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
-                            if (bProperty.length === 0) { return -1; }
-                            aValue = aProperty[0].Date + a["Link"]
-                            bValue = bProperty[0].Date + b["Link"] 
-                            break;
-                        case "scheduled_actions": // sort by event date + start time, then by bill name
-                            if (aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
-                            if (bProperty.length === 0) { return -1; }
-                            aValue = aProperty[0].Date + aProperty[0].Start + a["Link"]
-                            bValue = bProperty[0].Date + bProperty[0].Start + b["Link"]
-                            break;
-                        default:
-                            /* NOP. Use existing default values. */
-                            break;
-                    }
-                    
-                    return this.sortAsc 
-                        ? aValue < bValue ? -1 : (aValue > bValue ? 1 : 0)
-                        : aValue > bValue ? -1 : (aValue < bValue ? 1 : 0)
-                })
-            }
+            ...mapGetters(["user"])
         },
         data() {
             return {
@@ -189,7 +142,13 @@
             formatTime(timeToFormat) {
                 return moment('01/01/0001 ' + timeToFormat, 'MM/DD/YYYY HH:mm:ss').format('h:mma')
             },
-
+            toggleTrackingHandler(id) {
+                if(this.isTracked(id)) {
+                    this.stopTrackingHandler(id);
+                } else {
+                    this.startTrackingHandler(id);
+                }
+            },
             startTrackingHandler(billId) {
                 // update the global store to reflect tracking the bill...
                 this.$store.dispatch('trackBill', billId)
@@ -217,14 +176,22 @@
                     this.sortCol = col;
                     this.sortAsc = true;
                 }
+
+                this.applyBillSort({sortCol: this.sortCol, sortAsc: this.sortAsc})
             },
 
             isTracked(id) {
                 return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(parseInt(id));
-            }
-        },
-        mounted() {
-
+            },
+            isTrackedByEmail(id) {
+                let bill = this.user.tracked_bills.find(b=>parseInt(b.BillId)==parseInt(id))
+                return bill ? bill.ReceiveAlertEmail : 0
+            },
+            isTrackedBySms(id) {
+                let bill = this.user.tracked_bills.find(b=>parseInt(b.BillId)==parseInt(id))
+                return bill ? bill.ReceiveAlertSms : 0
+            },
+            ...mapActions(['applyBillSort'])
         },
         props: ['bills']
     }

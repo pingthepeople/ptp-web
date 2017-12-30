@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Bill;
+use App\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 
 /**
  * Class BillApiController
@@ -20,60 +22,26 @@ class BillApiController extends Controller
         }
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function all(Request $request)
-    {
-        if(Cache::has('bills')) {
+    public function all(Request $request) {
+        if(Cache::has('bills') && Cache::has('bills__etag')) {
             $bills = json_decode(Cache::get('bills'));
+            $etag = Cache::get('bills__etag');
         } else {
-            $bills = Bill::all();
-            Cache::put('bills', $bills->toJson(), 600);
+            if($request->method() == 'HEAD') {
+                $bills = [];
+                $etag = 'expired';
+            } else {
+                $session = Session::current();
+                $bills = $session->bills->sortBy('Name')->values()->all();
+                $billsJson = json_encode($bills);
+                $etag = md5($billsJson);
+                Cache::forever('bills', $billsJson);
+                Cache::forever('bills__etag', $etag);
+            }
         }
 
         return response()->json([
-            'bills' => $bills,
-            'user' => Auth::user()
-        ]);
-    }
-
-    public function initialChunk() {
-        if(Cache::has('bills--initial')) {
-            $bills = json_decode(Cache::get('bills--initial'));
-        } else {
-            $bills = Bill::take(10)->get();
-            Cache::put('bills--initial', $bills->toJson(), 600);
-        }
-
-        return response()->json([
-            'bills' => $bills,
-            'user' => Auth::user()
-        ]);
-    }
-
-    public function remainingChunk() {
-        if(Cache::has('bills--remaining')) {
-            $bills = json_decode(Cache::get('bills--remaining'));
-        } else {
-            $bills = Bill::skip(10)->take(5000)->get();
-            Cache::put('bills--remaining', $bills->toJson(), 600);
-        }
-
-        return response()->json([
-            'bills' => $bills,
-        ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function mine() {
-        $user = Auth::user();
-        return response()->json([
-            'bills' => $user->bills,
-            'user' => $user
-        ]);
+            'bills' => $bills
+        ])->setEtag($etag);
     }
 }

@@ -86,6 +86,6 @@ return [
     |
     */
 
-    'prefix' => 'laravel',
+    'prefix' => env('REDIS_PREFIX', 'test'),
 
 ];

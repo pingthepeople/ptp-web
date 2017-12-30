@@ -9,7 +9,7 @@
         <div class="filters">
             <form class="filters__search search" @submit.prevent="filterBillHandler">
                 <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, committee, subject...">
-                <input class="search__submit" type="submit" value="Search">
+                <input class="search__submit button" type="submit" value="Search">
             </form>
 
             <div class="filters__message" v-if="filteredBills.length">
@@ -31,10 +31,22 @@
 
 <script>
     const moment = require('moment');
+    const billLoader = require('../bill-loader.js')
+    const mapGetters = require("vuex").mapGetters
 
     module.exports = {
         components: {
             billTable: require('./bill-table.vue'),
+        },
+        computed: {
+            ...mapGetters(["myBills"])
+        },
+        data() {
+            return {
+                filteredBills: [],
+                q: '',
+                isFilterApplied: false,
+            }
         },
         filters: {
             pluralizeIs(value) {
@@ -48,12 +60,15 @@
             }
         },
         methods: {
+            billsLoadedHandler() {
+                this.filteredBills = this.getFilteredBills()
+            },
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    let query = this.q.toLowerCase();
-                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1;
-                    return this.bills.filter( bill => 
+                    let query = this.q.toLowerCase()
+                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1
+                    return this.myBills.filter( bill =>
                         containsQuery(bill.Name)
                         || (bill.subjects.some (element => containsQuery(element.Name)))
                         || (bill.committees.some (element => containsQuery(element.Name)))
@@ -61,11 +76,14 @@
                         || containsQuery(bill.Description))
                 } else {
                     this.isFilterApplied = false
-                    return this.bills
+                    return this.myBills
                 }
             },
             filterBillHandler() {
-                this.filteredBills = this.getFilteredBills();
+                this.filteredBills = this.getFilteredBills()
+                if(this.currentPage > this.nPages-1) {
+                    this.currentPage = this.nPages-1
+                }
             },
             clearSearch() {
                 this.q = "";
@@ -73,24 +91,6 @@
                 this.isFilterApplied = false;
             }
         },
-        mounted() {
-            // load all bills
-            this.$http.get('/api/my-bills').then(res => {
-                this.bills = res.body.bills;
-                this.$store.dispatch('storeUser', res.body.user);
-                this.filteredBills = this.getFilteredBills();
-            }, res => {
-                console.log(res)
-            })
-        },
-        data() {
-            return {
-                q: '',
-                isFilterApplied: false,
-                bills: [],
-                filteredBills: [],
-                currentSession: moment().year()
-            }
-        }
+        mixins: [billLoader]
     }
 </script>

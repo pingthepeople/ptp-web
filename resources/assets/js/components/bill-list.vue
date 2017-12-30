@@ -1,5 +1,5 @@
 <template>
-    <div class="bill-list">
+    <div class="bill-list__bills">
         <bill v-for="bill in bills" :bill="bill"></bill>
     </div>
 </template>

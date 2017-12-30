@@ -6,7 +6,7 @@
     <div class="hero">
         @include('shared.guest-header')
 
-        <div class="content">
+        <div class="content-wrapper">
 
             <p class="hero__tagline">
                 <span class="hero__tagline-part">Updates about Indiana legislation in real time.</span>
@@ -16,16 +16,22 @@
 
             <h1 class="hero__welcome">Welcome to <strong>Ping the People</strong></h1>
 
-            <p><a class="button button--large button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
+            <div>
+                <a class="button button--large button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
 
-                <a class="button button--large button--google" href="{{url('/login-via-google')}}">Log in with Google</a></p>
+                <a class="button button--large button--google" href="{{url('/login-via-google')}}">Log in with Google</a>
+
+                @if(env('APP_ENV')==='local')
+                    <a class="button button--large button--anon" href="{{url('/login-anonymously')}}">Log in anonymously</a>
+                @endif
+            </div>
         </div>
     </div>
     <div class="home-section">
-        <div class="content intro">
+        <div class="content-wrapper intro">
             <div class="intro__body">
                 <h2>Keep tabs on Indiana state legislation</h2>
-                <p>There are over <strong>1,400</strong> pieces of legislation in the 2017 session of the Indiana General Assembly.</p> 
+                <p>There are over <strong>1,400</strong> pieces of legislation in the 2017 session of the Indiana General Assembly.</p>
                 <p>It takes time to dig through legislation, track votes, and figure out what's happening next. That time could be better spent on outreach, organizing, and engagement.</p>
                 <p>Ping the People will do the digging for you. You can easily discover, watch, and receive instant updates on the legislation that is important to you. We'll keep an eye on everything, and you can focus on getting things done.</p>
 
@@ -53,12 +59,13 @@
         </div>
     </div>
     <div class="antihero">
-        <p><a class="button button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
+        <div class="content-wrapper content-wrapper--narrow">
+            <p><a class="button button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
 
-            <a class="button button--google" href="{{url('/login-via-google')}}">Log in with Google</a></p>
+                <a class="button button--google" href="{{url('/login-via-google')}}">Log in with Google</a></p>
 
-        <div class="content">
-            <p>Ping the People is a labor of love and a work in progress. If you have questions, comments, issues, or bug reports, please do not hesitate to <a href="mailto:help@pingthepeople.org">contact us</a>.</p>
+                <p>Ping the People is a labor of love and a work in progress. If you have questions, comments, issues, or bug reports, please do not hesitate to <a href="mailto:help@pingthepeople.org">contact us</a>.</p>
+
         </div>
     </div>
 

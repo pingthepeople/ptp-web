@@ -24,5 +24,19 @@
         'MessageType' => [
             1 => "Email",
             2 => "SMS"
+        ],
+        'CommitteePosition' => [
+            1  => "Member",
+            2  => "Ranking Minority",
+            3  => "Vice Chair",
+            4  => "Chair",
+            5  => "Advisor",
+            6  => "Conferee"
+        ],
+        'BillPosition' => [
+            1 => "Author",
+            2 => "CoAuthor",
+            3 => "Sponsor",
+            4 => "CoSponsor"
         ]
     ];

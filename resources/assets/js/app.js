@@ -18,4 +18,9 @@ import store from './store'
 var app = new Vue({
     el: '#vue-root',
     store,
+    beforeCreate() {
+        if(user!==undefined) {
+            this.$store.dispatch('storeUser', user)
+        }
+    }
 });

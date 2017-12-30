@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Bill;
+use App\Legislator;
+use App\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,32 +25,49 @@ class DashboardController extends Controller
         }
     }
 
-    public function start() {
-        $user = Auth::user();
-        return view('start', compact('user'));
-    }
-
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function myBills() {
         $user = Auth::user();
         if($user->bills->count() == 0) {
-            return redirect('/start');
+            return redirect('/bills?welcome=true');
         }
-        
-        return view('default', compact('user'));
+
+        return view('my-watch-list', compact('user'));
     }
 
     /**
      *
      */
-    public function allBills() {
+    public function allBills(Request $request) {
         $user = Auth::user();
-        return view('all-bills', compact('user'));
+        $showWelcome = $request->get('welcome');
+        return view('all-bills', compact('user', 'showWelcome'));
     }
 
-    public function trackBill(Request $request, $id) {
+    public function singleBill($name) {
+        $session = Session::current();
+        $bill = $session->bills->where('Name', '=', $name)->first();
+        if(!$bill) {
+            abort(404);
+        }
+        $bill->makeVisible(['authors', 'coauthors', 'sponsors', 'cosponsors']);
+        $bill = $bill->toArray();
+
+        if(Auth::check()) {
+            $user = Auth::user();
+            $bill['isTracked'] = $user->trackedBills->map(function($pivot) {return $pivot->BillId;})->contains($bill['Id']);
+        } else {
+            $user = null;
+        }
+
+        return view('single-bill', compact(['user', 'bill']));
+    }
+
+    public function trackBill(Request $request) {
+        $id = $request->input('id', 0);
+
         $bill = Bill::findOrFail($id);
         $user = Auth::user();
 
@@ -68,8 +87,13 @@ class DashboardController extends Controller
         }
 
         $user = Auth::user();
+        $user->load(['representative', 'senator']);
+        $session = Session::current()->first();
+        $legislators = Legislator::where('SessionId', '=', $session->id)->get();
+        $representatives = $legislators->filter(function($l) {return $l->Chamber=='House';});
+        $senators = $legislators->filter(function($l) {return $l->Chamber=='Senate';});
 
-        return view('account', compact('user'));
+        return view('account', compact('user', 'representatives', 'senators'));
     }
 
     public function saveAccount(Request $request) {
@@ -96,6 +120,8 @@ class DashboardController extends Controller
         $user->Email = $request->input('Email');
         $user->Mobile = $mobile;
         $user->DigestType = $request->input('DigestType');
+        $user->RepresentativeId = $request->input('representative') ? $request->input('representative') : null;
+        $user->SenatorId = $request->input('senator') ? $request->input('senator') : null;
         $user->save();
         return redirect('/account')->with('success-message', 'Account settings saved');
     }

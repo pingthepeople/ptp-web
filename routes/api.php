@@ -17,19 +17,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::get('/bills', 'BillApiController@all');
-Route::get('/bills/initial-chunk', 'BillApiController@initialChunk');
-Route::get('/bills/remaining-chunk', 'BillApiController@remainingChunk');
-Route::get('/my-bills', 'BillApiController@mine');
 Route::post('/track', 'TrackingApiController@track');
 Route::post('/stop-tracking', 'TrackingApiController@stopTracking');
 Route::post('/bills/{id}/toggle-email-subscription/', 'TrackingApiController@toggleEmailSubscription');
 Route::post('/bills/{id}/toggle-sms-subscription/', 'TrackingApiController@toggleSmsSubscription');
-
-/*
- * /bills
- * /bills/{id}
- * /track
- * /stop-tracking
- * /subjects
- */
