@@ -67,7 +67,7 @@
                     <div class="info__body">
                         {{--this is so ugly but whitespace around the comma is bad --}}
                         @foreach($bill['authors'] as $author)@if(!$loop->first),@endif
-                            <a href="#{{$author['Slug']}}">{{$author['Name']}}</a>@endforeach
+                            <a href="#{{$author['Link']}}">{{$author['Name']}}</a>@endforeach
                     </div>
                 </div>
             @endif
@@ -83,7 +83,7 @@
                     <div class="info__body">
                         {{--this is so ugly but whitespace around the comma is bad --}}
                         @foreach($bill['coauthors'] as $author)@if(!$loop->first),@endif
-                            <a href="#{{$author['Slug']}}">{{$author['Name']}}</a>@endforeach
+                            <a href="#{{$author['Link']}}">{{$author['Name']}}</a>@endforeach
                     </div>
                 </div>
             @endif
@@ -101,7 +101,7 @@
                     <div class="info__body">
                         {{--this is so ugly but comma placement is important   vvv --}}
                         @foreach($bill['sponsors'] as $author)@if(!$loop->first),@endif
-                            <a href="#{{$author['Slug']}}">{{$author['Name']}}</a>@endforeach
+                            <a href="#{{$author['Link']}}">{{$author['Name']}}</a>@endforeach
                     </div>
                 </div>
             @endif
@@ -117,7 +117,7 @@
                     <div class="info__body">
                         {{--this is so ugly but comma placement is important   vvv --}}
                         @foreach($bill['cosponsors'] as $author)@if(!$loop->first),@endif
-                            <a href="#{{$author['Slug']}}">{{$author['Name']}}</a>@endforeach
+                            <a href="#{{$author['Link']}}">{{$author['Name']}}</a>@endforeach
                     </div>
                 </div>
             @endif
