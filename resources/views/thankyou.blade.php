@@ -6,7 +6,7 @@
 
 @include('shared.guest-header')
 
-<div class="container" >
+<div class="content-wrapper" >
     <div class="primo-content">
     
         <h1 class="section-title">Thank you!</h1>

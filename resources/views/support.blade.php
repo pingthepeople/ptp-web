@@ -4,9 +4,13 @@
 
 @section('content')
 
-@include('shared.guest-header')
+@if(Auth::check())
+    @include('shared.header')
+@else
+    @include('shared.guest-header')
+@endif
 
-<div class="container" >
+<div class="content-wrapper" >
     <div class="primo-content">
 
         <h1 class="section-title">Support</h1>

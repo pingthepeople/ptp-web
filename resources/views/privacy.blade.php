@@ -6,7 +6,7 @@
 
 @include('shared.guest-header')
 
-<div class="container" >
+<div class="content-wrapper" >
     <h1 class="section-title">Privacy Policy</h1>
 
     <p>Your privacy is important to us.</p>
