@@ -25,7 +25,7 @@ class AddCommitteeToScheduledActionTable extends Migration
      */
     public function down()
     {
-        Schema::table('Bill', function (Blueprint $table) {
+        Schema::table('ScheduledAction', function (Blueprint $table) {
             $table->dropColumn('CommitteeLink');
         });
     }
