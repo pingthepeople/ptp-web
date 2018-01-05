@@ -39,6 +39,9 @@ const actions = {
     storeBills({commit}, bills) {
         commit('storeBills', bills)
     },
+    appendBills({commit}, bills) {
+        commit('updateBills', bills)
+    },
     applyBillSort({commit}, {sortCol, sortAsc}) {
         commit('applyBillSort', {sortCol, sortAsc})
     }
@@ -59,7 +62,6 @@ const mutations = {
                 ReceiveAlertSms: 0
             })
         } else if(!track && trackedBillIds.includes(billId)) {
-
             state.user.tracked_bills.splice(trackedBillIds.indexOf(billId), 1)
         }
     },
@@ -67,8 +69,20 @@ const mutations = {
     ['storeBills'] (state, bills) {
         state.bills = bills
     },
+    ['updateBills'] (state, bills) {
+        if(!Array.isArray(bills)) {
+            return
+        }
+        state.bills.forEach((storedBill, i) => {
+            bills.forEach((bill) => {
+                if(parseInt(storedBill.id) == parseInt(bill.id)) {
+                    state.bills.splice(i, 1, bill)
+                }
+            })
+        })
+    },
     ['applyBillSort'] (state, {sortCol, sortAsc}) {
-        state.bills.sort((a,b) => {
+        state.bills = state.bills.sort((a,b) => {
             let aProperty = a[sortCol]
             let bProperty = b[sortCol]
             let aValue = aProperty
@@ -86,14 +100,14 @@ const mutations = {
                     bValue += b["Link"]
                     break;
                 case "actions": // sort by event date, then by bill name
-                    if (aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
-                    if (bProperty.length === 0) { return -1; }
+                    if (!aProperty || aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
+                    if (!bProperty || bProperty.length === 0) { return -1; }
                     aValue = aProperty[0].Date + a["Link"]
                     bValue = bProperty[0].Date + b["Link"]
                     break;
                 case "scheduled_actions": // sort by event date + start time, then by bill name
-                    if (aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
-                    if (bProperty.length === 0) { return -1; }
+                    if (!aProperty || aProperty.length === 0) { return 1; } // always move "None" to the bottom of the list
+                    if (!bProperty || bProperty.length === 0) { return -1; }
                     aValue = aProperty[0].Date + aProperty[0].Start + a["Link"]
                     bValue = bProperty[0].Date + bProperty[0].Start + b["Link"]
                     break;

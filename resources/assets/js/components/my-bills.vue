@@ -33,17 +33,33 @@
     const moment = require('moment');
     const billLoader = require('../bill-loader.js')
     const mapGetters = require("vuex").mapGetters
+    const mapActions = require("vuex").mapActions
 
     module.exports = {
         components: {
             billTable: require('./bill-table.vue'),
         },
         computed: {
+            filteredBills() {
+                if(this.q.length > 0) {
+                    this.isFilterApplied = true
+                    let query = this.q.toLowerCase()
+                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1
+                    return this.myBills.filter( bill =>
+                    containsQuery(bill.Name)
+                    || (bill.subjects.some (element => containsQuery(element.Name)))
+                    || (bill.committees.some (element => containsQuery(element.Name)))
+                    || containsQuery(bill.Title)
+                    || containsQuery(bill.Description))
+                } else {
+                    this.isFilterApplied = false
+                    return this.myBills
+                }
+            },
             ...mapGetters(["myBills"])
         },
         data() {
             return {
-                filteredBills: [],
                 q: '',
                 isFilterApplied: false,
             }
@@ -61,35 +77,28 @@
         },
         methods: {
             billsLoadedHandler() {
-                this.filteredBills = this.getFilteredBills()
+                let ids = this.filteredBills
+                            .map(bill => bill.id)
+                            .join(',')
+                this.$http.get(`/api/bills/details?ids=${ids}`).then(res => {
+                    this.appendBills(res.body.bills)
+                })
             },
             getFilteredBills() {
-                if(this.q.length > 0) {
-                    this.isFilterApplied = true
-                    let query = this.q.toLowerCase()
-                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1
-                    return this.myBills.filter( bill =>
-                        containsQuery(bill.Name)
-                        || (bill.subjects.some (element => containsQuery(element.Name)))
-                        || (bill.committees.some (element => containsQuery(element.Name)))
-                        || containsQuery(bill.Title)
-                        || containsQuery(bill.Description))
-                } else {
-                    this.isFilterApplied = false
-                    return this.myBills
-                }
+
             },
             filterBillHandler() {
-                this.filteredBills = this.getFilteredBills()
+
                 if(this.currentPage > this.nPages-1) {
                     this.currentPage = this.nPages-1
                 }
             },
             clearSearch() {
                 this.q = "";
-                this.filteredBills = this.bills;
+
                 this.isFilterApplied = false;
-            }
+            },
+            ...mapActions(['appendBills'])
         },
         mixins: [billLoader]
     }
