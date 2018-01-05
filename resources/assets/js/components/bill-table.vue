@@ -185,11 +185,11 @@
             },
             isTrackedByEmail(id) {
                 let bill = this.user.tracked_bills.find(b=>parseInt(b.BillId)==parseInt(id))
-                return bill ? bill.ReceiveAlertEmail : 0
+                return bill ? parseInt(bill.ReceiveAlertEmail) : 0
             },
             isTrackedBySms(id) {
                 let bill = this.user.tracked_bills.find(b=>parseInt(b.BillId)==parseInt(id))
-                return bill ? bill.ReceiveAlertSms : 0
+                return bill ? parseInt(bill.ReceiveAlertSms) : 0
             },
             ...mapActions(['applyBillSort'])
         },
