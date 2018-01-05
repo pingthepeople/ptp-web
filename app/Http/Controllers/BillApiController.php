@@ -44,4 +44,18 @@ class BillApiController extends Controller
             'bills' => $bills
         ])->setEtag($etag);
     }
+
+    public function details(Request $request) {
+        $this->validate($request, [
+            'ids' => 'required'
+        ]);
+
+        $ids = explode(',', $request->input('ids'));
+
+        $bills = Bill::with(['actions', 'scheduledActions'])->find($ids);
+
+        return response()->json([
+            'bills' => $bills
+        ]);
+    }
 }
