@@ -19,6 +19,7 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('/bills', 'BillApiController@all');
+Route::get('/bills/details', 'BillApiController@details');
 Route::post('/track', 'TrackingApiController@track');
 Route::post('/stop-tracking', 'TrackingApiController@stopTracking');
 Route::post('/bills/{id}/toggle-email-subscription/', 'TrackingApiController@toggleEmailSubscription');
