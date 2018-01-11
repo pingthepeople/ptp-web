@@ -77,7 +77,7 @@
                     <div v-if="bill.actions && bill.actions[0]">
                         <div class="bill-table__action-type">({{bill.actions[0].Chamber.substr(0,1)}}) {{bill.actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">
-                            {{bill.actions[0].Description}}<br>
+                            <em>{{bill.actions[0].Description}}</em><br>
                             {{formatDate(bill.actions[0].Date)}}
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                             <div v-if="bill.scheduled_actions[0].CustomStart && bill.scheduled_actions[0].CustomStart !== '' ">
                                 {{bill.scheduled_actions[0].CustomStart}}<br>
                             </div>
-                            {{bill.scheduled_actions[0].Location}}
+                            <a href="http://iga.in.gov/information/location_maps/">{{bill.scheduled_actions[0].Location}}</a>
                         </div>
                     </div>
                     <div v-else>

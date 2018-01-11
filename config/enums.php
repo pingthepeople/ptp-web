@@ -7,10 +7,10 @@
         ],
         'ActionTypes' => [
             0 => "Unknown",
-            1 => "Committee Reading",
+            1 => "Committee Hearing",
             2 => "Second Reading",
             3 => "Third Reading",
-            4 => "Assigned Committee",
+            4 => "Committee Assigned",
             5 => "Sent to Governor",
             6 => "Signed by Governor",
             7 => "Vetoed by Governor",
