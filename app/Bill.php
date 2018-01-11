@@ -118,14 +118,14 @@ class Bill extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function actions() {
-        return $this->hasMany(Action::class, 'BillId');
+        return $this->hasMany(Action::class, 'BillId')->where("ActionType", "!=", 0);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function scheduledActions() {
-        return $this->hasMany(ScheduledAction::class, 'BillId');
+        return $this->hasMany(ScheduledAction::class, 'BillId')->where("ActionType", "!=", 0);
     }
 
     /**
