@@ -40,18 +40,28 @@ const updateQueryVariable = (key, value, url) => {
     }
 }
 
-const splitAndTrim = (str, delim) => str.split(delim).map(x => x.trim());
 const contains = (str, sub) => str.indexOf(sub) !== -1;
-const compress = (str) => str.replace(' ','');
-const anyMatchesExactly = (cand, parts) => {
-    c = cand.toLowerCase();
-    return strs.some(p => c === p || compress(c) === p );
+/// remove spaces from a string
+const removeSpaces = (str) => str.replace(' ','');
+/// determines whether this bill's display name ("SB 123") is contained 
+/// in a list of possible bill names and/or if its number ("123") is 
+/// contained in a list of possible bill numbers.
+const containsBillName = (name, qNames, qNumbers) => {
+    const lower = name.toLowerCase();   // "sb 123"
+    const bName = removeSpaces(lower);  // "sb123"
+    const bNum = lower.substring(2);    // "123"
+    return  qNames.some(q => q === bName) 
+        || qNumbers.some(q => q === bNum);
 };
 
+/// filter bills to those matching the search string.
 const filterBills = (bills, query) => {
     const q = query.toLowerCase();
-    const parts = splitAndTrim(q, ',');
-    const matchesDisplayName = (b) => anyMatchesExactly(b.DisplayName,parts);
+    // find parts of the query string matching a bill name ("sb 123", "hb1004") or number ("123", "1004")
+    const l = q.matches(/([hs][bcjr]\s*)?(\d*)/g).map(s=>removeSpaces(s));
+    const qNames =   l.filter(s=>/^[sh]+/.test(s));  // those like "sb 123", "hb1004"
+    const qNumbers = l.filter(s=>/^[0-9]+/.test(s)); // those like "123", "1004"
+    const matchesName = (b) => containsBillName(b.DisplayName, qNames, qNumbers);
     const matchesSubjects = (b) => b.subjects.some(e=>contains(e.name,q));
     const matchesCommittees = (b) => b.committees.some(e=>contains(e.name,q));
     const matchesTitle = (b) => contains(b.Title,q);
