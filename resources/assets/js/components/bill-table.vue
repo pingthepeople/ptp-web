@@ -87,8 +87,14 @@
                     <div v-if="bill.scheduled_actions && bill.scheduled_actions[0]">
                         <div class="bill-table__action-type">({{bill.scheduled_actions[0].Chamber.substr(0,1)}}) {{bill.scheduled_actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">{{formatDate(bill.scheduled_actions[0].Date)}}<br>
-                            <div v-if="bill.scheduled_actions[0].Start">
-                                {{formatTime(bill.scheduled_actions[0].Start)}} - {{formatTime(bill.scheduled_actions[0].End)}}<br>
+                            <div v-if="bill.scheduled_actions[0].Start && bill.scheduled_actions[0].End">
+                                {{bill.scheduled_actions[0].Start}} - {{bill.scheduled_actions[0].End}}<br>
+                            </div>
+                            <div v-if="bill.scheduled_actions[0].Start && !bill.scheduled_actions[0].End">
+                                {{bill.scheduled_actions[0].Start}}<br>
+                            </div>
+                            <div v-if="bill.scheduled_actions[0].CustomStart && bill.scheduled_actions[0].CustomStart !== '' ">
+                                {{bill.scheduled_actions[0].CustomStart}}<br>
                             </div>
                             {{bill.scheduled_actions[0].Location}}
                         </div>
@@ -139,9 +145,7 @@
             formatDate(dateToFormat) {
                 return moment(dateToFormat, 'YYYY-MM-DD').format('dddd, MMMM Do')
             },
-            formatTime(timeToFormat) {
-                return moment('01/01/0001 ' + timeToFormat, 'MM/DD/YYYY HH:mm:ss').format('h:mma')
-            },
+
             toggleTrackingHandler(id) {
                 if(this.isTracked(id)) {
                     this.stopTrackingHandler(id);

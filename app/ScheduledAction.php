@@ -30,7 +30,7 @@ class ScheduledAction extends Model
      * @var array
      */
     protected $fillable = [
-        'Link','Date', 'Chamber', 'Start', 'End', 'Location'
+        'Link','Date', 'Chamber', 'Start', 'End', 'Location', 'CustomStart'
     ];
 
     /**
