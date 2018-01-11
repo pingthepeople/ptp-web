@@ -40,21 +40,28 @@ const updateQueryVariable = (key, value, url) => {
     }
 }
 
+const splitAndTrim = (str, delim) => str.split(delim).map(x => x.trim());
+const contains = (str, sub) => str.indexOf(sub) !== -1;
+const compress = (str) => str.replace(' ','');
+const anyMatchesExactly = (cand, parts) => {
+    c = cand.toLowerCase();
+    return strs.some(p => c === p || compress(c) === p );
+};
+
 const filterBills = (bills, query) => {
-    let q = query.toLowerCase();
-    var contains = (str, sub) => str.indexOf(sub) !== -1;
-    var containsQuery = (str) => contains(str.toLowerCase(), query);
-    var nameInQuery = (name) => {
-        x = name.toLowerCase();
-        return contains(query, x) 
-        || contains(query, x.replace(' ',''));  
-    };
+    const q = query.toLowerCase();
+    const parts = splitAndTrim(q, ',');
+    const matchesDisplayName = (b) => anyMatchesExactly(b.DisplayName,parts);
+    const matchesSubjects = (b) => b.subjects.some(e=>contains(e.name,q));
+    const matchesCommittees = (b) => b.committees.some(e=>contains(e.name,q));
+    const matchesTitle = (b) => contains(b.Title,q);
+    const matchesDescription = (b) => contains(b.Description,q);
     return bills.filter(b =>
-        nameInQuery(b.DisplayName)
-        || (b.subjects.some (e => containsQuery(e.Name)))
-        || (b.committees.some (e => containsQuery(e.Name)))
-        || containsQuery(b.Title)
-        || containsQuery(b.Description));
+        matchesDisplayName(b)
+        || matchesSubjects(b)
+        || matchesCommittees(b)
+        || matchesTitle(b)
+        || matchesDescription(b));
 }
 
 export {
