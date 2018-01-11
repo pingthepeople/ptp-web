@@ -66,7 +66,7 @@
     const pageSize = 50
     const billLoader = require('../bill-loader.js');
     const mapGetters = require('vuex').mapGetters
-    const {getQueryVariable, updateQueryVariable} = require('../utilities')
+    const {getQueryVariable, updateQueryVariable, filterBills} = require('../utilities')
 
     module.exports = {
         components: {
@@ -117,14 +117,7 @@
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    let query = this.q.toLowerCase()
-                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1
-                    return this.bills.filter( bill =>
-                        containsQuery(bill.Name)
-                        || (bill.subjects.some (element => containsQuery(element.Name)))
-                        || (bill.committees.some (element => containsQuery(element.Name)))
-                        || containsQuery(bill.Title)
-                        || containsQuery(bill.Description))
+                    return filterBills(this.bills, this.q)
                 } else {
                     this.isFilterApplied = false
                     return this.bills
@@ -132,7 +125,7 @@
             },
             filterBillHandler(supressHistory) {
                 this.filteredBills = this.getFilteredBills()
-                if(this.currentPage > this.nPages-1) {
+                if(this.nPages > 0 && this.currentPage > this.nPages-1) {
                     this.currentPage = this.nPages-1
                 }
 

@@ -77,7 +77,7 @@
                     <div v-if="bill.actions && bill.actions[0]">
                         <div class="bill-table__action-type">({{bill.actions[0].Chamber.substr(0,1)}}) {{bill.actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">
-                            {{bill.actions[0].Description}}<br>
+                            <em>{{bill.actions[0].Description}}</em><br>
                             {{formatDate(bill.actions[0].Date)}}
                         </div>
                     </div>
@@ -87,10 +87,16 @@
                     <div v-if="bill.scheduled_actions && bill.scheduled_actions[0]">
                         <div class="bill-table__action-type">({{bill.scheduled_actions[0].Chamber.substr(0,1)}}) {{bill.scheduled_actions[0].ActionType}}</div>
                         <div class="bill-table__action-details">{{formatDate(bill.scheduled_actions[0].Date)}}<br>
-                            <div v-if="bill.scheduled_actions[0].Start">
-                                {{formatTime(bill.scheduled_actions[0].Start)}} - {{formatTime(bill.scheduled_actions[0].End)}}<br>
+                            <div v-if="bill.scheduled_actions[0].Start && bill.scheduled_actions[0].End">
+                                {{bill.scheduled_actions[0].Start}} - {{bill.scheduled_actions[0].End}}<br>
                             </div>
-                            {{bill.scheduled_actions[0].Location}}
+                            <div v-if="bill.scheduled_actions[0].Start && !bill.scheduled_actions[0].End">
+                                {{bill.scheduled_actions[0].Start}}<br>
+                            </div>
+                            <div v-if="bill.scheduled_actions[0].CustomStart && bill.scheduled_actions[0].CustomStart !== '' ">
+                                {{bill.scheduled_actions[0].CustomStart}}<br>
+                            </div>
+                            <a href="http://iga.in.gov/information/location_maps/">{{bill.scheduled_actions[0].Location}}</a>
                         </div>
                     </div>
                     <div v-else>
@@ -139,9 +145,7 @@
             formatDate(dateToFormat) {
                 return moment(dateToFormat, 'YYYY-MM-DD').format('dddd, MMMM Do')
             },
-            formatTime(timeToFormat) {
-                return moment('01/01/0001 ' + timeToFormat, 'MM/DD/YYYY HH:mm:ss').format('h:mma')
-            },
+
             toggleTrackingHandler(id) {
                 if(this.isTracked(id)) {
                     this.stopTrackingHandler(id);
