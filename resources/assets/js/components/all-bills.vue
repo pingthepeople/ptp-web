@@ -125,7 +125,7 @@
             },
             filterBillHandler(supressHistory) {
                 this.filteredBills = this.getFilteredBills()
-                if(this.currentPage > this.nPages-1) {
+                if(this.nPages > 0 && this.currentPage > this.nPages-1) {
                     this.currentPage = this.nPages-1
                 }
 
