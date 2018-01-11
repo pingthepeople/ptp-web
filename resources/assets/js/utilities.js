@@ -60,5 +60,5 @@ const filterBills = (bills, query) => {
 export {
     getQueryVariable,
     updateQueryVariable,
-    filterbills
+    filterBills
 }
