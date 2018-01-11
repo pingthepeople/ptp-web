@@ -34,6 +34,7 @@
     const billLoader = require('../bill-loader.js')
     const mapGetters = require("vuex").mapGetters
     const mapActions = require("vuex").mapActions
+    const { filterBills } = require('../utilities')
 
     module.exports = {
         components: {

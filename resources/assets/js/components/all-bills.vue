@@ -66,7 +66,7 @@
     const pageSize = 50
     const billLoader = require('../bill-loader.js');
     const mapGetters = require('vuex').mapGetters
-    const {getQueryVariable, updateQueryVariable} = require('../utilities')
+    const {getQueryVariable, updateQueryVariable, filterBills} = require('../utilities')
 
     module.exports = {
         components: {

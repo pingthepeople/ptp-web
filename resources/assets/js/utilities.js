@@ -49,7 +49,7 @@ const removeSpaces = (str) => str.replace(' ','');
 const containsBillName = (name, qNames, qNumbers) => {
     const lower = name.toLowerCase();   // "sb 123"
     const bName = removeSpaces(lower);  // "sb123"
-    const bNum = lower.substring(2);    // "123"
+    const bNum = bName.substring(2);    // "123"
     return  qNames.some(q => q === bName) 
         || qNumbers.some(q => q === bNum);
 };
@@ -58,16 +58,16 @@ const containsBillName = (name, qNames, qNumbers) => {
 const filterBills = (bills, query) => {
     const q = query.toLowerCase();
     // find parts of the query string matching a bill name ("sb 123", "hb1004") or number ("123", "1004")
-    const l = q.matches(/([hs][bcjr]\s*)?(\d*)/g).map(s=>removeSpaces(s));
+    const l = q.match(/([hs][bcjr]\s*)?(\d*)/g).map(s=>removeSpaces(s));
     const qNames =   l.filter(s=>/^[sh]+/.test(s));  // those like "sb 123", "hb1004"
     const qNumbers = l.filter(s=>/^[0-9]+/.test(s)); // those like "123", "1004"
     const matchesName = (b) => containsBillName(b.DisplayName, qNames, qNumbers);
-    const matchesSubjects = (b) => b.subjects.some(e=>contains(e.name,q));
-    const matchesCommittees = (b) => b.committees.some(e=>contains(e.name,q));
+    const matchesSubjects = (b) => b.subjects.some(e=>contains(e.Name,q));
+    const matchesCommittees = (b) => b.committees.some(e=>contains(e.Name,q));
     const matchesTitle = (b) => contains(b.Title,q);
     const matchesDescription = (b) => contains(b.Description,q);
     return bills.filter(b =>
-        matchesDisplayName(b)
+        matchesName(b)
         || matchesSubjects(b)
         || matchesCommittees(b)
         || matchesTitle(b)
