@@ -40,7 +40,25 @@ const updateQueryVariable = (key, value, url) => {
     }
 }
 
+const filterBills = (bills, query) => {
+    let q = query.toLowerCase();
+    var contains = (str, sub) => str.indexOf(sub) !== -1;
+    var containsQuery = (str) => contains(str.toLowerCase(), query);
+    var nameInQuery = (name) => {
+        x = name.toLowerCase();
+        return contains(query, x) 
+        || contains(query, x.replace(' ',''));  
+    };
+    return bills.filter(b =>
+        nameInQuery(b.DisplayName)
+        || (b.subjects.some (e => containsQuery(e.Name)))
+        || (b.committees.some (e => containsQuery(e.Name)))
+        || containsQuery(b.Title)
+        || containsQuery(b.Description));
+}
+
 export {
     getQueryVariable,
-    updateQueryVariable
+    updateQueryVariable,
+    filterbills
 }

@@ -43,14 +43,7 @@
             filteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    let query = this.q.toLowerCase()
-                    var containsQuery = (str) => str.toLowerCase().indexOf(query) !== -1
-                    return this.myBills.filter( bill =>
-                    containsQuery(bill.Name)
-                    || (bill.subjects.some (element => containsQuery(element.Name)))
-                    || (bill.committees.some (element => containsQuery(element.Name)))
-                    || containsQuery(bill.Title)
-                    || containsQuery(bill.Description))
+                    return filterBills(this.bills, this.q)
                 } else {
                     this.isFilterApplied = false
                     return this.myBills
