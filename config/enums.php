@@ -10,7 +10,7 @@
             1 => "Committee Reading",
             2 => "Second Reading",
             3 => "Third Reading",
-            4 => "Assigned To Committee",
+            4 => "Assigned Committee",
             5 => "Sent to Governor",
             6 => "Signed by Governor",
             7 => "Vetoed by Governor",
