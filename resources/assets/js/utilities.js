@@ -40,7 +40,7 @@ const updateQueryVariable = (key, value, url) => {
     }
 }
 
-const contains = (str, sub) => str.indexOf(sub) !== -1;
+const contains = (str, sub) => str.toLowerCase().indexOf(sub) !== -1;
 /// remove spaces from a string
 const removeSpaces = (str) => str.replace(' ','');
 /// determines whether this bill's display name ("SB 123") is contained 
