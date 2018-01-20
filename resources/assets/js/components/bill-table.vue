@@ -81,7 +81,7 @@
                             {{formatDate(bill.actions[0].Date)}}
                         </div>
                     </div>
-                    <div v-else>None</div>
+                    <div v-if="bill.actions && bill.actions.length === 0">None</div>
                 </td>
                 <td class="bill-table__bill-actions">
                     <div v-if="bill.scheduled_actions && bill.scheduled_actions[0]">
@@ -99,7 +99,7 @@
                             <a href="http://iga.in.gov/information/location_maps/">{{bill.scheduled_actions[0].Location}}</a>
                         </div>
                     </div>
-                    <div v-else>
+                    <div v-if="bill.scheduled_actions && bill.scheduled_actions.length === 0">
                         None
                     </div>
                 </td>
