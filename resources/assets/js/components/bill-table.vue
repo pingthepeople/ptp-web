@@ -26,6 +26,7 @@
                 </td>
                 <td @click="changeSort('actions')" :class="'sortable' +(sortCol=='actions' ? ' is-sorted' : '')">
                     Most Recent Event
+                    <span v-if="showActionLoader" class="small-loader"><span class="visually-hidden">(loading)</span></span>
                     <span v-if="sortCol=='actions'" class="sort-indicator">
                         <span v-if="sortAsc">&uarr;</span>
                         <span v-else>&darr;</span>
@@ -33,6 +34,7 @@
                 </td>
                 <td @click="changeSort('scheduled_actions')" :class="'sortable' +(sortCol=='scheduled_actions' ? ' is-sorted' : '')">
                     Next Scheduled Event
+                    <span v-if="showActionLoader" class="small-loader"><span class="visually-hidden">(loading)</span></span>
                     <span v-if="sortCol=='scheduled_actions'" class="sort-indicator">
                         <span v-if="sortAsc">&uarr;</span>
                         <span v-else>&darr;</span>
@@ -197,6 +199,6 @@
             },
             ...mapActions(['applyBillSort'])
         },
-        props: ['bills']
+        props: ['bills', 'showActionLoader']
     }
 </script>

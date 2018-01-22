@@ -10,3 +10,13 @@ ol {
 img {
     max-width: 100%;
 }
+
+
+.small-loader {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: right bottom url("/../images/loading.gif") no-repeat;
+    background-size: 100%;
+    margin-left: 5px;
+}
