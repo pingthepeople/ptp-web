@@ -21,7 +21,11 @@
                 </div>
             </div>
         </div>
-        <bill-table v-if="filteredBills.length" :bills="filteredBills"></bill-table>
+        <bill-table v-if="isDetailsLoaded" :bills="filteredBills"></bill-table>
+        <div v-else class="watchlist__loading">
+            <div class="ping-loader"></div>
+            <p>Loading watchlist items</p>
+        </div>
 
         <div v-if="isFilterApplied && !filteredBills.length" class="filters__no-result">
             Your search did not return any results.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
@@ -56,6 +60,7 @@
             return {
                 q: '',
                 isFilterApplied: false,
+                isDetailsLoaded: false,
             }
         },
         filters: {
@@ -75,6 +80,7 @@
                             .map(bill => bill.id)
                             .join(',')
                 this.$http.get(`/api/bills/details?ids=${ids}`).then(res => {
+                    this.isDetailsLoaded = true
                     this.appendBills(res.body.bills)
                 })
             },

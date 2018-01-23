@@ -26,6 +26,7 @@
                 </td>
                 <td @click="changeSort('actions')" :class="'sortable' +(sortCol=='actions' ? ' is-sorted' : '')">
                     Most Recent Event
+                    <span v-if="showActionLoader" class="small-loader"><span class="visually-hidden">(loading)</span></span>
                     <span v-if="sortCol=='actions'" class="sort-indicator">
                         <span v-if="sortAsc">&uarr;</span>
                         <span v-else>&darr;</span>
@@ -33,6 +34,7 @@
                 </td>
                 <td @click="changeSort('scheduled_actions')" :class="'sortable' +(sortCol=='scheduled_actions' ? ' is-sorted' : '')">
                     Next Scheduled Event
+                    <span v-if="showActionLoader" class="small-loader"><span class="visually-hidden">(loading)</span></span>
                     <span v-if="sortCol=='scheduled_actions'" class="sort-indicator">
                         <span v-if="sortAsc">&uarr;</span>
                         <span v-else>&darr;</span>
@@ -81,7 +83,7 @@
                             {{formatDate(bill.actions[0].Date)}}
                         </div>
                     </div>
-                    <div v-else>None</div>
+                    <div v-if="bill.actions && bill.actions.length === 0">None</div>
                 </td>
                 <td class="bill-table__bill-actions">
                     <div v-if="bill.scheduled_actions && bill.scheduled_actions[0]">
@@ -99,7 +101,7 @@
                             <a href="http://iga.in.gov/information/location_maps/">{{bill.scheduled_actions[0].Location}}</a>
                         </div>
                     </div>
-                    <div v-else>
+                    <div v-if="bill.scheduled_actions && bill.scheduled_actions.length === 0">
                         None
                     </div>
                 </td>
@@ -197,6 +199,6 @@
             },
             ...mapActions(['applyBillSort'])
         },
-        props: ['bills']
+        props: ['bills', 'showActionLoader']
     }
 </script>
