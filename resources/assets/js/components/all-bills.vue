@@ -2,7 +2,10 @@
     <div>
         <h1 class="section-title">All Legislation</h1>
         <div>
-            <div v-if="isLoading" class="bill-list__loading">Loading legislation...</div>
+            <div v-if="isLoading" class="bill-list__loading">
+                <div class="ping-loader"></div>
+                <p>Loading legislative items</p>
+            </div>
             <div v-else-if="bills.length">
                 <div class="filters">
                     <form class="filters__search search" @submit.prevent="filterBillHandler">
