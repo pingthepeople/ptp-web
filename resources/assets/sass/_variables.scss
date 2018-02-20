@@ -1,3 +1,23 @@
+/*
+ breakpoints
+*/
+$breakpoints: (
+    sm: 550px,
+    md: 740px,
+    lg: 1080px,
+    xl: 1260px,
+    xxl: 1400px
+);
+
+@function bp($key) {
+    @return map-get($breakpoints, $key);
+}
+
+@mixin mq($size) {
+    @media screen and (max-width: $size) {
+        @content
+    }
+}
 
 // Body
 $body-bg: #f5f8fa;
@@ -30,16 +50,17 @@ $brand-danger: #bf5329;
 // Typography
 $font-family: "Raleway", sans-serif;
 $font-size-base: 16px;
+$font-size-base--mobile: 14px;
 $line-height-base: 1.6;
 $text-color: #1a1d1e;
 
 // Typescale
-$fs1: 3.157rem;
-$fs2: 2.369rem;
-$fs3: 1.777rem;
-$fs4: 1.333rem;
+$fs1: 2.074rem;
+$fs2: 1.728rem;
+$fs3: 1.44rem;
+$fs4: 1.2rem;
 $fs5: 1rem;
-$fs6: 0.75rem;
+$fs6: 0.833rem;
 
 // Radii
 $radius: 4px;

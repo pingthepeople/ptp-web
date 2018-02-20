@@ -36,6 +36,20 @@
             margin-right: 0;
         }
     }
+
+    @include mq(bp(sm)) {
+        .bill__info {
+            display: block;
+
+            .info {
+                max-width: none;
+                margin-right: 0;
+            }
+        }
+        .bill__body .info__body {
+            font-size: $fs4;
+        }
+    }
 }
 
 .info {
