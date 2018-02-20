@@ -8,6 +8,7 @@
 .pager__item {
     display: inline-block;
     margin: 0 5px;
+    font-size: $fs5;
 
     a {
         color: $text-color;
@@ -22,5 +23,29 @@
             font-weight: bold;
             border-bottom-color: $text-color;
         }
+    }
+}
+
+
+.pager--mobile {
+    margin: 0;
+    display: none;
+    @include mq(bp(sm)) {
+        display: flex;
+    }
+
+    .pager__link {
+        display: block;
+        align-self: flex-end;
+        margin-left: 10px;
+        font-size: $fs4;
+        color: $text-color;
+    }
+    .pager__select-label {
+        text-align: left;
+        margin-right: auto;
+    }
+    .pager__select {
+        font-size: $fs4;
     }
 }

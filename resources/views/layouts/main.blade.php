@@ -24,20 +24,13 @@
 <!-- End Google Tag Manager (noscript) -->
     <div id="vue-root" class="site__wrapper">
         @include('shared.header')
-
         <div class="site__content content-wrapper">
             <div class="main">
                 @yield('content')
             </div>
         </div>
-
         @include('shared.footer')
     </div>
-    @if($user)
-        <script>
-            var user = {!! json_encode($user) !!}
-        </script>
-    @endif
-    <script src="{{mix('js/app.js')}}"></script>
+    @include('shared.vue')
 </body>
 </html>

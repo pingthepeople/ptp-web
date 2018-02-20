@@ -1,5 +1,5 @@
 .guest-header {
-    padding: $sm;
+    padding: $sm 0;
 }
 
 .guest-header__content {
@@ -48,11 +48,42 @@
         color: $primary-color;
     }
 }
-.guest-header__nav-list {
-    list-style: none;
+.guest-header {
+    .nav-list {
+        list-style: none;
+
+        .nav-item {
+            display: inline-block;
+            margin-left: $sm;
+            font-size: $fs4;
+        }
+    }
 }
-.guest-header__nav-item {
-    display: inline-block;
-    margin-left: $sm;
-    font-size: $fs4;
+
+
+@include mq(bp(sm)) {
+    .hero,
+    .anti-hero {
+        .guest-header {
+            margin-bottom: 0;
+        }
+
+        &__tagline {
+            margin-top: 1rem;
+        }
+
+        
+    } 
+
+    .guest-header__logo {
+        margin-top: 8px;
+
+        &-graphic img {
+            height: 1.8rem;
+        }
+    }
+    
+    .guest-header__nav {
+        display: none;
+    }
 }

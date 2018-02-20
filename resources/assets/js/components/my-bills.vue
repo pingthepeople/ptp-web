@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="u-flex">
+    <div class="my-bills">
+        <div class="my-bills__header">
             <h1 class="u-left section-title">My Watchlist</h1>
             <div class="u-right">
                 <a href="/my-bills.csv">Download a watchlist spreadsheet (.csv)</a>
@@ -21,7 +21,11 @@
                 </div>
             </div>
         </div>
-        <bill-table v-if="isDetailsLoaded" :bills="filteredBills"></bill-table>
+        <div v-if="isDetailsLoaded">
+            <bill-table class="hide-sm-down" :bills="filteredBills"></bill-table>
+
+            <bill-action-list class="hide-md-up" :bills="filteredBills"></bill-action-list>
+        </div>
         <div v-else class="watchlist__loading">
             <div class="ping-loader"></div>
             <p>Loading watchlist items</p>
@@ -43,6 +47,7 @@
     module.exports = {
         components: {
             billTable: require('./bill-table.vue'),
+            billActionList: require('./bill-action-list.vue')
         },
         computed: {
             filteredBills() {

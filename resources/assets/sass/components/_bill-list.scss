@@ -19,6 +19,7 @@
             position: relative;
             margin-bottom: $sm;
             display: flex;
+            flex-direction: row-reverse;
 
             .bill__actions {
                 text-align: right;
@@ -71,8 +72,6 @@
             .bill__actions {
                 margin-left: auto;
             }
-
-
         }
 
         .bill__meta {
@@ -131,6 +130,53 @@
         }
 }
 
+@include mq(bp(sm)) {
+    .bill-list {
+        margin-bottom: 0;
+
+        .bill:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .bill .bill__header {
+            display: block;
+
+            .bill__name-and-title {
+                display: block;
+            }
+
+            .bill__dead {
+                display: block;
+                margin: $xs 0;
+            }
+
+            .bill__meta {
+                display: block;
+                margin-top: $md;
+
+                .info {
+                    margin-bottom: $sm;
+                }
+            }
+            .bill__title {
+                display: block;
+                margin: 0;
+                line-height: 1.3;
+            }
+            .bill__actions {
+                float: right;
+                margin-top: -2px;
+            }
+        }
+
+        .bill__is-tracked {
+            font-size: $fs5;
+        }
+    }
+}
+
 .bill-list__loading {
     margin: 2em 0;
     text-align: center;
@@ -138,6 +184,16 @@
     font-style: italic;
 }
 
+.my-bills__header {
+    display: flex;
+}
+
+@include mq(bp(sm)) {
+    .my-bills__header {
+        display: block;
+        margin-bottom: $sm;
+    }
+}
 
 .bill-table {
     width: 100%;
@@ -175,7 +231,7 @@
 
     td.bill-table__bill-toggle {
         text-align: right;
-        width: 85px;
+        width: 95px;
     }
 
     .bill-table__cell-header,

@@ -1,13 +1,13 @@
 <template>
     <div class="bill-list__bills">
-        <bill v-for="bill in bills" :bill="bill"></bill>
+        <bill-actions v-for="bill in bills" :bill="bill"></bill-actions>
     </div>
 </template>
 
 <script>
     module.exports = {
         components: {
-            bill: require('./bill.vue'),
+            billActions: require('./bill-actions.vue'),
         },
         props: ['bills']
     }
