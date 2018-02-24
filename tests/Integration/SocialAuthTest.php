@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use Mockery;
 use Socialite;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -101,11 +102,11 @@ class SocialAuthTest extends TestCase
         ]);
 
 
-        $this->call('GET', '/facebook-callback');
+        $this->call('GET', '/google-callback');
         $user1 = \Auth::user();
         $this->call('GET', '/logout');
         $anon = \Auth::user();
-        $this->call('GET', '/facebook-callback');
+        $this->call('GET', '/google-callback');
         $user2 = \Auth::user();
 
 
@@ -122,13 +123,33 @@ class SocialAuthTest extends TestCase
 
         $this->call('GET', '/facebook-callback');
         $user1 = \Auth::user();
-        $this->call('GET', '/logout');
-        $anon = \Auth::user();
         $this->call('GET', '/google-callback');
         $user2 = \Auth::user();
 
         
-        $this->assertNull($anon);
         $this->assertFalse($user1->id == $user2->id);
+    }
+
+    public function testOldRecordsUpdatedWithId() {
+        $existingUserId = \DB::table('users')->insertGetId([
+            'Name' => 'Jane Doe',
+            'AuthProviderEmail' => 'test@pingthepeople.org',
+            'AuthProviderId' => ''
+        ]);
+        $this->socialAuthUser->shouldReceive([
+            'getEmail' => 'test@pingthepeople.org',
+            'getId' => '1234',
+        ]);
+
+
+        $user = User::find($existingUserId);
+        $this->assertTrue(empty($user->AuthProviderId));
+        
+        
+        $this->call('GET', '/facebook-callback');
+
+
+        $user = User::find($existingUserId);
+        $this->assertTrue($user->AuthProviderId == 'facebook1234');
     }
 }
