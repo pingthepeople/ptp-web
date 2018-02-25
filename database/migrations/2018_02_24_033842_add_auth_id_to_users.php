@@ -14,7 +14,7 @@ class AddAuthIdToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('AuthProviderId');
+            $table->string('AuthProviderId')->nullable();
         });
     }
 
