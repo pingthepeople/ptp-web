@@ -16,24 +16,7 @@ class SocialAuthController extends Controller
 
     public function callback()
     {
-        $facebookUser = Socialite::driver('facebook')->user();
-        $email = $facebookUser->getEmail();
-
-        $user = User::where('AuthProviderEmail', $email)->first();
-        if($user) {
-            Auth::login($user);
-            return redirect('/')->with('status', 'Login successful');
-        } else {
-            $newUser = User::create([
-                'Email' => $email,
-                'AuthProviderEmail' => $email,
-                'Name' => $facebookUser->getName(),
-            ]);
-            if($newUser) {
-                Auth::login($newUser);
-                return redirect('/')->with('status', 'New user created');
-            }
-        }
+        return $this->callbackWith('facebook');
     }
 
     public function googleRedirect() {
@@ -41,36 +24,19 @@ class SocialAuthController extends Controller
     }
 
     public function googleCallback() {
-        $googleUser = Socialite::driver('google')->user();
-        $email = $googleUser->getEmail();
-
-        $user = User::where('AuthProviderEmail', $email)->first();
-        if($user) {
-            Auth::login($user);
-            return redirect('/')->with('status', 'Login successful');
-        } else {
-            $newUser = User::create([
-                'Email' => $email,
-                'AuthProviderEmail' => $email,
-                'Name' => $googleUser->getName(),
-            ]);
-            if($newUser) {
-                Auth::login($newUser);
-                return redirect('/')->with('status', 'New user created');
-            }
-        }
+        return $this->callbackWith('google');
     }
 
     public function anonymousRedirectAndCallback() {
         if(env('APP_ENV', 'prod')==='local') {
-            $user = User::where('AuthProviderEmail', 'anonymous')->first();
+            $user = User::where('AuthProviderId', 'anonymous')->first();
             if($user) {
                 Auth::login($user);
                 return redirect('/');
             } else {
                 $newUser = User::create([
                     'Email' => 'anonymous@gmail.com',
-                    'AuthProviderEmail' => 'anonymous@gmail.com',
+                    'AuthProviderId' => 'anonymous',
                     'Name' => 'Dana Scully'
                 ]);
                 if($newUser) {
@@ -81,5 +47,50 @@ class SocialAuthController extends Controller
         } else {
             return redirect('/404');
         }
+    }
+
+    private function callbackWith($driver) {
+        $providerUser = Socialite::driver($driver)->user();
+        $email = $providerUser->getEmail();
+        $pid = $providerUser->getId();
+        $id = $pid ? $driver.$pid : null;
+        $status = 'Log in successful';
+
+        // abort and redirect to the homepage if no ID is returned by the provider
+        if(empty($id)) {
+            return redirect('/')->with('status', 'Error getting user from authentication provider');
+        }
+        
+        // find the user by the AuthProvider ID
+        $user = User::where('AuthProviderId', $id)->first();
+        
+        // if no user exists for a given ID, find the user by the email if it's present
+        if(!$user && !empty($email)) {  
+            $user = User::where('AuthProviderEmail', $email)->first();
+
+            // if a user was found with an email, store the provider ID
+            if($user) {
+                $user->AuthProviderId = $id;
+                $user->save();
+            }
+        } 
+        
+        // if no user exists for an ID or email, create a new user with the ID
+        if(!$user) {
+            $user = User::create([
+                'Email' => $email,
+                'AuthProviderId' => $id,
+                'Name' => $providerUser->getName(),
+            ]);
+            $status = 'New user created';
+        }
+
+        // if we still don't have a user, something went horribly wrong
+        if(!$user) {
+            return redirect('/')->with('status', 'Error while creating new user');
+        }
+
+        Auth::login($user);
+        return redirect('/')->with('status', $status);
     }
 }
