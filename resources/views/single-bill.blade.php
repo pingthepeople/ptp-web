@@ -22,7 +22,7 @@
                             </button>
                         @else
                             <button type="submit" class="switch">
-                                <span v-else class="u-sr-only">Start tracking {{$bill['DisplayName']}}</span>
+                                <span class="u-sr-only">Start tracking {{$bill['DisplayName']}}</span>
                                 <span aria-hidden="true">Tracking <strong>off</strong></span>
                             </button>
                         @endif

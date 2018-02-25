@@ -8,17 +8,13 @@
         </a>
 
         <nav class="guest-header__nav">
-            <ul class="guest-header__nav-list">
-                <li class="guest-header__nav-item {{ (Request::is('login') ? 'is-active' : '') }}">
-                    <a href="{{url('/login')}}">Log in</a>
-                </li>
-                <li class="guest-header__nav-item {{ (Request::is('about') ? 'is-active' : '') }}">
-                    <a href="{{url('/about')}}">About</a>
-                </li>
-                <li class="guest-header__nav-item {{ (Request::is('support') ? 'is-active' : '') }}">
-                    <a href="{{url('/support')}}">Donate</a>
-                </li>
-            </ul>
+            @include("shared.guest-nav-list")
         </nav>
+        <button :class="showNav?'is-active':''" class="mobile-nav-trigger" @click="showNav=!showNav">Menu</button>  
     </div>
+    <transition name="collapse">
+        <nav v-show="showNav" v-cloak class="mobile-nav">
+            @include("shared.guest-nav-list")
+        </nav>
+    </transition>
 </header>

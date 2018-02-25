@@ -6,6 +6,12 @@
     color: $text-color;
     background: transparent;
 }
+@include mq(bp(sm)) {
+    .button {
+        font-size: $fs4;
+    }
+}
+
 .button:hover,
 .button:focus {
     text-decoration: none;

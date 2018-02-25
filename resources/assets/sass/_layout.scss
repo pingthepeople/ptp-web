@@ -7,6 +7,11 @@
     max-width: $content-width--narrow;
     margin: 0 auto;
 }
+@include mq(bp(sm)) {
+    .content-wrapper {
+        width: 88%;
+    }
+}
 
 .site__wrapper {
     display: flex;
@@ -18,6 +23,11 @@
 }
 .site__footer {
     padding-top: $lg;
+}
+@include mq(bp(sm)) {
+    .site__footer p {
+        font-size: $fs5;
+    }
 }
 
 .primo-content {

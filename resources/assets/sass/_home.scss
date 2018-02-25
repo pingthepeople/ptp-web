@@ -10,6 +10,12 @@
     }
 }
 
+@include mq(bp(sm)) {
+    .welcome {
+        margin-bottom: $lg;
+    }
+}
+
 .hero,
 .antihero {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,e2e2e2+100 */
@@ -34,6 +40,10 @@
         &-part {
             display: block;
             margin-bottom: $sm;
+
+            @include mq(bp(sm)) {
+                margin-bottom: $md;
+            }
         }
     }
     .hero__welcome {
@@ -41,9 +51,9 @@
         margin: $sm 0 $xl;
     }
 
-    .button {
+    .hero__button {
         display: inline-block;
-        margin: 0 $sm;
+        margin: 0 $sm $sm;
     }
 }
 .antihero {
