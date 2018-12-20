@@ -12,12 +12,34 @@
         <h1 class="section-title">About</h1>
 
         <p>
-        Ping the People is a free and <a href="https://github.com/pingthepeople">open source</a> project built with love by two Bloomington citizen-nerds, <a href="https://twitter.com/johnhoerr">John Hoerr</a> and <a href="https://twitter.com/ohnoitsaustin">Austin Lord</a>. We are dedicated to the proposition that it should be easy for Hoosiers to keep tabs on what's happening in the Indiana Statehouse. If you have any questions or comments, please email us at <a href="mailto:help@pingthepeople.org?Subject=Question/comment" target="_top">help@pingthepeople.org</a> or tweet us @pingthepeople.
+        <em>Ping the People</em> is a free and 
+        <a href="https://github.com/pingthepeople">open source</a> 
+        project built with love by two Bloomington citizen-nerds, 
+        <a href="https://twitter.com/johnhoerr">John Hoerr</a> and 
+        <a href="https://twitter.com/ohnoitsaustin">Austin Lord</a>. We are 
+        dedicated to the proposition that every person and organization working 
+        for positive change in Indiana should have access to timely information 
+        about legislation that matters to them. If you have any questions or 
+        comments, please email us at 
+        <a href="mailto:help@pingthepeople.org?Subject=Question/comment" target="_top">help@pingthepeople.org</a>.
         </p>
 
         <p>
-        Ping the People is not affiliated with any political party or company. While the service is available free of charge, we're happy to accept <a href="/support">donations</a> via PayPal to help cover the cost of running the site. If you want to contribute to the software development effort, please <a href="mailto:help@pingthepeople.org?Subject=Open%20source" target="_top">get in touch</a>!
+        <em>Ping the People</em> is not affiliated with any political party or company. 
+        While the service will always be free to use, it costs about $75 a month
+        to run, even when the Assembly isn't in session. If you value <em>Ping the People</em>
+        and are able to do so, please consider making a contribution via the PayPal
+        <em>Donate</em> button below.
         </p>
+
+        <div class="u-flex">
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="P459Y9V79JUP8">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+        </div>
 
         <hr>
 
@@ -33,7 +55,7 @@
                 <a href="https://twitter.com/MadGrds">Madeline Grdina</a>, <a href="http://levimcg.com/">Levi McGranahan</a>, Alan Milner
             </p>
             <p>
-                <em>Logo:</em><br/> 
+                <em>Logo and Printed Materials:</em><br/> 
                 <a href="http://levimcg.com/">Levi McGranahan</a>
             </p>
         </small>
