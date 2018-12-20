@@ -20,23 +20,7 @@
                     </div>
                 </div>
 
-                <ul v-if="nPages>1" class="pager">
-                    <li class="pager__item">
-                        <a class="pager__link" @click.prevent="pageTo(currentPage)" href="javascript:void(0)">
-                            Previous
-                        </a>
-                    </li>
-                    <li class="pager__item" v-for="page in nPages">
-                        <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
-                            {{page}}
-                        </a>
-                    </li>
-                    <li class="pager__item">
-                        <a class="pager__link" @click.prevent="pageTo(currentPage+2)" href="javascript:void(0)">
-                            Next
-                        </a>
-                    </li>
-                </ul>
+                <pager :nPages="nPages" :currentPage="currentPage" :pageTo="pageTo"></pager>
 
                 <bill-list :bills="billsToDisplay"></bill-list>
 
@@ -44,13 +28,7 @@
                     Your search did not return any results.  <button class="button--plain" @click.prevent="clearSearch">Clear search</button>
                 </div>
 
-                <ul v-if="nPages>1" class="pager">
-                    <li class="pager__item" v-for="page in nPages">
-                        <a :class="'pager__link'+(currentPage+1==page ? ' is-active' : '')" @click.prevent="pageTo(page)" href="javascript:void(0)">
-                            {{page}}
-                        </a>
-                    </li>
-                </ul>
+                <pager :nPages="nPages" :currentPage="currentPage" :pageTo="pageTo"></pager>
             </div>
             <div v-else class="bill-list__no-bills">
                 <p class="bill-list__no-bills-text">There are no bills available yet for this session</p>

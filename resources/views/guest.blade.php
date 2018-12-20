@@ -14,15 +14,15 @@
                 <span class="hero__tagline-part">A more perfect Union.</span>
             </p>
 
-            <h1 class="hero__welcome">Welcome to <strong>Ping the People</strong></h1>
+            <h1 class="hero__welcome">Welcome to <br class="hide-md-up"><strong>Ping the People</strong></h1>
 
             <div>
-                <a class="button button--large button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
+                <a class="hero__button button button--large button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
 
-                <a class="button button--large button--google" href="{{url('/login-via-google')}}">Log in with Google</a>
+                <a class="hero__button button button--large button--google" href="{{url('/login-via-google')}}">Log in with Google</a>
 
                 @if(env('APP_ENV')==='local')
-                    <a class="button button--large button--anon" href="{{url('/login-anonymously')}}">Log in anonymously</a>
+                    <a class="hero__button button button--large button--anon" href="{{url('/login-anonymously')}}">Log in anonymously</a>
                 @endif
             </div>
         </div>
@@ -60,9 +60,9 @@
     </div>
     <div class="antihero">
         <div class="content-wrapper content-wrapper--narrow">
-            <p><a class="button button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
+            <p><a class="hero__button button button--fb" href="{{url('/login-via-facebook')}}">Log in with Facebook</a>
 
-                <a class="button button--google" href="{{url('/login-via-google')}}">Log in with Google</a></p>
+                <a class="hero__button button button--google" href="{{url('/login-via-google')}}">Log in with Google</a></p>
 
                 <p>Ping the People is a labor of love and a work in progress. If you have questions, comments, issues, or bug reports, please do not hesitate to <a href="mailto:help@pingthepeople.org">contact us</a>.</p>
 

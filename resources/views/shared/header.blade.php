@@ -11,25 +11,15 @@
             </div>
             <div class="header__secondary">
                 <nav class="main-nav">
-                    <ul>
-                        <li {{ (Request::is('/') ? 'class=is-active' : '') }}>
-                            <a href="{{url('/')}}">My watch list</a>
-                        </li>
-                        <li {{ (Request::is('bills/*') || Request::is('bills') ? 'class=is-active' : '') }}>
-                            <a href="{{url('/bills')}}">All legislation</a>
-                        </li>
-                        <li {{ (Request::is('account') ? 'class=is-active' : '') }}>
-                            <a href="{{url('/account')}}">Settings</a>
-                        </li>
-                        <li {{ (Request::is('about') ? 'class=is-active' : '') }}>
-                            <a href="{{url('/about')}}">About</a>
-                        </li>
-                        <li {{ (Request::is('logout') ? 'class=is-active' : '') }}>
-                            <a href="{{ url('/logout') }}">Logout</a>
-                        </li>
-                    </ul>
+                    @include("shared.nav-list")
                 </nav>
             </div>
+            <button :class="showNav?'is-active':''" class="mobile-nav-trigger" @click="showNav=!showNav">Menu</button>  
         </div>
     </div>
+    <transition name="collapse">
+        <nav v-show="showNav" v-cloak class="mobile-nav">
+            @include("shared.nav-list")
+        </nav>
+    </transition>
 </header>

@@ -40,3 +40,15 @@ img {
     background: right bottom url("/../images/ptp-loading.gif") no-repeat;
     background-size: 100%;
 }
+
+
+.collapse-enter-active, .collapse-leave-active {
+    transition: all .75s;
+    transition-timing-function: ease-in-out;
+    max-height: 100vh;
+}
+.collapse-enter, .collapse-leave-to {
+    max-height: 0vh;
+}
+
+[v-cloak] { display: none }

@@ -1,5 +1,5 @@
 <template>
-    <div :class="'bill '+(isTracked ? 'bill--tracked' : '')">
+    <div :class="'bill bill--actions '+(isTracked ? 'bill--tracked' : '')">
         <div class="bill__inner">
             <header class="bill__header">
                 <div class="bill__actions">
@@ -19,7 +19,7 @@
                                 {{ bill.Title }}
                             </p>
                         </a>
-                        <tooltip v-if="parseInt(bill.IsDead)==1" class="bill__dead">
+                        <tooltip v-if="bill.IsDead==1" class="bill__dead">
                             <div slot="tooltip-trigger" class="bill__dead-tag">Dead</div>
                             <div slot="tooltip-content">
                                 This bill either failed a vote or missed a deadline for a reading or hearing. It is no longer being considered as a distinct piece of legislation.
@@ -29,50 +29,57 @@
                     <div v-if="isTracked" class="bill__is-tracked" aria-hidden="true">
                         You are tracking this legislation
                     </div>
-                    <div class="bill__meta">
-                        <div class="info" v-if="bill.committees.length">
-                            <div class="info__label">
-                                {{bill.committees.length | pluralizeCommittees}}
-                            </div>
-                            <div class="info__body">
-                                <span v-for="(committee, index) in bill.committees">
-                                    ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}<span v-if="index!=bill.committees.length-1">,&nbsp;</span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="info" v-if="bill.subjects.length">
-                            <div class="info__label">
-                                {{bill.subjects.length | pluralizeSubjects}}
-                            </div>
-                            <div class="info__body">
-                                <span v-for="(subject, index) in bill.subjects">
-                                    {{subject.Name}}<span v-if="index!=bill.subjects.length-1">,&nbsp;</span>
-                                </span>
+                </div>
+                <div class="bill__meta">
+                    <div class="info">
+                        <div class="info__label">Next scheduled event</div>
+                        <div class="info__body" v-if="bill.scheduled_actions && bill.scheduled_actions[0]">
+                            <div class="bill__action-type">({{bill.scheduled_actions[0].Chamber.substr(0,1)}}) {{bill.scheduled_actions[0].ActionType}}</div>
+                            <div class="bill__action-details">{{formatDate(bill.scheduled_actions[0].Date)}}<br>
+                                <div v-if="bill.scheduled_actions[0].Start && bill.scheduled_actions[0].End">
+                                    {{bill.scheduled_actions[0].Start}} - {{bill.scheduled_actions[0].End}}<br>
+                                </div>
+                                <div v-if="bill.scheduled_actions[0].Start && !bill.scheduled_actions[0].End">
+                                    {{bill.scheduled_actions[0].Start}}<br>
+                                </div>
+                                <div v-if="bill.scheduled_actions[0].CustomStart && bill.scheduled_actions[0].CustomStart !== '' ">
+                                    {{bill.scheduled_actions[0].CustomStart}}<br>
+                                </div>
+                                <a href="http://iga.in.gov/information/location_maps/">{{bill.scheduled_actions[0].Location}}</a>
                             </div>
                         </div>
+                        <div v-if="bill.scheduled_actions && bill.scheduled_actions.length === 0">None</div>
+                    </div>
+                    <div class="info">
+                        <div class="info__label">Most recent event</div>
+                        <div class="info__body" v-if="bill.actions && bill.actions[0]">
+                            <div class="bill__action-type">({{bill.actions[0].Chamber.substr(0,1)}}) {{bill.actions[0].ActionType}}</div>
+                            <div class="bill__action-details">
+                                <em>{{bill.actions[0].Description}}</em><br>
+                                {{formatDate(bill.actions[0].Date)}}
+                            </div>
+                        </div>
+                        <div v-if="bill.actions && bill.actions.length === 0">None</div>
                     </div>
                 </div>
             </header>
-            <div class="bill__body info">
-                <div class='info__label'>
-                    Description
-                </div>
-                <transition name="description-swap">
-                    <div v-if="isShowingFullDescription" class="info__body info__body--long">
-                        <div>{{ this.bill.Description }}</div>
-                        <button @click.prevent="isShowingFullDescription=false" class="bill__description-toggle button--plain">Hide description</button>
-                    </div>
-                    <div v-else class="info__body info__body--long">
-                        <div>{{ this.bill.Description | truncate }}</div>
-                        <button v-if="this.bill.Description.length > 250" @click.prevent="isShowingFullDescription=true" class="bill__description-toggle button--plain">Show full description</button>
-                    </div>
-                </transition>
-            </div>
+            <fieldset class="bill__alert-controls">
+                <legend class="info__label">Alerts</legend>
+                <label :for="bill.Id+'email'">
+                    <input :id="bill.Id+'email'" name="email" type="checkbox" :checked="isTrackedByEmail(bill.Id)" @change="toggleEmailHandler(bill.Id)"> Email 
+                </label>
+                <br>
+                <label :for="bill.Id+'sms'">
+                    <input :id="bill.Id+'sms'" name="sms" type="checkbox" :checked="isTrackedBySms(bill.Id)" @change="toggleSmsHandler(bill.Id)"> SMS 
+                </label>
+            </fieldset>
         </div>
     </div>
 </template>
 
 <script>
+    const moment = require('moment');
+
     module.exports = {
         computed: {
             user() {
@@ -89,12 +96,6 @@
                 var subString = theStringToTruncate.substr(0, n-1);
                 return subString.substr(0, subString.lastIndexOf(' ')) + "...";
             },
-            pluralizeCommittees(value) {
-                return value == 1 ? "Committee" : "Committees";
-            },
-            pluralizeSubjects(value) {
-                return value == 1 ? "Subject" : "Subjects";
-            }
         },
         data() {
             return {
@@ -103,6 +104,9 @@
             }
         },
         methods: {
+            formatDate(dateToFormat) {
+                return moment(dateToFormat, 'YYYY-MM-DD').format('dddd, MMMM Do')
+            },
             toggleTrackingHandler() {
                 if(this.isTracked) {
                     this.stopTrackingHandler();
@@ -134,7 +138,18 @@
             },
             toggleSmsHandler() {
                 this.$http.post('/api/bills/'+this.bill.Id+'/toggle-sms-subscription')
-            }
+            },
+                        isTracked(id) {
+                return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(parseInt(id));
+            },
+            isTrackedByEmail(id) {
+                let bill = this.user.tracked_bills.find(b=>parseInt(b.BillId)==parseInt(id))
+                return bill ? parseInt(bill.ReceiveAlertEmail) : 0
+            },
+            isTrackedBySms(id) {
+                let bill = this.user.tracked_bills.find(b=>parseInt(b.BillId)==parseInt(id))
+                return bill ? parseInt(bill.ReceiveAlertSms) : 0
+            },
         },
         props: ['bill'],
         watch: {

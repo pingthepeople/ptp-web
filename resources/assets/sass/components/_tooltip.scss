@@ -47,6 +47,11 @@
     }
 }
 
+@include mq(bp(sm)) {
+    .tooltip .tooltip__content {
+        width: 100%;
+    }
+}
 
 .tooltip__trigger,
 .tooltip__trigger:hover,

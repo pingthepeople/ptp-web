@@ -73,3 +73,27 @@ $gray: #ccc;
 .switch--small.is-on:after {
     transform: translateX(19px);
 }
+
+
+@include mq(bp(sm)) {
+    .switch {
+        min-width: 60px;
+        padding-bottom: 22px;
+        padding-right: 3px;
+        
+        &:before {
+            width: 44px;
+            height: 17px;
+            border-width: 2px;
+        }
+        &:after {
+            height: 15px;
+            width: 15px;
+            bottom: 3px;
+            right: 30px;
+        }
+        &.is-on:after {
+            transform: translateX(26px);
+        }
+    }
+}
