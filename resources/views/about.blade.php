@@ -43,22 +43,22 @@
 
         <hr>
 
-        <small>
-            <p>
-            We would like to thank the following people for their invaluable contributions to the creation of Ping the People. None of this would have been possible without their generous help, support, and patience.
-            </p>	        
-            <p>
-                <em>Concept Development and Beta Testing:</em><br/> 
-                <a href="http://bmclwv.org/">Kate Cruikshank</a>, <a href="http://www.btccbloomington.org/">Georg'ann Cattelona</a>, <a href="http://www.btccbloomington.org/">Allison Zimpfer-Hoerr</a>, <a href="https://twitter.com/emcorturillo">Emily Corturillo</a>, <a href="http://indiana.academia.edu/DanHassoun">Dan Hassoun</a></p>
-            <p>
-                <em>Design:</em><br/> 
-                <a href="https://twitter.com/MadGrds">Madeline Grdina</a>, <a href="http://levimcg.com/">Levi McGranahan</a>, Alan Milner
-            </p>
-            <p>
-                <em>Logo and Printed Materials:</em><br/> 
-                <a href="http://levimcg.com/">Levi McGranahan</a>
-            </p>
-        </small>
+        <p><small>
+        We would like to thank the following people for their invaluable contributions to the creation of Ping the People. None of this would have been possible without their generous help, support, and patience.
+        </small></p>	        
+        <p><small>
+            <em>Concept Development and Beta Testing:</em><br/> 
+            <a href="http://bmclwv.org/">Kate Cruikshank</a>, <a href="http://www.btccbloomington.org/">Georg'ann Cattelona</a>, <a href="http://www.btccbloomington.org/">Allison Zimpfer-Hoerr</a>, <a href="https://twitter.com/emcorturillo">Emily Corturillo</a>, <a href="http://indiana.academia.edu/DanHassoun">Dan Hassoun</a>
+        </small></p>
+        <p><small>
+            <em>Design:</em><br/> 
+            <a href="https://twitter.com/MadGrds">Madeline Grdina</a>, <a href="http://levimcg.com/">Levi McGranahan</a>, Alan Milner
+        </small></p>
+        <p><small>
+            <em>Logo and Printed Materials:</em><br/> 
+            <a href="http://levimcg.com/">Levi McGranahan</a>
+        </small></p>
+        
 
     </div>
 </div>
