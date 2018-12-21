@@ -1,6 +1,6 @@
 <template>
     <div class="bill-list__bills">
-        <bill-actions v-for="bill in bills" :bill="bill"></bill-actions>
+        <bill-actions v-for="bill in bills" :bill="bill" :key="bill.id"></bill-actions>
     </div>
 </template>
 

@@ -1,5 +1,4 @@
 @import "variables";
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700);
 @import "normalize";
 @import "base";
 
@@ -8,11 +7,12 @@
 @import "layout";
 @import "utilities";
 @import "forms";
+@import "components/button";
 @import "mobile";
 @import "components/alert";
 @import "components/bill";
 @import "components/bill-list";
-@import "components/button";
+
 @import "components/header";
 @import "components/loader";
 @import "components/guest-header";
