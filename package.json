@@ -8,17 +8,20 @@
   "dependencies": {
     "axios": "^0.15.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
-    "bootstrap-sass": "^3.3.7",
-    "debounce": "^1.0.0",
-    "jquery": "^3.1.1",
-    "laravel-elixir": "^5.0.0",
-    "laravel-mix": "^0.8.8",
-    "lodash": "^4.17.4",
-    "moment": "^2.17.1",
+    "babel-preset-env": "^1.7.0",
+    "bootstrap-sass": "^3.4.0",
+    "debounce": "^1.2.0",
+    "hoek": "^6.1.2",
+    "jquery": "^3.3.1",
+    "laravel-elixir": "^6.0.0-18",
+    "laravel-mix": "^4.0.12",
+    "lodash": "^4.17.11",
+    "moment": "^2.23.0",
     "node-sass": "^4.7.2",
-    "vue": "^2.2.1",
-    "vue-resource": "^1.2.1",
-    "vuex": "^2.2.1"
+    "stringstream": "^1.0.0",
+    "tough-cookie": "^2.5.0",
+    "vue": "^2.5.21",
+    "vue-resource": "^1.5.1",
+    "vuex": "^2.5.0"
   }
 }

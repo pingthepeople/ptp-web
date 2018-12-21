@@ -8,8 +8,8 @@
     <li class="nav-item {{ (Request::is('account') ? 'is-active' : '') }}">
         <a href="{{url('/account')}}">Settings</a>
     </li>
-    <li class="nav-item {{ (Request::is('support') ? 'is-active' : '') }}">
-        <a href="{{url('/support')}}">Donate</a>
+    <li class="nav-item {{ (Request::is('about') ? 'is-active' : '') }}">
+        <a href="{{url('/about')}}">About</a>
     </li>
     <li class="nav-item {{ (Request::is('logout') ? 'is-active' : '') }}">
         <a href="{{ url('/logout') }}">Logout</a>
