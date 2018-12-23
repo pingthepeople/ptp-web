@@ -46,8 +46,8 @@
 
     module.exports = {
         components: {
-            billTable: require('./bill-table.vue'),
-            billActionList: require('./bill-action-list.vue')
+            billTable: require('./bill-table.vue').default,
+            billActionList: require('./bill-action-list.vue').default
         },
         computed: {
             filteredBills() {

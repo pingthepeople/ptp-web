@@ -125,7 +125,7 @@
 
     module.exports = {
         components: {
-            bill: require('./bill.vue'),
+            bill: require('./bill.vue').default,
         },
         computed: {
             ...mapGetters(["user"])

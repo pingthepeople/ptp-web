@@ -139,9 +139,6 @@
             toggleSmsHandler() {
                 this.$http.post('/api/bills/'+this.bill.Id+'/toggle-sms-subscription')
             },
-                        isTracked(id) {
-                return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(parseInt(id));
-            },
             isTrackedByEmail(id) {
                 let bill = this.user.tracked_bills.find(b=>parseInt(b.BillId)==parseInt(id))
                 return bill ? parseInt(bill.ReceiveAlertEmail) : 0

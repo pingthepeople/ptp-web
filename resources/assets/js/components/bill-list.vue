@@ -7,7 +7,7 @@
 <script>
     module.exports = {
         components: {
-            bill: require('./bill.vue'),
+            bill: require('./bill.vue').default,
         },
         props: ['bills']
     }

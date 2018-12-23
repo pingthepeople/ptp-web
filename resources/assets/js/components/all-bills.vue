@@ -51,7 +51,7 @@
 
     module.exports = {
         components: {
-            billList: require('./bill-list.vue'),
+            billList: require('./bill-list.vue').default,
         },
         computed: {
             billsToDisplay() {

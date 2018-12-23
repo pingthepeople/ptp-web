@@ -7,7 +7,7 @@
 <script>
     module.exports = {
         components: {
-            billActions: require('./bill-actions.vue'),
+            billActions: require('./bill-actions.vue').default,
         },
         props: ['bills']
     }

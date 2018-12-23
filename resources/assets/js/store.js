@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'vue/dist/vue.min'
 import Vuex from 'vuex'
 
 const debug = process.env.NODE_ENV !== 'production'
