@@ -29,22 +29,22 @@ class DatabaseSeeder extends Seeder
             // give each bill 1-2 Authors
             $authors = $legislators->splice(0, rand(1,2));
             for ($i=0; $i < $authors->count(); $i++) {
-                $bill->authors()->attach($authors[$i]->id, ['BillPosition'=>1]);
+                $bill->authors()->attach($authors[$i]->id, ['Position'=>1]);
             }
             // give each bill 2-3 coauthors
             $coauthors = $legislators->splice(0, rand(2,3));
             for ($i=0; $i < $coauthors->count(); $i++) {
-                $bill->coauthors()->attach($coauthors[$i]->id, ['BillPosition'=>2]);
+                $bill->coauthors()->attach($coauthors[$i]->id, ['Position'=>2]);
             }
             // give each bill 4-6 sponsors
             $coauthors = $legislators->splice(0, rand(4,6));
             for ($i=0; $i < $coauthors->count(); $i++) {
-                $bill->sponsors()->attach($coauthors[$i]->id, ['BillPosition'=>3]);
+                $bill->sponsors()->attach($coauthors[$i]->id, ['Position'=>3]);
             }
             // give each bill 4-6 coauthors
             $coauthors = $legislators->splice(0, rand(4,6));
             for ($i=0; $i < $coauthors->count(); $i++) {
-                $bill->cosponsors()->attach($coauthors[$i]->id, ['BillPosition'=>4]);
+                $bill->cosponsors()->attach($coauthors[$i]->id, ['Position'=>4]);
             }
 
             // give each bill 1-2 committees
