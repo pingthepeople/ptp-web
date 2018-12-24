@@ -84,7 +84,7 @@ jobs:
       - image: microsoft/azure-cli
     steps:
       - deploy:
-          app_service: pingthepeople-prod
+          app_service: ptp-web-prod
           resource_group: IGA-ResourceGroup
 # Job orchestration
 workflows:
