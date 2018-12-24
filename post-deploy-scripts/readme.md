@@ -13,4 +13,5 @@ the App Service to this folder:
 see: https://github.com/projectkudu/kudu/wiki/Post-Deployment-Action-Hooks
 
 The App Service will run all scripts in the folder, so to maintain ordering I'm
-prepending a number to the start of the script name.
+prepending a number to the start of the script name. NB: The scripts must be
+Windows-friendly: `.bat`, `.cmd`, `.ps1`.
