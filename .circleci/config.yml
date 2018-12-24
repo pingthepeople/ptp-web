@@ -39,10 +39,8 @@ jobs:
           command: mkdir -p /tmp/workspace
       - checkout 
       - restore_cache:
-          keys:
+          keys: # Restore cached composer and node packages
             - composer-{{ checksum "composer.lock" }}
-      - restore_cache:
-          keys:
             - npm-{{ checksum "package-lock.json" }}
       - run: 
           name: Install PHP Dependencis
@@ -61,11 +59,11 @@ jobs:
           command: cp publish.zip /tmp/workspace/publish.zip
       - save_cache:
           paths:
-            - vendor  # location depends on npm version
+            - vendor  # Cache composer packages
           key: composer-{{ checksum "composer.lock" }}
       - save_cache:
           paths:
-            - node_modules  # location depends on npm version
+            - node_modules  # Cache node packages
           key: npm-{{ checksum "package-lock.json" }}
       - persist_to_workspace:
           root: /tmp/workspace
