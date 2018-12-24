@@ -1,0 +1,111 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2.1
+
+commands: 
+  deploy:
+    description: "Publish package to specified environment"
+    parameters:
+      app_service:
+        type: string
+        default: "igatracker-test"
+      resource_group:
+        type: string
+        default: "IGA-ResourceGroup"
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          # You can create a service principal for username/password login with: 'az ad sp create-for-rbac --name NAME --password NAME'
+          # Other options described here: https://docs.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest#az-login
+          name: Login with Azure Service Principal
+          command: az login --service-principal --username http://ptp-ci-bot --password $PTP_SERVICE_PRINCIPAL_PASSWORD --tenant $PTP_SERVICE_PRINCIPAL_TENANT
+      - run: 
+          name: Publish Function Package to Function App
+          command: az webapp deployment source config-zip --subscription $PTP_SUBSCRIPTION --name <<parameters.app_service>> --resource-group <<parameters.resource_group>> --src /tmp/workspace/publish.zip
+# Job definitions. Job execution is orchestrated in the 'workflows' section.
+jobs:
+  # Build, test, and package the Laravel app
+  build_test_package:
+    docker:
+      - image: circleci/php:7.0-cli-jessie-node-browsers-legacy
+    steps:
+      - run:
+          # A workspace allows us to pass files/artifacts from job to job.
+          # https://circleci.com/blog/deep-diving-into-circleci-workspaces/
+          name: Create workspace
+          command: mkdir -p /tmp/workspace
+      - checkout 
+      - restore_cache:
+          keys: # Restore cached composer and node packages
+            - composer-{{ checksum "composer.lock" }}
+            - npm-{{ checksum "package-lock.json" }}
+      - run: 
+          name: Install PHP Dependencis
+          command: composer install
+      - run: 
+          name: Install NPM Packages
+          command: npm install
+      - run: 
+          name: Build Production App
+          command: npm run production
+      - run: 
+          name: Create Publish Package
+          command: zip -q -r publish app bootstrap config database public resources routes storage vendor post-deploy-scripts artisan cacert.pem settings.ini
+      - run:
+          name: Save Publish Package to Workspace
+          command: cp publish.zip /tmp/workspace/publish.zip
+      - save_cache:
+          paths:
+            - vendor  # Cache composer packages
+          key: composer-{{ checksum "composer.lock" }}
+      - save_cache:
+          paths:
+            - node_modules  # Cache node packages
+          key: npm-{{ checksum "package-lock.json" }}
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - publish.zip
+  # Publish the deployment package to the Azure App Service
+  deploy_to_test:
+    docker:
+      - image: microsoft/azure-cli
+    steps:
+      - deploy:
+          app_service: pingthepeople-test
+          resource_group: IGA-ResourceGroup
+  deploy_to_production:
+    docker:
+      - image: microsoft/azure-cli
+    steps:
+      - deploy:
+          app_service: ptp-web-prod
+          resource_group: IGA-ResourceGroup
+# Job orchestration
+workflows:
+  version: 2
+  # Build and test the code on every commit. 
+  build-test-deploy:
+    jobs:
+     - build_test_package:
+         filters:
+           branches:
+             ignore: gh-pages          
+     - deploy_to_test:
+        filters:
+           branches:
+             ignore: gh-pages
+        requires:
+           - build_test_package
+        context: ptp
+     - deploy_to_production:
+        filters:
+          branches:
+            only:
+              - master
+        requires:
+          - build_test_package
+        context: ptp
