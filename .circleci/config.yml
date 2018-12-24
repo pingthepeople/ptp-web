@@ -60,13 +60,13 @@ jobs:
           name: Save Publish Package to Workspace
           command: cp publish.zip /tmp/workspace/publish.zip
       - save_cache:
-        paths:
-          - vendor  # location depends on npm version
-        key: composer-{{ checksum "composer.lock" }}
+          paths:
+            - vendor  # location depends on npm version
+          key: composer-{{ checksum "composer.lock" }}
       - save_cache:
-        paths:
-          - node_modules  # location depends on npm version
-        key: npm-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules  # location depends on npm version
+          key: npm-{{ checksum "package-lock.json" }}
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
