@@ -24,7 +24,7 @@ commands:
           command: az login --service-principal --username http://ptp-ci-bot --password $PTP_SERVICE_PRINCIPAL_PASSWORD --tenant $PTP_SERVICE_PRINCIPAL_TENANT
       - run: 
           name: Publish Function Package to Function App
-          command: az webapp deployment source config-zip --subscription $PTP_SUBSCRIPTION --name <<parameters.app_service>> --resource-group <<parameters.resource_group>> --src /tmp/workspace/publish.zip --timeout 300
+          command: az webapp deployment source config-zip --subscription $PTP_SUBSCRIPTION --name <<parameters.app_service>> --resource-group <<parameters.resource_group>> --src /tmp/workspace/publish.zip
 # Job definitions. Job execution is orchestrated in the 'workflows' section.
 jobs:
   # Build, test, and package the Laravel app
