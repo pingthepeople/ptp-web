@@ -73,7 +73,6 @@ jobs:
 workflows:
   version: 2
   # Build and test the code on every commit. 
-  # Publish the style guide on successful build/test of master.
   build-test-deploy:
     jobs:
      - build_test_package:
