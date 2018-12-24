@@ -49,7 +49,7 @@ jobs:
           command: npm run production
       - run: 
           name: Create Publish Package
-          command: zip -q -r publish app bootstrap config database public resources routes storage vendor artisan cacert.pem settings.ini
+          command: zip -q -r publish app bootstrap config database public resources routes storage vendor artisan cacert.pem settings.ini .deployment deploy.cmd
       - run:
           name: Save Publish Package to Workspace
           command: cp publish.zip /tmp/workspace/publish.zip
