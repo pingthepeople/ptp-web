@@ -8,7 +8,7 @@ commands:
   deploy:
     description: "Publish package to specified environment"
     parameters:
-      name:
+      app_service:
         type: string
         default: "igatracker-test"
       resource_group:
@@ -24,7 +24,7 @@ commands:
           command: az login --service-principal --username http://ptp-ci-bot --password $PTP_SERVICE_PRINCIPAL_PASSWORD --tenant $PTP_SERVICE_PRINCIPAL_TENANT
       - run: 
           name: Publish Function Package to Function App
-          command: az webapp deployment source config-zip --subscription $PTP_SUBSCRIPTION --name <<parameters.name>> --resource-group <<parameters.resource_group>> --src /tmp/workspace/publish/publish.zip --timeout 300
+          command: az webapp deployment source config-zip --subscription $PTP_SUBSCRIPTION --name <<parameters.app_service>> --resource-group <<parameters.resource_group>> --src /tmp/workspace/publish.zip --timeout 300
 # Job definitions. Job execution is orchestrated in the 'workflows' section.
 jobs:
   # Build, test, and package the Laravel app
@@ -60,14 +60,14 @@ jobs:
       - image: microsoft/azure-cli
     steps:
       - deploy:
-          name: igatracker-test
+          app_service: igatracker-test
           resource_group: IGA-ResourceGroup
   deploy_to_production:
     docker:
       - image: microsoft/azure-cli
     steps:
       - deploy:
-          name: pingthepeople-prod
+          app_service: pingthepeople-prod
           resource_group: IGA-ResourceGroup
 # Job orchestration
 workflows:
@@ -76,7 +76,7 @@ workflows:
   # Publish the style guide on successful build/test of master.
   build-test-deploy:
     jobs:
-     - build_test:
+     - build_test_package:
          filters:
            branches:
              ignore: gh-pages          
@@ -85,7 +85,7 @@ workflows:
            branches:
              ignore: gh-pages
         requires:
-           - build_test
+           - build_test_package
         context: ptp
      - deploy_to_production:
         filters:
@@ -93,5 +93,5 @@ workflows:
             only:
               - master
         requires:
-          - build_test
+          - build_test_package
         context: ptp
