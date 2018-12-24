@@ -49,7 +49,7 @@ jobs:
           command: npm run production
       - run: 
           name: Create Publish Package
-          command: zip -q -r publish app bootstrap config database public resources routes storage vendor artisan cacert.pem settings.ini .deployment deploy.cmd
+          command: zip -q -r publish app bootstrap config database public resources routes storage vendor artisan cacert.pem settings.ini
       - run:
           name: Save Publish Package to Workspace
           command: cp publish.zip /tmp/workspace/publish.zip
@@ -63,7 +63,7 @@ jobs:
       - image: microsoft/azure-cli
     steps:
       - deploy:
-          app_service: igatracker-test
+          app_service: pingthepeople-test
           resource_group: IGA-ResourceGroup
   deploy_to_production:
     docker:
