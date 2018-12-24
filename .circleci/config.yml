@@ -50,6 +50,9 @@ jobs:
       - run: 
           name: Create Publish Package
           command: zip -q -r publish app bootstrap config database public resources routes storage vendor artisan cacert.pem settings.ini
+      - run:
+          name: Save Publish Package to Workspace
+          command: cp publish.zip /tmp/workspace/publish.zip
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
