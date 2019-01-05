@@ -9,7 +9,7 @@
             <div v-else-if="bills.length">
                 <div class="filters">
                     <form class="filters__search search" @submit.prevent="filterBillHandler">
-                        <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, committee, subject...">
+                        <input class="search__input" type="search" autocomplete="off" v-model="q" placeholder="Search by bill number, keyword, author, committee, subject...">
                         <input class="search__submit button" type="submit" value="Search">
                     </form>
 
