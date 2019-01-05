@@ -72,8 +72,6 @@ class Bill extends Model
      * hide some relations from serialization
      */
     protected $hidden = [
-        "authors",
-        "coauthors",
         "sponsors",
         "cosponsors"
     ];
