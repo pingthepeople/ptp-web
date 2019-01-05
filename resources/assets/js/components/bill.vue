@@ -30,6 +30,26 @@
                         You are tracking this legislation
                     </div>
                     <div class="bill__meta">
+                        <div class="info" v-if="bill.authors.length">
+                            <div class="info__label">
+                                {{bill.authors.length | pluralizeAuthors}}
+                            </div>
+                            <div class="info__body">
+                                <span v-for="(author, index) in bill.authors">
+                                    ({{author.Chamber.substr(0,1)}}) {{author.LastName}}<span v-if="index!=bill.authors.length-1"><br/></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="info" v-if="bill.coauthors.length">
+                            <div class="info__label">
+                                {{bill.coauthors.length | pluralizeCoauthors}}
+                            </div>
+                            <div class="info__body">
+                                <span v-for="(author, index) in bill.coauthors">
+                                    ({{author.Chamber.substr(0,1)}}) {{author.LastName}}<span v-if="index!=bill.coauthors.length-1"><br/></span>
+                                </span>
+                            </div>
+                        </div>
                         <div class="info" v-if="bill.committees.length">
                             <div class="info__label">
                                 {{bill.committees.length | pluralizeCommittees}}
@@ -94,6 +114,12 @@
             },
             pluralizeSubjects(value) {
                 return value == 1 ? "Subject" : "Subjects";
+            },
+            pluralizeAuthors(value) {
+                return value == 1 ? "Author" : "Authors";
+            },
+            pluralizeCoauthors(value) {
+                return value == 1 ? "Coauthor" : "Coauthors";
             }
         },
         data() {
