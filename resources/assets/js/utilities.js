@@ -53,6 +53,10 @@ const containsBillName = (name, qNames, qNumbers) => {
     return  qNames.some(q => q === bName) 
         || qNumbers.some(q => q === bNum);
 };
+const authoredBy = (legislator, q) => {
+    return contains(legislator.FirstName, q) 
+        || contains(legislator.LastName, q);
+}
 
 /// filter bills to those matching the search string.
 const filterBills = (bills, query) => {
@@ -66,12 +70,16 @@ const filterBills = (bills, query) => {
     const matchesCommittees = (b) => b.committees.some(e=>contains(e.Name,q));
     const matchesTitle = (b) => contains(b.Title,q);
     const matchesDescription = (b) => contains(b.Description,q);
+    const matchesAuthor = b => b.authors.some(l => authoredBy(l,q));
+    const matchesCoauthor = b => b.coauthors.some(l => authoredBy(l,q));
     return bills.filter(b =>
         matchesName(b)
         || matchesSubjects(b)
         || matchesCommittees(b)
         || matchesTitle(b)
-        || matchesDescription(b));
+        || matchesDescription(b)
+        || matchesAuthor(b)
+        || matchesCoauthor(b));
 }
 
 export {
