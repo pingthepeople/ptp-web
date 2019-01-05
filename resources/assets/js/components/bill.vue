@@ -45,9 +45,12 @@
                                 {{bill.coauthors.length | pluralizeCoauthors}}
                             </div>
                             <div class="info__body">
-                                <span v-for="(author, index) in bill.coauthors">
+                                <!-- show the first three coauthors -->
+                                <span v-for="(author, index) in bill.coauthors" v-if="index < 3">
                                     ({{author.Chamber.substr(0,1)}}) {{author.LastName}}<span v-if="index!=bill.coauthors.length-1"><br/></span>
                                 </span>
+                                <!-- follow with '...' if there are more than three coauthors -->
+                                <span v-if="bill.coauthors.length > 3">...</span> 
                             </div>
                         </div>
                         <div class="info" v-if="bill.committees.length">
