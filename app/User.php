@@ -64,7 +64,7 @@ class User extends Authenticatable
     public function trackedBills() {
         $session = Session::current();
         return $this->hasMany(UserBill::class, 'UserId', 'id')
-            ->join(Bill::class, 'UserBill.BillId', '=', 'Bill.Id')
+            ->join('Bill', 'UserBill.BillId', '=', 'Bill.Id')
             ->where('SessionId', '=', $session->Id)
             ->select('UserBill.*');
     }
