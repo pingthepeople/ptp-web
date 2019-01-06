@@ -1,6 +1,6 @@
 <ul class="nav-list">
     <li class="nav-item {{ (Request::is('/') ? 'is-active' : '') }}">
-        <a href="{{url('/')}}">My watch list</a>
+        <a href="{{url('/')}}">My watchlist</a>
     </li>
     <li class="nav-item {{ (Request::is('bills/*') || Request::is('bills') ? 'is-active' : '') }}">
         <a href="{{url('/bills')}}">All legislation</a>
