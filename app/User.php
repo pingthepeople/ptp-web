@@ -50,14 +50,23 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function bills() {
+        $session = Session::current();
         return $this->belongsToMany(Bill::class, 'UserBill', 'UserId', 'BillId')
             ->with(["actions", "scheduledActions",])
             ->withPivot('ReceiveAlertEmail', 'ReceiveAlertSms')
+            ->where('Link', 'like', "/$session->Name%")
             ->orderBy('Name');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function trackedBills() {
-        return $this->hasMany(UserBill::class, 'UserId', 'id');
+        $session = Session::current();
+        return $this->hasMany(UserBill::class, 'UserId', 'id')
+            ->join(Bill::class, 'UserBill.BillId', '=', 'Bill.Id')
+            ->where('Link', 'like', "/$session->Name%")
+            ->select('UserBill.*');
     }
 
     public function track($param, $startTracking=true) {
