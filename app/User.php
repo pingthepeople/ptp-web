@@ -54,7 +54,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Bill::class, 'UserBill', 'UserId', 'BillId')
             ->with(["actions", "scheduledActions",])
             ->withPivot('ReceiveAlertEmail', 'ReceiveAlertSms')
-            ->where('Link', 'like', "/$session->Name%")
+            ->where('SessionId', '=', $session->Id)
             ->orderBy('Name');
     }
 
@@ -65,7 +65,7 @@ class User extends Authenticatable
         $session = Session::current();
         return $this->hasMany(UserBill::class, 'UserId', 'id')
             ->join(Bill::class, 'UserBill.BillId', '=', 'Bill.Id')
-            ->where('Link', 'like', "/$session->Name%")
+            ->where('SessionId', '=', $session->Id)
             ->select('UserBill.*');
     }
 
