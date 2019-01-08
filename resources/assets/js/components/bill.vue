@@ -30,7 +30,7 @@
                         You are tracking this legislation
                     </div>
                     <div class="bill__meta">
-                        <div class="info" v-if="bill.authors.length">
+                        <div class="info" v-if="Array.isArray(bill.authors) && bill.authors.length">
                             <div class="info__label">
                                 {{bill.authors.length | pluralizeAuthors}}
                             </div>
@@ -40,7 +40,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="info" v-if="bill.coauthors.length">
+                        <div class="info" v-if="Array.isArray(bill.coauthors) && bill.coauthors.length">
                             <div class="info__label">
                                 {{bill.coauthors.length | pluralizeCoauthors}}
                             </div>
