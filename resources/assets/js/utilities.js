@@ -70,8 +70,10 @@ const filterBills = (bills, legislators, query) => {
     const matchesCommittees = (b) => b.committees.some(e=>contains(e.Name,q));
     const matchesTitle = (b) => contains(b.Title,q);
     const matchesDescription = (b) => contains(b.Description,q);
-    const matchesAuthor = b => b.authorIds && legislators.filter(l => b.authorIds.includes(l.Id)).some(l => authoredBy(l,q));
-    const matchesCoauthor = b => b.coauthorIds && legislators.filter(l => b.coauthorIds.includes(l.Id)).some(l => authoredBy(l, q));
+    const isAuthorOnBill = b => l => b.authorIds.map(id => parseInt(id)).includes(parseInt(l.Id))
+    const matchesAuthor = b => b.authorIds && legislators.filter(isAuthorOnBill(b)).some(l => authoredBy(l,q));
+    const isCoauthorOnBill = b => l => b.coauthorIds.map(id => parseInt(id)).includes(parseInt(l.Id))
+    const matchesCoauthor = b => b.coauthorIds && legislators.filter(isCoauthorOnBill(b)).some(l => authoredBy(l, q));
     return bills.filter(b =>
         matchesName(b)
         || matchesSubjects(b)

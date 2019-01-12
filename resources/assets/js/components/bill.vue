@@ -107,10 +107,22 @@
                 return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(this.bill.Id);
             },
             authors() {
-                return this.legislators.filter(l => this.b.authorIds.includes(l.Id))
+                return this
+                    .legislators
+                    .filter(l => this
+                        .b.authorIds
+                        .map(id => parseInt(id))
+                        .includes(parseInt(l.Id))
+                    )
             },
             coauthors() {
-                return this.legislators.filter(l => this.b.coauthorIds.includes(l.Id))
+                return this
+                    .legislators
+                    .filter(l => this
+                        .b.coauthorIds
+                        .map(id => parseInt(id))
+                        .includes(parseInt(l.Id))
+                    )
             },
             ...mapGetters(["legislators"])
         },
