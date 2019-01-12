@@ -52,7 +52,7 @@ class DashboardController extends Controller
         if(!$bill) {
             abort(404);
         }
-        $bill->makeVisible(['sponsors', 'cosponsors']);
+        $bill->makeVisible(['authors', 'coauthors', 'sponsors', 'cosponsors']);
         $bill = $bill->toArray();
 
         if(Auth::check()) {
