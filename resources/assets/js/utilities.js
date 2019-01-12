@@ -59,7 +59,7 @@ const authoredBy = (legislator, q) => {
 }
 
 /// filter bills to those matching the search string.
-const filterBills = (bills, query) => {
+const filterBills = (bills, legislators, query) => {
     const q = query.toLowerCase();
     // find parts of the query string matching a bill name ("sb 123", "hb1004") or number ("123", "1004")
     const l = q.match(/([hs][bcjr]\s*)?(\d*)/g).map(s=>removeSpaces(s));
@@ -70,8 +70,8 @@ const filterBills = (bills, query) => {
     const matchesCommittees = (b) => b.committees.some(e=>contains(e.Name,q));
     const matchesTitle = (b) => contains(b.Title,q);
     const matchesDescription = (b) => contains(b.Description,q);
-    const matchesAuthor = b => b.authors && b.authors.some(l => authoredBy(l,q));
-    const matchesCoauthor = b => b.coauthors && b.coauthors.some(l => authoredBy(l, q));
+    const matchesAuthor = b => b.authorIds && legislators.filter(l => b.authorIds.includes(l.Id)).some(l => authoredBy(l,q));
+    const matchesCoauthor = b => b.coauthorIds && legislators.filter(l => b.coauthorIds.includes(l.Id)).some(l => authoredBy(l, q));
     return bills.filter(b =>
         matchesName(b)
         || matchesSubjects(b)

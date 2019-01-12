@@ -30,27 +30,27 @@
                         You are tracking this legislation
                     </div>
                     <div class="bill__meta">
-                        <div class="info" v-if="Array.isArray(bill.authors) && bill.authors.length">
+                        <div class="info" v-if="Array.isArray(authors) && authors.length">
                             <div class="info__label">
-                                {{bill.authors.length | pluralizeAuthors}}
+                                {{authors.length | pluralizeAuthors}}
                             </div>
                             <div class="info__body">
-                                <span v-for="(author, index) in bill.authors">
-                                    ({{author.Chamber.substr(0,1)}}) {{author.LastName}}<span v-if="index!=bill.authors.length-1"><br/></span>
+                                <span v-for="(author, index) in authors">
+                                    ({{author.Chamber.substr(0,1)}}) {{author.LastName}}<span v-if="index!=authors.length-1"><br/></span>
                                 </span>
                             </div>
                         </div>
-                        <div class="info" v-if="Array.isArray(bill.coauthors) && bill.coauthors.length">
+                        <div class="info" v-if="Array.isArray(coauthors) && coauthors.length">
                             <div class="info__label">
-                                {{bill.coauthors.length | pluralizeCoauthors}}
+                                {{coauthors.length | pluralizeCoauthors}}
                             </div>
                             <div class="info__body">
                                 <!-- show the first three coauthors -->
-                                <span v-for="(author, index) in bill.coauthors" v-if="index < 3">
-                                    ({{author.Chamber.substr(0,1)}}) {{author.LastName}}<span v-if="index!=bill.coauthors.length-1"><br/></span>
+                                <span v-for="(author, index) in coauthors" v-if="index < 3">
+                                    ({{author.Chamber.substr(0,1)}}) {{author.LastName}}<span v-if="index!=coauthors.length-1"><br/></span>
                                 </span>
                                 <!-- follow with '...' if there are more than three coauthors -->
-                                <span v-if="bill.coauthors.length > 3">...</span> 
+                                <span v-if="coauthors.length > 3">...</span> 
                             </div>
                         </div>
                         <div class="info" v-if="bill.committees.length">
@@ -96,6 +96,8 @@
 </template>
 
 <script>
+    const mapGetters = require('vuex').mapGetters
+
     module.exports = {
         computed: {
             user() {
@@ -103,7 +105,14 @@
             },
             isTracked() {
                 return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(this.bill.Id);
-            }
+            },
+            authors() {
+                return this.legislators.filter(l => this.b.authorIds.includes(l.Id))
+            },
+            coauthors() {
+                return this.legislators.filter(l => this.b.coauthorIds.includes(l.Id))
+            },
+            ...mapGetters(["legislators"])
         },
         filters: {
             truncate(theStringToTruncate) {

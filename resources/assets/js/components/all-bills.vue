@@ -46,6 +46,7 @@
     const moment = require('moment')
     const pageSize = 50
     const billLoader = require('../bill-loader.js');
+    const legislatorLoader = require('../legislator-loader.js');
     const mapGetters = require('vuex').mapGetters
     const {getQueryVariable, updateQueryVariable, filterBills} = require('../utilities')
 
@@ -98,7 +99,7 @@
             getFilteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    return filterBills(this.bills, this.q)
+                    return filterBills(this.bills, this.legislators, this.q)
                 } else {
                     this.isFilterApplied = false
                     return this.bills
@@ -139,7 +140,7 @@
                 }
             }
         },
-        mixins: [billLoader],
+        mixins: [billLoader, legislatorLoader],
         mounted() {
             window.onpopstate = (history) => {
                 if(history.state && history.state.page) {
