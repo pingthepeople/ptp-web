@@ -30,13 +30,36 @@
                         You are tracking this legislation
                     </div>
                     <div class="bill__meta">
+                        <div class="info" v-if="Array.isArray(authors) && authors.length">
+                            <div class="info__label">
+                                {{authors.length | pluralizeAuthors}}
+                            </div>
+                            <div class="info__body">
+                                <span v-for="(author, index) in authors">
+                                    ({{author.Chamber.substr(0,1)}}) {{author.LastName}}<span v-if="index!=authors.length-1"><br/></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="info" v-if="Array.isArray(coauthors) && coauthors.length">
+                            <div class="info__label">
+                                {{coauthors.length | pluralizeCoauthors}}
+                            </div>
+                            <div class="info__body">
+                                <!-- show the first three coauthors -->
+                                <span v-for="(author, index) in coauthors" v-if="index < 3">
+                                    ({{author.Chamber.substr(0,1)}}) {{author.LastName}}<span v-if="index!=coauthors.length-1"><br/></span>
+                                </span>
+                                <!-- follow with '...' if there are more than three coauthors -->
+                                <span v-if="coauthors.length > 3">...</span> 
+                            </div>
+                        </div>
                         <div class="info" v-if="bill.committees.length">
                             <div class="info__label">
                                 {{bill.committees.length | pluralizeCommittees}}
                             </div>
                             <div class="info__body">
                                 <span v-for="(committee, index) in bill.committees">
-                                    ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}<span v-if="index!=bill.committees.length-1">,&nbsp;</span>
+                                    ({{committee.Chamber.substr(0,1)}}) {{committee.Name}}<span v-if="index!=bill.committees.length-1"><br/></span>
                                 </span>
                             </div>
                         </div>
@@ -46,7 +69,7 @@
                             </div>
                             <div class="info__body">
                                 <span v-for="(subject, index) in bill.subjects">
-                                    {{subject.Name}}<span v-if="index!=bill.subjects.length-1">,&nbsp;</span>
+                                    {{subject.Name}}<span v-if="index!=bill.subjects.length-1"><br/></span>
                                 </span>
                             </div>
                         </div>
@@ -73,6 +96,8 @@
 </template>
 
 <script>
+    const mapGetters = require('vuex').mapGetters
+
     module.exports = {
         computed: {
             user() {
@@ -80,7 +105,26 @@
             },
             isTracked() {
                 return this.user.tracked_bills.map(b=>parseInt(b.BillId)).includes(this.bill.Id);
-            }
+            },
+            authors() {
+                return this
+                    .legislators
+                    .filter(l => this
+                        .b.authorIds
+                        .map(id => parseInt(id))
+                        .includes(parseInt(l.Id))
+                    )
+            },
+            coauthors() {
+                return this
+                    .legislators
+                    .filter(l => this
+                        .b.coauthorIds
+                        .map(id => parseInt(id))
+                        .includes(parseInt(l.Id))
+                    )
+            },
+            ...mapGetters(["legislators"])
         },
         filters: {
             truncate(theStringToTruncate) {
@@ -94,6 +138,12 @@
             },
             pluralizeSubjects(value) {
                 return value == 1 ? "Subject" : "Subjects";
+            },
+            pluralizeAuthors(value) {
+                return value == 1 ? "Author" : "Authors";
+            },
+            pluralizeCoauthors(value) {
+                return value == 1 ? "Coauthor" : "Coauthors";
             }
         },
         data() {

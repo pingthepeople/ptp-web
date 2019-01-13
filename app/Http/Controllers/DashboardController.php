@@ -48,7 +48,7 @@ class DashboardController extends Controller
 
     public function singleBill($name) {
         $session = Session::current();
-        $bill = $session->bills->where('Name', '=', $name)->first();
+        $bill = Bill::where('Name', $name)->where('SessionId', $session->id)->first();
         if(!$bill) {
             abort(404);
         }

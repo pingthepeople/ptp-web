@@ -39,7 +39,8 @@
 
 <script>
     const moment = require('moment');
-    const billLoader = require('../bill-loader.js')
+    const billLoader = require('../bill-loader')
+    const legislatorLoader = require('../legislator-loader')
     const mapGetters = require("vuex").mapGetters
     const mapActions = require("vuex").mapActions
     const { filterBills } = require('../utilities')
@@ -53,13 +54,13 @@
             filteredBills() {
                 if(this.q.length > 0) {
                     this.isFilterApplied = true
-                    return filterBills(this.bills, this.q)
+                    return filterBills(this.myBills, this.legislators, this.q)
                 } else {
                     this.isFilterApplied = false
                     return this.myBills
                 }
             },
-            ...mapGetters(["myBills"])
+            ...mapGetters(["myBills", "legislators"])
         },
         data() {
             return {
@@ -89,11 +90,7 @@
                     this.appendBills(res.body.bills)
                 })
             },
-            getFilteredBills() {
-
-            },
             filterBillHandler() {
-
                 if(this.currentPage > this.nPages-1) {
                     this.currentPage = this.nPages-1
                 }
@@ -105,6 +102,6 @@
             },
             ...mapActions(['appendBills'])
         },
-        mixins: [billLoader]
+        mixins: [billLoader, legislatorLoader]
     }
 </script>

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Bill;
 use App\Session;
+use App\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 /**
@@ -23,26 +23,10 @@ class BillApiController extends Controller
     }
 
     public function all(Request $request) {
-        if(Cache::has('bills') && Cache::has('bills__etag')) {
-            $bills = json_decode(Cache::get('bills'));
-            $etag = Cache::get('bills__etag');
-        } else {
-            if($request->method() == 'HEAD') {
-                $bills = [];
-                $etag = 'expired';
-            } else {
-                $session = Session::current();
-                $bills = $session->bills->sortBy('Name')->values()->all();
-                $billsJson = json_encode($bills);
-                $etag = md5($billsJson);
-                Cache::forever('bills', $billsJson);
-                Cache::forever('bills__etag', $etag);
-            }
-        }
-
-        return response()->json([
-            'bills' => $bills
-        ])->setEtag($etag);
+        return Utils::cache('bills', function() {
+            $session = Session::current();
+            return $session->bills->sortBy('Name')->values()->all();
+        }, $request);
     }
 
     public function details(Request $request) {
