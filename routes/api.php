@@ -24,3 +24,4 @@ Route::post('/track', 'TrackingApiController@track');
 Route::post('/stop-tracking', 'TrackingApiController@stopTracking');
 Route::post('/bills/{id}/toggle-email-subscription/', 'TrackingApiController@toggleEmailSubscription');
 Route::post('/bills/{id}/toggle-sms-subscription/', 'TrackingApiController@toggleSmsSubscription');
+Route::get('/legislators', 'LegislatorApiController@index');

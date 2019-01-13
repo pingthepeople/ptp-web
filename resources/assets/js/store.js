@@ -7,7 +7,8 @@ const state = {
     user: {
         tracked_bills: []
     },
-    bills: []
+    bills: [],
+    legislators: []
 }
 
 const getters = {
@@ -22,7 +23,8 @@ const getters = {
         } else {
             return []
         }
-    }
+    },
+    legislators: state => state.global.legislators
 }
 
 const actions = {
@@ -44,6 +46,10 @@ const actions = {
     },
     applyBillSort({commit}, {sortCol, sortAsc}) {
         commit('applyBillSort', {sortCol, sortAsc})
+    },
+
+    storeLegislators({commit}, legislators) {
+        commit('storeLegislators', legislators)
     }
 }
 
@@ -120,7 +126,11 @@ const mutations = {
                 ? aValue < bValue ? -1 : (aValue > bValue ? 1 : 0)
                 : aValue > bValue ? -1 : (aValue < bValue ? 1 : 0)
         })
-    }
+    },
+    // legislator mutations
+    ['storeLegislators'] (state, legislators) {
+        state.legislators = legislators
+    },
 }
 
 Vue.use(Vuex)
