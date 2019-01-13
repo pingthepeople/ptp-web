@@ -72,7 +72,7 @@
 
 
             }
-            > .is-active > a,
+            > li > a.is-active,
             > li > a:hover,
             > li > a:focus {
                 color: $primary-color;

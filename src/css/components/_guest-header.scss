@@ -39,12 +39,12 @@
         text-decoration: none;
         color: #000;
     }
-    .is-active a,
+    a.is-active,
     a:hover,
     a:focus {
         border-bottom: 2px solid $primary-color;
     }
-    .is-active a {
+    .is-active {
         color: $primary-color;
     }
 }
