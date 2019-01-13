@@ -1,0 +1,281 @@
+.bill-list {
+    margin: $md 0;
+
+    .bill-list__bills {
+        margin-top: $xxl;
+    }
+
+    .bill {
+        padding-bottom: $sm;
+        margin-bottom: $sm;
+        border-bottom: 1px solid $border-color;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .bill__header {
+            position: relative;
+            margin-bottom: $sm;
+            display: flex;
+            flex-direction: row-reverse;
+
+            .bill__actions {
+                text-align: right;
+                max-width: 200px;
+
+                .bill__star {
+                    display: inline-block;
+                    cursor: pointer;
+                }
+                .bill__star-copy {
+                    font-size: $fs6;
+                }
+            }
+
+
+            .bill__name-and-title {
+                display: flex;
+
+                a:hover .bill__name,
+                a:hover .bill__title {
+                    text-decoration: underline;
+                }
+            }
+
+            .bill__name,
+            .bill__title {
+                display: inline-block;
+                margin: 0 $md;
+                font-size: $fs3;
+                line-height: 1;
+            }
+            .bill__name {
+                margin: 0;
+                white-space: nowrap;
+                font-weight: bold;
+            }
+
+            .bill__dead {
+                margin-top: 2px;
+
+                .bill__dead-tag {
+                    display: inline-block;
+                    padding: 0 $xxs;
+                    color: #fff;
+                    background: $text-color;
+                    border-radius: 2px;
+                }
+            }
+
+            .bill__actions {
+                margin-left: auto;
+            }
+        }
+
+        .bill__meta {
+            display: flex;
+            margin-top: $xs;
+
+            .info {
+                margin-right: $md;
+            }
+        }
+
+        .bill__notification-controls {
+            .bill__notification-options {
+                label {
+                    margin-right: $md;
+                    font-weight: normal;
+
+                    input[type=checkbox] {
+                        margin-left: 5px;
+                    }
+                }
+            }
+        }
+
+        .bill__description-toggle {
+            display: block;
+            margin: $md auto 0;
+            color: lighten($text-color, 40%);
+        }
+    }
+
+    .bill--tracked {
+        .bill__inner {
+            border-left: $xxs solid $brand-blue;
+            padding-left: $sm;
+            margin-left: -($sm+$xxs);
+        }
+    }
+
+    .bill-list__no-bills {
+        margin-top: $xl;
+        padding: $xl $lg;
+        background: rgba(255,255,255,.4);
+        text-align: center;
+        border-radius: $radius;
+        box-shadow: inset 0 0 8px 0 rgba(0,0,0,.1);
+        border: 1px solid $border-color;
+    }
+        .bill-list__no-bills-text {
+            margin-top: 0;
+            font-size: $fs4;
+            color: lighten($text-color, 40%);
+        }
+        .bill-list__notify-me-when-available {
+            font-size: $fs4;
+        }
+}
+
+@include mq(bp(sm)) {
+    .bill-list {
+        margin-bottom: 0;
+
+        .bill:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .bill .bill__header {
+            display: block;
+
+            .bill__name-and-title {
+                display: block;
+            }
+
+            .bill__dead {
+                display: block;
+                margin: $xs 0;
+            }
+
+            .bill__meta {
+                display: block;
+                margin-top: $md;
+
+                .info {
+                    margin-bottom: $sm;
+                }
+            }
+            .bill__title {
+                display: block;
+                margin: 0;
+                line-height: 1.3;
+            }
+            .bill__actions {
+                float: right;
+                margin-top: -2px;
+            }
+        }
+
+        .bill__is-tracked {
+            font-size: $fs5;
+        }
+    }
+}
+
+.bill-list__loading {
+    margin: 2em 0;
+    text-align: center;
+    color: $text-secondary;
+    font-style: italic;
+}
+
+.my-bills__header {
+    display: flex;
+}
+
+@include mq(bp(sm)) {
+    .my-bills__header {
+        display: block;
+        margin-bottom: $sm;
+    }
+}
+
+.bill-table {
+    width: 100%;
+    margin-top: $md;
+
+    a {
+        color: inherit;
+    }
+
+    thead {
+
+        td.sortable {
+            cursor: pointer;
+        }
+        td.is-sorted {
+            font-weight: bold;
+            color: #000;
+        }
+    }
+    .sort-indicator {
+        float: right;
+    }
+
+
+
+    td {
+        padding: $xs;
+        vertical-align: top;
+        border: 1px solid $border-color;
+        border-color: $border-color lighten($border-color, 7%)
+    }
+    td:first-child {
+        padding-top: 0;
+    }
+
+    td.bill-table__bill-toggle {
+        text-align: right;
+        width: 95px;
+    }
+
+    .bill-table__cell-header,
+    .bill-table__action-type {
+        font-size: $fs5;
+    }
+    .bill-table__cell-body,
+    .bill-table__action-details {
+        font-size: $fs6;
+        color: $text-secondary;
+    }
+    .bill-table__bill-name {
+        width: 100px;
+    }
+    .bill-table__bill-actions {
+        width: 200px;
+    }
+    .bill-table__alert-controls {
+        width: 150px;
+
+        label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        label:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+
+.filters {
+    margin-bottom: $sm;
+
+    .filters__message {
+        margin-top: $xxs;
+    }
+}
+
+.search {
+    display: flex;
+
+    .search__input {
+        width: 100%;
+        height: auto;
+    }
+}

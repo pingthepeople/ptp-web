@@ -1,0 +1,104 @@
+.u-underline {
+    text-decoration: underline;
+}
+.u-no-underline {
+    text-decoration: none;
+}
+
+.u-flex {
+    display: flex;
+}
+.u-flex-1 {
+    flex: 1;
+}
+.u-right {
+    margin-left: auto;
+}
+.u-flex-reverse {
+    flex-direction: row-reverse;
+}
+@include mq(bp(sm)) {
+    .u-no-flex-mobile {
+        display: block;
+    }
+}
+
+
+.visually-hidden, .u-sr-only { /* https://css-tricks.com/places-its-tempting-to-use-display-none-but-dont/ */
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px; width: 1px;
+    margin: -1px; padding: 0; border: 0;
+}
+
+// Spacing utilities
+$spacing-directions: (
+    null,
+    -top,
+    -right,
+    -bottom,
+    -left
+);
+$spacing-sizes: (
+    -xxs: $xxs,
+    -xs: $xs,
+    -sm: $sm,
+    -md: $md,
+    -lg: $lg,
+    -xl: $xl,
+    -xxl: $xxl
+);
+
+// taken from Rivet, thanks Levi!
+// Super gnarly loop here, but it save sooo much time
+// Based on this great example by Harry Roberts:
+// https://github.com/NHSLeadership/nightingale/blob/develop/utilities/_utilities.spacing.scss#L48
+
+@each $direction in $spacing-directions {
+    @each $size, $value in $spacing-sizes {
+        // NOTE: We use !important here because we want these utilities to always
+        // produced the same result.
+        @if $direction == null {   // If the direction is "null", add margin to all directions.
+            .m-all#{$size} {
+                margin: $value !important;
+            }
+            .p-all#{$size} {
+                padding: $value !important;
+            }
+        // Otherwise create individual direction utilities.
+        } @else {
+            .m#{$direction}#{$size} {
+                margin#{$direction}: $value !important;
+            }
+            .p#{$direction}#{$size} {
+                padding#{$direction}: $value !important;
+            }
+        }
+    } // End $spacing-sizes loop
+} // End $spacing-directions loop
+
+// example spacing classes:
+// .p-all-sm .m-all-md
+// .m-right-xs .p-right-xs
+// .m-top-xxl
+
+
+/* visibility utility classes */
+@each $bp-name, $bp-size in $breakpoints {
+    .hide-#{$bp-name}-up {
+        display: none;
+    }
+
+    @include mq($bp-size) {
+        .hide-#{$bp-name}-up {
+            display: block;
+        }
+    }
+
+    @include mq($bp-size) {
+        .hide-#{$bp-name}-down {
+            display: none;
+        }
+    }
+}

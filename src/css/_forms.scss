@@ -1,0 +1,43 @@
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=password],
+input[type=search],
+textarea {
+    width: 100%;
+    margin: 0;
+    padding: $xs;
+    border-radius: 3px;
+    border: 1px solid $border-color;
+}
+
+fieldset {
+    margin-top: 1em;
+
+    legend {
+        margin-bottom: 0;
+    }
+
+    label {
+        font-size: .9em;
+    }
+}
+
+select {
+    background-color: #fff;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICAgIDxwYXRoIGZpbGw9IiMzMzMzMzMiIGQ9Ik04LDEyLjQ2YTIsMiwwLDAsMS0xLjUyLS43TDEuMjQsNS42NWExLDEsMCwxLDEsMS41Mi0xLjNMOCwxMC40Nmw1LjI0LTYuMTFhMSwxLDAsMCwxLDEuNTIsMS4zTDkuNTIsMTEuNzZBMiwyLDAsMCwxLDgsMTIuNDZaIi8+Cjwvc3ZnPg==");
+    background-position: right $sm center;
+    background-size: $sm $sm;
+    background-repeat: no-repeat;
+    padding-right: $xl;
+    padding-left: $xs;
+    border-radius: 2px;
+
+    /**
+     * Prefixes get rid of browser default select element styles.
+     */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+}

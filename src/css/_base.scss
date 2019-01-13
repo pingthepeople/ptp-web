@@ -1,0 +1,65 @@
+html {
+    font-family: 'Roboto', sans-serif;
+    background: $body-bg;
+    font-size: $font-size-base;
+}
+@include mq(bp(sm)) {
+    html {
+        font-size: $font-size-base--mobile;
+    }
+}
+html * {
+    box-sizing: border-box;
+}
+body {
+    color: $text-color;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 1.125rem;
+    font-weight: normal;
+    margin: 0;
+}
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    color: white;
+}
+ul, ol {
+    margin: 0;
+    padding: 0;
+}
+ul:not([class]),
+ol:not([class]) {
+    padding-left: 18px;
+}
+
+form {
+    margin: 0;
+}
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+input, textarea, select, fieldset {
+    margin-bottom: 0;
+}
+a {
+    color: $brand-blue;
+    text-decoration: none;
+}
+a:hover,
+a:focus {
+    text-decoration: underline;
+}
+button {
+    background: transparent;
+}

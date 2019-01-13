@@ -1,0 +1,23 @@
+.alert {
+    padding: 10px;
+    background: $text-color;
+    border-radius: 3px;
+    color: #fff;
+
+    &.alert-danger {
+        background: $brand-danger;
+    }
+    &.alert-success {
+        background: $brand-success;
+    }
+
+    ul {
+        margin: 0 0 -10px 0;
+        padding: 0 0 0 20px;
+        list-style-position: outside;
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
+}

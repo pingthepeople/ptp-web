@@ -1,0 +1,45 @@
+p, li, h1, h2, h3, h4, h5, h6 {
+    font-size: $fs4;
+}
+
+
+.header,
+.guest-header {
+    .mobile-nav-trigger {
+        @extend .button;
+        display: none;
+        margin: 0;
+        margin-left: auto;
+    }    
+    
+    @include mq(bp(sm)) {
+        .mobile-nav-trigger {
+            display: block;
+        }
+    }
+    
+    .mobile-nav {
+        margin-top: $sm;
+        margin-bottom: $sm;
+        border-top: 1px solid $border-color;
+        border-bottom: 1px solid $border-color;
+        background: #eee;
+        text-align: center;
+        overflow: hidden;
+    
+        .nav-list .nav-item {
+            display: block;
+            margin-left: 0;
+            margin-bottom: $sm;
+            font-size: $fs3;
+    
+            &:first-child {
+                margin-top: $sm;
+            }
+
+            &.is-active {
+                font-weight: bold;
+            }
+        }
+    }
+}
