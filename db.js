@@ -34,32 +34,26 @@ const rndBill = (id) => {
         cosponsorIds,
         subjectIds,
         committeeIds
-    }
-}
+    };
+};
 
-const rndLegislator = (id) => {
-    return {
-        Id: id,
-        FirstName: faker.name.firstName(),
-        LastName: faker.name.lastName(),
-        Chamber: rndChamber()
-    }
-}
+const rndLegislator = (id) => ({
+    Id: id,
+    FirstName: faker.name.firstName(),
+    LastName: faker.name.lastName(),
+    Chamber: rndChamber()
+});
 
-const rndSubject = id => {
-    return {
-        Id: id,
-        Name: `${faker.company.bsNoun()}, ${faker.company.bsNoun()}, and ${faker.company.bsNoun()}`
-    }
-}
+const rndSubject = id => ({
+    Id: id,
+    Name: `${faker.company.bsNoun()}, ${faker.company.bsNoun()}, and ${faker.company.bsNoun()}`
+});
 
-const rndCommittee = id => {
-    return {
-        Id: id,
-        Chamber: rndChamber(),
-        Name: faker.company.bs()
-    }
-}
+const rndCommittee = id => ({
+    Id: id,
+    Chamber: rndChamber(),
+    Name: faker.company.bs()
+});
 
 module.exports = () => {
     const bills = 
@@ -81,4 +75,4 @@ module.exports = () => {
         subjects,
         committees
     };
-}
+};
