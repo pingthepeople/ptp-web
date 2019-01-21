@@ -55,6 +55,11 @@ export const paginate = (array, page, pageLength) => {
         page*pageLength+pageLength);
 };
 
+export const truncate = (str, maxLen) => {
+    if (str.length <= maxLen || maxLen === 0) return str;
+    return str.substr(0, str.lastIndexOf(' ', maxLen));
+};
+
 export const pluralizeAuthor = n => (n === 1 ? "Author" : "Authors");
 export const pluralizeCoauthor = n => (n === 1 ? "Coauthor" : "Coauthors");
 export const pluralizeSponsor = n => (n === 1 ? "Sponsor" : "Sponsors");

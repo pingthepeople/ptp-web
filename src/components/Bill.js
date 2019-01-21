@@ -5,13 +5,9 @@ import {
     pluralizeSponsor,
     pluralizeCosponsor,
     pluralizeSubjects,
-    pluralizeCommittees } from '../utils';
+    pluralizeCommittees,
+    truncate } from '../utils';
 import { ItemList, LegislatorList, CommitteeList } from './Lists';
-
-const truncate = (str, maxLen) => {
-    if (str.length <= maxLen || maxLen === 0) return str;
-    return str.substr(0, str.lastIndexOf(' ', maxLen));
-}
 
 const truncatedLen = 250;
 class Bill extends React.Component {
