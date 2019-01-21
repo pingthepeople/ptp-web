@@ -16,7 +16,9 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run start-client & npm run start-api",
+    "start-client": "react-scripts start",
+    "start-api": "json-server db.js --port 3001",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
